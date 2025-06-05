@@ -1,46 +1,6 @@
 local TPZ = exports.tpz_core:getCoreAPI()
 
 -----------------------------------------------------------
---[[ Local Functions ]]--
------------------------------------------------------------
-
-local function IsLocationPermitted(currentTown)
-
-    if not Config.HorseCalling.PreventCallOnTowns then
-        return true
-    end
-
-	for k,v in pairs(Config.HorseCalling.BannedTowns) do
-
-		if town == GetHashKey(v) then
-			return true
-		end
-
-	end
-
-	return false
-
-end
-
-local function IsNearbyStableLocation(coords)
-
-    for stableIndex, stableConfig in pairs(Config.Locations) do
-
-        local coordsDist   = vector3(coords.x, coords.y, coords.z)
-        local coordsStable = vector3(stableConfig.Coords.x, stableConfig.Coords.y, stableConfig.Coords.z)
-        local distance     = #(coordsDist - coordsStable)
-
-        if (distance <= Config.HorseCalling.CallOnlyNearStablesDistance) then
-            return true
-        end
-
-    end
-
-    return false
-
-end
-
------------------------------------------------------------
 --[[ Functions ]]--
 -----------------------------------------------------------
 
@@ -74,16 +34,8 @@ AddEventHandler('onResourceStop', function(resourceName)
     local PlayerData = GetPlayerData()
 
     if PlayerData.SpawnedWagonEntity then
-       -- local model = GetHashKey(PlayerData.Wagons[PlayerData.SelectedWagonIndex].model )
-     --   RemoveEntityProperly(PlayerData.SpawnedWagonEntity, model)
+       local model = GetHashKey(PlayerData.Wagons[PlayerData.SelectedWagonIndex].model )
+       RemoveEntityProperly(PlayerData.SpawnedWagonEntity, model)
     end
 
 end)
-
------------------------------------------------------------
---[[ General Events ]]--
------------------------------------------------------------
-
------------------------------------------------------------
---[[ Threads ]]--
------------------------------------------------------------
