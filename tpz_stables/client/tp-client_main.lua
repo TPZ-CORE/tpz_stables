@@ -1,19 +1,31 @@
 local TPZInv = exports.tpz_inventory:getInventoryAPI()
 
 local PlayerData = { 
-    Job               = nil,
-    Account           = { cash = 0, gold = 0 },
-    IsBusy            = false,
+    Job                = nil,
+    IsBusy             = false,
 
     CameraHandler      = nil,
 
     Entity             = nil,
 	EntityModel        = nil,
 
-    IsOnMenu          = false,
+    IsOnMenu           = false,
 
-    HasNUIActive      = false,
-    IsLoaded          = false,
+    HasNUIActive       = false,
+
+    Cash               = 0,
+    Gold               = 0,
+
+    Horses             = nil,
+    Wagons             = nil,
+
+    SelectedHorseIndex = 0,
+    SpawnedHorseEntity = nil,
+
+    SelectedWagonIndex = 0,
+    SpawnedWagonEntity = 0,
+
+    IsLoaded           = false,
     
 }
 
@@ -70,6 +82,8 @@ AddEventHandler("tpz_core:isPlayerReady", function()
     end
 
     PlayerData.Job = data.job
+
+    TriggerServerEvent('tpz_stables:server:requestPlayerData')
 end)
 
 -- Gets the player job when devmode set to true.
@@ -86,6 +100,8 @@ if Config.DevMode then
         end
 
         PlayerData.Job = data.job
+        
+        TriggerServerEvent('tpz_stables:server:requestPlayerData')
     end)
     
 end
@@ -100,21 +116,36 @@ end)
 --[[ General Events ]]--
 ---------------------------------------------------------------
 
-RegisterNetEvent("tpz_stables:client:updateAccount")
-AddEventHandler("tpz_stables:client:updateAccount", function(account)
-    PlayerData.Account = account
+RegisterNetEvent("tpz_stables:client:sendPlayerData")
+AddEventHandler("tpz_stables:client:sendPlayerData", function(horses, wagons, selectedHorseIndex )
+    PlayerData.Horses = horses
+    PlayerData.Wagons = wagons
+    PlayerData.SelectedHorseIndex = selectedHorseIndex
 
-    if PlayerData.IsBusy then -- Updating subtext (description) on MenuData (tpz_menu_base) when the account has been updated.
-      --  local subtext = string.format(Locales['CURRENT_ACCOUNT'], PlayerData.Account[1], PlayerData.Account[2])
-        --exports.tpz_menu_base:UpdateCurrentSubtextDescription(subtext)
+    if PlayerData.SelectedHorseIndex == nil then
+        PlayerData.SelectedHorseIndex = 0
+    end
+
+    PlayerData.IsLoaded = true
+
+    if Config.Debug then
+        print('Stables and Player Data successfully loaded!')
     end
     
 end)
 
-function RunMenuSelectionThread()
+RegisterNetEvent("tpz_stables:client:updateAccount")
+AddEventHandler("tpz_stables:client:updateAccount", function(account)
 
+    PlayerData.Cash = account[1]
+    PlayerData.Gold = account[2]
 
-end
+    if PlayerData.IsOnMenu then 
+        local subtext = string.format(Locales['CURRENT_ACCOUNT'], account[1], account[2])
+        exports.tpz_menu_base:UpdateCurrentSubtextDescription(subtext)
+    end
+    
+end)
 
 ---------------------------------------------------------------
 --[[ Threads ]]--
@@ -132,16 +163,16 @@ Citizen.CreateThread(function()
         local player       = PlayerPedId()
         local isPlayerDead = IsEntityDead(player)
 
-        if not PlayerData.IsBusy and not PlayerData.IsOnMenu and not isPlayerDead then
+        if PlayerData.IsLoaded and not PlayerData.IsBusy and not PlayerData.IsOnMenu and not isPlayerDead then
 
             local coords = GetEntityCoords(player)
             local hour   = GetClockHours()
 
             for stableIndex, stableConfig in pairs(Config.Locations) do
 
-                local coordsDist  = vector3(coords.x, coords.y, coords.z)
-                local coordsStore = vector3(stableConfig.Coords.x, stableConfig.Coords.y, stableConfig.Coords.z)
-                local distance    = #(coordsDist - coordsStore)
+                local coordsDist   = vector3(coords.x, coords.y, coords.z)
+                local coordsStable = vector3(stableConfig.Coords.x, stableConfig.Coords.y, stableConfig.Coords.z)
+                local distance     = #(coordsDist - coordsStable)
 
                 local isAllowed = IsStableOpen(stableConfig)
 
@@ -181,8 +212,6 @@ Citizen.CreateThread(function()
 
                             PlayerData.IsOnMenu = true
 
-                            --TriggerServerEvent('tpz_stables:server:requestAccountInformation')
-
                             while not IsScreenFadedOut() do
                                 Wait(50)
                                 DoScreenFadeOut(2000)
@@ -200,12 +229,13 @@ Citizen.CreateThread(function()
 
                             PlayerData.IsOnMenu = true
                             StartStableThreads()
+                            
+                            TriggerServerEvent('tpz_stables:server:requestAccountInformation')
 
                             -- request stable
                             Wait(2000)
 
                             DoScreenFadeIn(2000)
-
                             OpenStableMenu(stableIndex)
                         end
 

@@ -13,10 +13,17 @@ Config.Keys = {
 
 Config.PromptAction = { Key = 'G', HoldMode = 1000 } 
 
-
 -----------------------------------------------------------
 --[[ General ]]--
 -----------------------------------------------------------
+
+-- Properly saving data before server restarts (Suggested 2-3 minutes before restart).
+Config.RestartHours = { "7:57" , "13:57", "19:57", "1:57"}
+
+-- The following option is saving all the data every x minutes.
+Config.SavingDurationDelay = 15 -- The time in minutes (15 as default).
+
+Config.Year = 1890
 
 -- Set to Config.EnableOutfits = false to disable opening a wardrobe.
 Config.EnableOutfits = "tpz_clothing:openWardrobe"
@@ -24,18 +31,18 @@ Config.EnableOutfits = "tpz_clothing:openWardrobe"
 -- Set to false if you don't want the horses to be lassoed.
 Config.CanLassoHorses = true
 
-Config.HorseCalling = {
-	InJail              = false, -- Call when player is jailed? (tpz_police support only).
-	Swimming            = false, -- Call when player is swimming?
-	Unconsious          = false, -- Call when dead - unconsious?
+-- Set to true to disable horse kicking.
+Config.DisableHorseKicking = false
 
+Config.HorseCalling = {
+	
 	CallOnlyNearStables = false, -- Call the horses only near stables?
 	CallOnlyNearStablesDistance = 50.0, -- Call the horses only near stables distance between your player and closest stable.
 
 	CallDistance = 200.0, -- In case the horse is further than the expected distance, it will despawn and a new horse will go to your player.
-	CallCooldown = 10, -- In seconds.
+	CallCooldown = 2, -- In seconds.
 
-	CallOnTowns = true, -- Set false if you don't want the horse to be called inside the towns where @BannedTowns option is located, including the configured towns.
+	PreventCallOnTowns = false, -- Set false if you don't want the horse to not be able to be called when player is located on any towns @BannedTowns.
 
 	BannedTowns = {
 		'Annesburg', 
@@ -51,6 +58,45 @@ Config.HorseCalling = {
 	},
 }
 
+Config.OwnedLimitations = {
+	MaxHorses = 3, -- DEFAULT LIMIT FOR ALL EXCEPT HORSE TRAINERS.
+	HorseTrainerMaxHorses = 10, -- LIMIT FOR HORSE TRAINERS.
+
+	-- BYPASS FOR STEAM HEX IDENTIFIERS.
+	SteamHexIdentifiers = {
+		["steam:000000000x00000000x"] = 10,
+	},
+
+	-- BYPASS FOR GROUP ROLES (MAKE SURE SOMEONE WHO IS ON BYPASS GROUP TO NOT BE ON BYPASS IDENTIFIER! )
+	Groups = {
+		['admin']     = 15,
+		['moderator'] = 7,
+		['mod']       = 7
+	},
+	
+}
+
+-- @param UpdateTime    : Time in minutes (every how long should it update the ageing for each horse)
+-- @param StartAdultAge : When purchasing a horse, it will select a random age between 5 - 10 years old (days) as default.
+-- @param MaximumAge    : The time in days - 3 months by default. (This will be spawning the horse as dead).
+-- @param DeleteAge     : The time in days (This will delete permanently the horse).
+Config.Ageing = { 
+	UpdateTime    = 10, -- UPDATING (NOT SAVING).
+
+	StartAdultAge = { min = 5, max = 10 }, 
+	MaximumAge    = 90,
+	DeleteAge     = 100,
+}
+
+-- Horse Shoes, you can create as many horse shoe types you want based on @maxKilometers, the highest is the strongest (lasts more).
+-- (!) DO NOT ADD [0], THIS INDEX IS WHEN NOT HAVING ANY SHOES, ADD FROM >= 1 AS THE DEFAULTS.
+Config.HorseShoes = { 
+    [1] = { item = 'regular_horseshoes',  label = "Regular Horse Shoes",  maxKilometers = 50000  },
+    [2] = { item = 'improved_horseshoes', label = "Improved Horse Shoes", maxKilometers = 100000 },
+    [3] = { item = 'premium_horseshoes',  label = "Premium Horse Shoes",  maxKilometers = 200000 },
+}
+
+
 Config.HorseFeedItems = { 
     ["horse_adrenaline_shot"]  = { label = "Horse Adrenaline Shot", boost = true,  health = 50,  stamina = 55}, -- maximum values are 100.
     ["unique_brad_horsesugar"] = { label = "Brad Horse Sugar",      boost = true,  health = 45,  stamina = 50}, -- maximum values are 100.
@@ -60,24 +106,9 @@ Config.HorseFeedItems = {
     ["corn"]                   = { label = "Corn",                  boost = false, health = 45,  stamina = 30}, -- maximum values are 100.
 }
 
-Config.OwnedLimitations = {
-	MaxHorses = 3, -- DEFAULT LIMIT FOR ALL EXCEPT HORSE TRAINERS.
-	HorseTrainerMaxHorses = 10, -- LIMIT FOR HORSE TRAINERS.
-
-	-- BYPASS FOR STEAM HEX IDENTIFIERS.
-	ByPassIdentifiers = {
-		["steam:000000000x00000000x"] = 10,
-	},
-
-	-- BYPASS FOR GROUP ROLES.
-	ByPassGroups = {
-		['admin']     = 15,
-		['moderator'] = 7,
-		['mod']       = 7
-	},
-	
+Config.HorseActions = {
+	['DRINK_WATER'] = { enabled = true, stamina = 30 },
 }
-
 --Config.Storages = {
 --
 --}
@@ -101,8 +132,6 @@ Config.OwnedLimitations = {
 Config.Trainers = {
 	Jobs = {"wapiti", "wapitishaman", "comanche", "horsetrainer", "anneshorsetrainer", 
 	'blackhorsetrainer', 'strhorsetrainer', 'sdhorsetrainer', 'thieveshorsetrainer'},
-
-    Whip = "horse_training_whip", -- THE WHIP ITEM TO START TRAINING THE HORSES
 
     MinStamina = -1000, -- IF THE HORSE REACH LESS THAN MINSTAMINA WILL BREAK TRAINING AND DROP DOWN THE TRAINER !
     ExpWhenWalking = 0.02, -- EXP TO ADD WHEN THE TRAINER IS WALKING WITH THE HORSE ( IS 0.01 EVERY MILISECONDS, SUGGEST TO HAVE IT LOW )
@@ -141,12 +170,12 @@ Config.Locations = {
 
 		Horses = {
 			SpawnCoords  = { x = -369.6344299316406, y = 791.5049438476562, z = 115.08021545410156, h = -175.34},
-			CameraCoords = { x = -370.473,           y = 786.7376,          z = 117.16,             rotx = 0.0, roty = 0.0, rotz = 345.9746, fov = 45.0},
+			CameraCoords = { x = -370.560,           y = 788.125,           z = 117.16,             rotx = -15.0, roty = 0.0, rotz = 345.9746, fov = 45.0},
 		},
 
 		Wagons = {
 			SpawnCoords  = { x = -363.7694396972656, y = 775.3441772460938, z = 116.27066040039062, h = -85.7157},
-			CameraCoords = { x = -359.422,           y = 774.4885,          z = 117.38,             rotx = 0.0, roty = 0.0, rotz = 72.3957, fov = 45.0},
+			CameraCoords = { x = -351.24,            y = 779.73,            z = 120.42,             rotx = -20.0, roty = 0.0, rotz = 114.52, fov = 45.0},
 		},
 
 		TrainingCoords         = { x = -392.7306213378906, y = 778.4085693359375, z = 114.70181274414062},
@@ -190,7 +219,7 @@ Config.Locations = {
 
 		Wagons = {
 			SpawnCoords  = { x = -892.8502807617188, y = -1370.4193115234375, z = 42.29966354370117, h = 2.659},
-			CameraCoords = { x = -887.593,           y = -1361.88,            z = 43.496,            rotx = 0.0, roty = 0.0, rotz = 133.932769, fov = 45.0 },
+			CameraCoords = { x = -885.14,            y = -1360.08,            z = 47.77,             rotx = -20.0, roty = 0.0, rotz = 131.27, fov = 45.0 },
 		},
 
 	
@@ -234,7 +263,7 @@ Config.Locations = {
 
 		Wagons = {
 			SpawnCoords  = { x = 1448.527587890625,  y = -1280.5701904296875, z = 77.71709442138672, h = -162.727},
-			CameraCoords = { x = 1445.263,           y = -1290.35,            z = 78.826,            rotx = 0.0, roty = 0.0, rotz = 336.424, fov = 45.0 },
+			CameraCoords = { x = 1445.57,            y = -1292.33,            z = 82.21,            rotx = -20.0, roty = 0.0, rotz = -26.83, fov = 45.0 },
 		},
 
 		TrainingCoords         = { x = 1429.839, y = -1296.06, z = 77.821},
@@ -277,7 +306,7 @@ Config.Locations = {
 
 		Wagons = {
 			SpawnCoords  = { x = 2957.07080078125,   y = 808.7708129882812,   z = 51.39369583129883, h = 178.807},
-			CameraCoords = { x = 2949.108,           y = 800.5772,            z = 52.402,            rotx = 0.0, roty = 0.0, rotz = 301.946838, fov = 45.0 },
+			CameraCoords = { x = 2950.75,            y = 798.78,              z = 54.97,            rotx = -20.0, roty = 0.0, rotz = -47.25, fov = 45.0 },
 		},
 
 		TrainingCoords         = { x = 2976.165771484375, y = 785.5613403320312, z = 51.24640274047851},
@@ -319,8 +348,8 @@ Config.Locations = {
 		},
 
 		Wagons = {
-			SpawnCoords  = { x = 2496.293212890625,  y = -1437.5345458984375, z = 46.24652862548828, h = -179.836},
-			CameraCoords = { x = 2490.712,           y = -1432.49,            z = 47.296,            rotx = 0.0, roty = 0.0, rotz = 227.71409, fov = 45.0 },
+			SpawnCoords  = { x = 2483.1103515625,    y = -1441.0220947265625, z = 45.1094741821289, h = -179.43212890625},
+			CameraCoords = { x = 2477.28,            y = -1451.43,            z = 50.02,            rotx = -15.0, roty = 0.0, rotz = -45.83, fov = 45.0 },
 		},
 
 		TrainingCoords         = { x = 2502.4794921875, y = -1450.6439208984375, z = 46.4422492980957},
@@ -363,7 +392,7 @@ Config.Locations = {
 
 		Wagons = {
 			SpawnCoords  = { x = -1786.7723388671875, y = -548.4891967773438, z = 155.98793029785156, h = 124.589},
-			CameraCoords = { x = -1787.20,            y = -558.548,           z = 156.98,             rotx = 0.0, roty = 0.0, rotz = 7.4465613, fov = 45.0 },
+			CameraCoords = { x = -1791.76,            y = -559.01,            z = 159.68,             rotx = -20.0, roty = 0.0, rotz = -16.78, fov = 45.0 },
 		},
 
 		TrainingCoords         = { x = -1828.0577392578125, y = -576.6152954101562, z = 156.09359741210938}, 
@@ -406,7 +435,7 @@ Config.Locations = {
 
 		Wagons = {
 			SpawnCoords  = { x = -5509.44,            y = -3061.79,           z = -2.506,               h = 8.04},
-			CameraCoords = { x = -5504.35,            y = -3067.36,           z = -1.512,               rotx = 0.0, roty = 0.0, rotz = 34.39435, fov = 45.0 },
+			CameraCoords = { x = -5503.32,            y = -3051.75,           z = 1.94,                 rotx = -20.0, roty = 0.0, rotz = 130.37, fov = 45.0 },
 		},
 
 		TrainingCoords         = { x = -5538.96, y = -3036.41, z = -1.295},
@@ -448,8 +477,8 @@ Config.Locations = {
 		},
 
 		Wagons = {
-			SpawnCoords  = { x = -1424.836181640625,  y = -2211.908935546875, z = 42.15961837768555,  h = -121.60926055908203},
-			CameraCoords = { x = -1422.89,            y = -2217.77,           z = 44.166,             rotx = 0.0, roty = 0.0, rotz = 13.27976, fov = 45.0 },
+			SpawnCoords  = { x = -1428.40,            y = -2208.49,           z = 42.317,             h = 240.3992},
+			CameraCoords = { x = -1422.09,            y = -2218.74,           z = 48.03,             rotx = -20.0, roty = 0.0, rotz = 15.22, fov = 45.0 },
 		},
 
 		TrainingCoords         = { x = -1407.04, y = -2203.63, z = 42.531}, -- ZONE WHERE CAN START TRAINING AND BREEDING
@@ -492,7 +521,7 @@ Config.Locations = {
 
 		Wagons = {
 			SpawnCoords  = { x = 1495.36376953125,    y = -7074.7412109375,           z = 76.8135986328125,   h = -137.6897430419922},
-			CameraCoords = { x = 1502.432,            y = -7074.72,                   z = 78.1,               rotx = 0.0, roty = 0.0, rotz =  88.400, fov = 45.0 },
+			CameraCoords = { x = 1506.71,             y = -7076.93,                   z = 80.60,              rotx = -20.0, roty = 0.0, rotz = 88.62, fov = 45.0 },
 		},
 
 		TrainingCoords         = { x = 1497.343017578125, y = -7073.33056640625, z = 76.97714233398438},
@@ -510,3 +539,24 @@ Config.Locations = {
 	
 
 }
+
+-----------------------------------------------------------
+--[[ Notification Functions  ]]--
+-----------------------------------------------------------
+
+-- @param source : The source always null when called from client.
+-- @param type   : returns "error", "success", "info"
+-- @param duration : the notification duration in milliseconds
+function SendNotification(source, message, type, duration)
+
+	if not duration then
+		duration = 3000
+	end
+
+    if not source then
+        TriggerEvent('tpz_core:sendBottomTipNotification', message, duration)
+    else
+        TriggerClientEvent('tpz_core:sendBottomTipNotification', source, message, duration)
+    end
+  
+end

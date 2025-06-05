@@ -59,6 +59,46 @@ function DisplayHorseDetails(category, horseData)
 
 end
 
+
+function DisplayWagonDetails(category, wagonData)
+
+    local WagonData  = wagonData
+    local PlayerData = GetPlayerData()
+
+    GetPlayerData().HasNUIActive = true
+
+    local label = category .. " - " .. WagonData[2]
+    local stats = WagonData[5]
+    local speed, stamina, health, acceleration, handling = stats[1], stats[2], stats[3], stats[4], stats[5]
+
+    SendNUIMessage({ 
+        action = 'updateInformation',
+        type   = 'WAGON',
+
+        label = label,
+
+        locales = { 
+            speed         = Locales['NUI_SPEED_TITLE'], 
+            stamina       = Locales['NUI_STAMINA_TITLE'], 
+            health        = Locales['NUI_HEALTH_TITLE'], 
+            acceleration  = Locales['NUI_ACCELERATION_TITLE'], 
+            handling      = Locales['NUI_HANDLING_TITLE'], 
+        },
+
+        statistics = {
+            speed        = speed, 
+            stamina      = stamina,
+            health       = health,
+            acceleration = acceleration,
+            handling     = handling
+        },
+
+    })
+
+    ToggleUI(true)
+
+end
+
 function CloseNUI()
     SendNUIMessage({action = 'close'})
 end
