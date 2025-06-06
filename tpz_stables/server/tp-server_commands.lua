@@ -166,9 +166,8 @@ RegisterCommand(Config.Commands["ADD_WAGON"].Command, function(source, args, raw
     local targetGroup          = tPlayer.getGroup()
     local targetJob            = tPlayer.getJob()
 
-    local date      = os.date('%d').. '/' ..os.date('%m').. '/' .. Config.Year .. " " .. os.date('%H') .. ":" .. os.date('%M') .. ":" .. os.date("%S") .. math.random(1,9)
-    local randomAge = math.random(Config.Ageing.StartAdultAge.min, Config.Ageing.StartAdultAge.max)
-
+    local date = os.date('%d').. '/' ..os.date('%m').. '/' .. Config.Year .. " " .. os.date('%H') .. ":" .. os.date('%M') .. ":" .. os.date("%S") .. math.random(1,9)
+    
     local Parameters = { 
   		['identifier']     = targetIdentifier,
   		['charidentifier'] = targetCharIdentifier,
