@@ -268,7 +268,7 @@ Citizen.CreateThread(function()
 						['id']                  = tonumber(wagon.id),
 						['name']                = wagon.name,
 						['stats']               = json.encode(wagon.stats),
-						['components']          = json.encode (wagon.components),
+						['components']          = json.encode(wagon.components),
 						['broken']              = wagon.broken,
 						['container']           = wagon.container
 					}
