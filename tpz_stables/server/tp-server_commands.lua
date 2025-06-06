@@ -66,6 +66,8 @@ RegisterCommand(Config.Commands["ADD_HORSE"].Command, function(source, args, raw
     local date      = os.date('%d').. '/' ..os.date('%m').. '/' .. Config.Year .. " " .. os.date('%H') .. ":" .. os.date('%M') .. ":" .. os.date("%S")
     local randomAge = math.random(Config.Ageing.StartAdultAge.min, Config.Ageing.StartAdultAge.max)
 
+    local category = GetHorseModelCategory(model)
+
     local Parameters = { 
       ['identifier']     = targetIdentifier,
       ['charidentifier'] = targetCharIdentifier,
@@ -73,7 +75,7 @@ RegisterCommand(Config.Commands["ADD_HORSE"].Command, function(source, args, raw
       ['name']           = 'N/A',
       ['stats']          = json.encode( { health = 200, stamina = 200, shoes_type = 0, shoes_km_left = 0 } ),
       ['components']     = json.encode( { saddle = 0, bags = 0, mask = 0, bed = 0, blank = 0, mane = 0, mus = 0, tail = 0, horn = 0, stir = 0, brid = 0, lantern = 0, holster = 0 }),
-      ['type']           = Config.Horses[categoryIndex].Category,
+      ['type']           = category,
       ['age']            = randomAge,
       ['sex']            = sex,
       ['date']           = date,
@@ -94,7 +96,7 @@ RegisterCommand(Config.Commands["ADD_HORSE"].Command, function(source, args, raw
   				name           = 'N/A',
   				stats          = { health = 200, stamina = 200, shoes_type = 0, shoes_km_left = 0 },
   				components     = { saddle = 0, bags = 0, mask = 0, bed = 0, blank = 0, mane = 0, mus = 0, tail = 0, horn = 0, stir = 0, brid = 0, lantern = 0, holster = 0 },
-  				type           = Config.Horses[categoryIndex].Category,
+  				type           = category,
   				age            = randomAge,
   				sex            = sex,
   				date           = date,
