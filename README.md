@@ -2,8 +2,6 @@
 
 ## UNDER DEVELOPMENT! 
 
-# TPZ-CORE Admin
-
 ## Requirements
 
 1. TPZ-Core: https://github.com/TPZ-CORE/tpz_core
