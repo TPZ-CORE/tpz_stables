@@ -17,6 +17,7 @@ dependencies {
     'tpz_characters',
     'tpz_inventory',
     'tpz_menu_base',
+    'tpz_inputs',
 }
 
 
