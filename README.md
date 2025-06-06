@@ -19,7 +19,7 @@
 
 ## Commands 
 
-| Command                  | Ace Permission                     | Description                                                              |
-|--------------------------|------------------------------------|--------------------------------------------------------------------------|
-| addhorse                 | tpzcore.stables.addhorse           | Execute this command to add (give) a horse on the selected player source.          |
-| addwagon                 | tpzcore.stables.addwagon           | Execute this command to add (give) a wagon on the selected player source.     |
+| Command                          | Ace Permission                     | Description                                                               |
+|----------------------------------|------------------------------------|---------------------------------------------------------------------------|
+| addhorse [source] [model] [sex]  | tpzcore.stables.addhorse           | Execute this command to add (give) a horse on the selected player source. |
+| addwagon [source] [model]        | tpzcore.stables.addwagon           | Execute this command to add (give) a wagon on the selected player source. |
