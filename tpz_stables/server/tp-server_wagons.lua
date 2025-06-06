@@ -1,10 +1,10 @@
 local TPZ = exports.tpz_core:getCoreAPI()
 
 -----------------------------------------------------------
---[[ Local Functions ]]--
+--[[ Functions ]]--
 -----------------------------------------------------------
 
-local function GetWagonModelCategory(model)
+function GetWagonModelCategory(model)
     for index, category in pairs (Config.Wagons) do
 
         for _, wagon in pairs (category.Wagons) do
@@ -20,7 +20,7 @@ local function GetWagonModelCategory(model)
     return "N/A"
 end
 
-local function GetWagonModelData(model)
+function GetWagonModelData(model)
 
     for index, category in pairs (Config.Wagons) do
 
