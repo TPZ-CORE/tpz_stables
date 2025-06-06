@@ -136,3 +136,18 @@ AddEventHandler('tpz_stables:server:buyWagon', function(locationIndex, categoryI
 	end)
 	
 end)
+
+RegisterServerEvent('tpz_stables:server:updateWagon')
+AddEventHandler('tpz_stables:server:updateWagon', function(wagonIndex, action, data)
+	local _source = source
+	local Wagons  = GetWagons()
+
+	if Wagons[wagonIndex] == nil then
+		return
+	end
+
+	if action == 'NETWORK_ID' then
+        Wagons[wagonIndex].entity = data[1]
+	end
+
+end)
