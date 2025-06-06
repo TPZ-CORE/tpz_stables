@@ -33,9 +33,8 @@ AddEventHandler('onResourceStop', function(resourceName)
 
     local PlayerData = GetPlayerData()
 
-    if PlayerData.SpawnedWagonEntity and PlayerData.Wagons[PlayerData.SelectedWagonIndex] then
-       local model = GetHashKey(PlayerData.Wagons[PlayerData.SelectedWagonIndex].model )
-       RemoveEntityProperly(PlayerData.SpawnedWagonEntity, model)
+    if PlayerData.SpawnedWagonEntity then
+       RemoveEntityProperly(PlayerData.SpawnedWagonEntity, GetHashKey(PlayerData.SpawnedWagonModel))
     end
 
 end)
