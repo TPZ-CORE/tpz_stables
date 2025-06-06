@@ -130,8 +130,24 @@ Config.HorseActions = {
 -----------------------------------------------------------
 
 Config.Trainers = {
-	Jobs = {"wapiti", "wapitishaman", "comanche", "horsetrainer", "anneshorsetrainer", 
-	'blackhorsetrainer', 'strhorsetrainer', 'sdhorsetrainer', 'thieveshorsetrainer'},
+	Jobs = {"wapiti", "wapitishaman", "comanche", "horsetrainer", "anneshorsetrainer", 'blackhorsetrainer', 'strhorsetrainer', 'sdhorsetrainer', 'thieveshorsetrainer'},
+
+    UntrainedHorse = {
+
+        -- Decrease horse model statistics when not trained.
+        -- @param Modify : Set to false to not modify the statistic when untrained. 
+        -- @param DivideBy : Decrease the model statistic value by the selected value (ex: 50 / 2).
+        -- That means, if the speed was at 50%, it will be at 25% when untrained. 
+        DecreaseHorseStatistics = { 
+    
+            ["speed"]        = { Modify = true, DivideBy = 2 },
+            ["stamina"]      = { Modify = true, DivideBy = 2 },
+            ["health"]       = { Modify = true, DivideBy = 2 },
+            ["acceleration"] = { Modify = true, DivideBy = 2 },
+            ["handling"]     = { Modify = true, DivideBy = 2 },
+        },
+
+    },
 
     MinStamina = -1000, -- IF THE HORSE REACH LESS THAN MINSTAMINA WILL BREAK TRAINING AND DROP DOWN THE TRAINER !
     ExpWhenWalking = 0.02, -- EXP TO ADD WHEN THE TRAINER IS WALKING WITH THE HORSE ( IS 0.01 EVERY MILISECONDS, SUGGEST TO HAVE IT LOW )
