@@ -109,7 +109,7 @@ RegisterCommand(Config.Commands["ADD_HORSE"].Command, function(source, args, raw
   			Horses[result[1].id].id = result[1].id
 
   			Horses[result[1].id].entity = 0
-  			Horses[result[1].id].source = 0
+  			Horses[result[1].id].source = target
 
   			SendNotification(_source, Locales['SUCCESSFULLY_GAVE_TARGET_A_HORSE'], "success", 3000 )
         SendNotification(target, Locales["TARGET_RECEIVED_HORSE"], "success", 5000)
@@ -201,6 +201,8 @@ RegisterCommand(Config.Commands["ADD_WAGON"].Command, function(source, args, raw
 			Wagons[result[1].id]    = {}
 			Wagons[result[1].id]    = wagon_data
 			Wagons[result[1].id].id = result[1].id
+      Wagons[result[1].id].source = target
+      Wagons[result[1].id].entity = 0
 
 			local WagonModelData = GetWagonModelData(model)
 
