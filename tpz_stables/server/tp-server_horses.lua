@@ -1,6 +1,44 @@
 local TPZ = exports.tpz_core:getCoreAPI()
 
 -----------------------------------------------------------
+--[[ Functions ]]--
+-----------------------------------------------------------
+
+function GetHorseModelCategory(model)
+    for index, category in pairs (Config.Horses) do
+
+        for _, horse in pairs (category.Horses) do
+
+            if model == horse[1] then
+                return category.Category
+            end
+
+        end
+
+    end
+
+    return "N/A"
+end
+
+function GetHorseModelData(model)
+
+    for index, category in pairs (Config.Horses) do
+
+        for _, horse in pairs (category.Horses) do
+
+            if model == horse[1] then
+                return horse
+            end
+
+        end
+
+    end
+
+    return nil
+
+end
+
+-----------------------------------------------------------
 --[[ Base Events ]]--
 -----------------------------------------------------------
 
