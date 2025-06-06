@@ -20,14 +20,20 @@ Locales = {
     ['NUI_ACCELERATION_TITLE']        = "ACCELERATION",
     ['NUI_HANDLING_TITLE']            = "HANDLING",
 
-    ['REACHED_HORSES_LIMIT']          = "~e~You have reached the limit for buying horses.",
+    ['REACHED_HORSES_LIMIT']          = "~e~You have reached the limit owning more horses.",
+    ['TARGET_REACHED_HORSES_LIMIT']    = "~e~Target has reached the limit owning more horses.",
+
     ['NOT_ENOUGH_TO_BUY_HORSE']       = "~e~You don't have enough dollars.",
     ['NOT_ENOUGH_TO_BUY_HORSE_GOLD']  = "~e~You don't have enough gold.",
     ['SUCCESSFULLY_BOUGHT_A_HORSE']   = "Congratulations, you have successfully bought new horse.",
+    ['SUCCESSFULLY_GAVE_TARGET_A_HORSE'] = "You added a new horse to the target's ownership.",
+    ["TARGET_RECEIVED_HORSE"]          = "You have received a new horse, check it out!",
 
     ['NOT_ENOUGH_TO_BUY_WAGON']       = "~e~You don't have enough dollars.",
     ['NOT_ENOUGH_TO_BUY_WAGON_GOLD']  = "~e~You don't have enough gold.",
     ['SUCCESSFULLY_BOUGHT_A_WAGON']   = "Congratulations, you have successfully bought new wagon.",
+    ['SUCCESSFULLY_GAVE_TARGET_A_WAGON'] = "You added a new wagon to the target's ownership.",
+    ["TARGET_RECEIVED_WAGON"]          = "You have received a new wagon, check it out!",
 
     ['CURRENT_ACCOUNT']               = "You have %s dollars and %s gold available.",
 
@@ -39,6 +45,10 @@ Locales = {
 
     ['HORSE_DEAD_FROM_AGEING']        = "~e~Your horse is dead from ageing.",
     ['HORSE_UNCONSIOUS']              = "~e~Your horse is unconsious.",
+
+    ['NOT_PERMITTED']                  = "~e~You have insufficient permissions.",
+    ['NOT_ONLINE']                     = "~e~Player is not online.",
+    ['PLAYER_IS_ON_SESSION']           = "~e~You can't perform this action, the player is on session.",
 
     -- [1] IS ALWAYS CASH, [2] IS ALWAYS GOLD! FOR HORSES OR WAGONS THAT CONTAIN DOLLARS AND GOLD
     ['INPUT_BUY_CURRENCIES']          = { 'DOLLARS', 'GOLD' },
