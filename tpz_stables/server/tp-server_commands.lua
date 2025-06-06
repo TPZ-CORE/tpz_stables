@@ -112,6 +112,7 @@ RegisterCommand(Config.Commands["ADD_HORSE"].Command, function(source, args, raw
   			Horses[result[1].id].source = 0
 
   			SendNotification(_source, Locales['SUCCESSFULLY_GAVE_TARGET_A_HORSE'], "success", 3000 )
+        SendNotification(target, Locales["TARGET_RECEIVED_HORSE"], "success", 5000)
 		end
 
 	end)
