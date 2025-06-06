@@ -175,7 +175,7 @@ AddEventHandler('tpz_stables:server:buyHorse', function(locationIndex, categoryI
 			Horses[result[1].id].id = result[1].id
 
 			Horses[result[1].id].entity = 0
-			Horses[result[1].id].source = 0
+			Horses[result[1].id].source = _source
 
 			SendNotification(_source, Locales['SUCCESSFULLY_BOUGHT_A_HORSE'], "success", 5000 )
 		end
