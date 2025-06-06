@@ -541,6 +541,42 @@ Config.Locations = {
 }
 
 -----------------------------------------------------------
+--[[ Commands  ]]--
+-----------------------------------------------------------
+
+Config.Commands = {
+
+    ["ADD_HORSE"] = { -- Ace Permission: tpzcore.stables.addhorse or tpzcore.stables.all or tpzcore.all
+
+        Label = "Add a horse on the ownership of the selected player.",
+
+        Suggestion = "Execute this command to add a horse on the ownership of the selected player.",
+
+        PermittedDiscordRoles  = { 11111111111111111, 222222222222222222 },
+        PermittedGroups = { 'admin' },
+
+        Command = 'addhorse',
+        CommandHelpTips = { { name = "Id", help = 'Player ID' }, { name = "Model", help = "Horse Entity Model Name" }, { name = "Sex", help = "Sex (0 = male, 1 = female) } },
+
+    },
+
+    
+    ["ADD_WAGON"] = { -- Ace Permission: tpzcore.stables.addwagon or tpzcore.stables.all or tpzcore.all
+
+        Label = "Add a wagon on the ownership of the selected player.",
+
+        Suggestion = "Execute this command to add a wagon on the ownership of the selected player.",
+
+        PermittedDiscordRoles  = { 11111111111111111, 222222222222222222 },
+        PermittedGroups = { 'admin' },
+
+        Command = 'addwagon',
+        CommandHelpTips = { { name = "Id", help = 'Player ID' }, { name = "Model", help = "Wagon Vehicle Model Name" } },
+
+    },
+
+
+-----------------------------------------------------------
 --[[ Notification Functions  ]]--
 -----------------------------------------------------------
 
