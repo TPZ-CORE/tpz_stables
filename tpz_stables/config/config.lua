@@ -143,6 +143,8 @@ Config.Trainers = {
 
     }, 
 
+    -- THE ITEM CAN BE USED ONLY BY THE HORSE TRAINERS!
+    -- WHEN USED, IT WILL PERFORM A SYRINGE ACTION ANIMATION. 
 	HorseReviveItem = "horse_syringe" -- THE USED ITEM TO REVIVE THE HORSES !
 }
 
