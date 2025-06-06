@@ -166,6 +166,61 @@ RegisterCommand(Config.Commands["ADD_WAGON"].Command, function(source, args, raw
     local targetGroup          = tPlayer.getGroup()
     local targetJob            = tPlayer.getJob()
 
+    local date      = os.date('%d').. '/' ..os.date('%m').. '/' .. Config.Year .. " " .. os.date('%H') .. ":" .. os.date('%M') .. ":" .. os.date("%S") .. math.random(1,9)
+    local randomAge = math.random(Config.Ageing.StartAdultAge.min, Config.Ageing.StartAdultAge.max)
+
+    local Parameters = { 
+  		['identifier']     = targetIdentifier,
+  		['charidentifier'] = targetCharIdentifier,
+  		['model']          = model,
+  		['name']           = 'N/A',
+  		['stats']          = json.encode( { body = 1000, wheels = 0 } ),
+  		['components']     = json.encode( { colors = 0, livery = 0, props = 0, lights = 0 } ),
+  		['date']           = date,
+    }
+
+    exports.ghmattimysql:execute("INSERT INTO `wagons` ( `identifier`, `charidentifier`, `model`, `name`, `components`, `date` ) VALUES ( @identifier, @charidentifier, @model, @name, @components, @date )", Parameters)
+
+    Wait(1500)
+
+    exports["ghmattimysql"]:execute("SELECT `id` FROM `wagons` WHERE `date` = @date", { ["@date"] = date }, function(result)
+
+      if result and result[1] then
+
+        local wagon_data = {
+  				identifier     = targetIdentifier,
+  				charidentifier = targetCharIdentifier,
+  				model          = model,
+  				name           = 'N/A',
+  				stats          = { body = 1000, wheels = 0 },
+          components     = { colors = 0, livery = 0, props = 0, lights = 0 },
+          date           = date,
+        }
+
+			local Wagons = GetWagons()
+
+			Wagons[result[1].id]    = {}
+			Wagons[result[1].id]    = wagon_data
+			Wagons[result[1].id].id = result[1].id
+
+			local WagonModelData = GetWagonModelData(model)
+
+      SendNotification(_source, Locales['SUCCESSFULLY_GAVE_TARGET_A_WAGON'], "success", 3000 )
+      SendNotification(target, Locales["TARGET_RECEIVED_WAGON"], "success", 5000)
+
+			if WagonModelData[5] > 0 then -- IF WAGON STORAGE CAPACITY IS > 0 WE REGISTER A NEW CONTAINER STORAGE.
+				TriggerEvent("tpz_inventory:registerContainerInventory", "wagon_" .. result[1].id, WagonModelData[5], true)
+
+				Wait(2500) -- mandatory wait.
+				local containerId = exports.tpz_inventory:getInventoryAPI().getContainerIdByName("wagon_" .. result[1].id)
+				Wagons[result[1].id].container = containerId
+	
+				exports.ghmattimysql:execute("UPDATE `wagons` SET `container` = @container WHERE `id` = @id ", { ['id'] = result[1].id, ['container'] = containerId })
+			end
+
+		end
+
+	end)
 
   else
     SendNotification(_source, Locales['NOT_PERMITTED'], "error")
