@@ -27,7 +27,6 @@ RegisterCommand(Config.Commands["ADD_HORSE"].Command, function(source, args, raw
     end
 
     target = tonumber(target)
-    sex    = tonumber(sex)
 
     local targetSteamName = GetPlayerName(target)
 
@@ -42,6 +41,8 @@ RegisterCommand(Config.Commands["ADD_HORSE"].Command, function(source, args, raw
       SendNotification(_source, Locales['PLAYER_IS_ON_SESSION'], "error")
       return
     end
+
+    sex = tonumber(sex)
 
     if sex < 0 or sex > 1 then
       SendNotification(_source, Locales["INVALID_HORSE_SEX_INPUT"], "error")
@@ -62,7 +63,56 @@ RegisterCommand(Config.Commands["ADD_HORSE"].Command, function(source, args, raw
       return
     end
 
+    local date      = os.date('%d').. '/' ..os.date('%m').. '/' .. Config.Year .. " " .. os.date('%H') .. ":" .. os.date('%M') .. ":" .. os.date("%S")
+    local randomAge = math.random(Config.Ageing.StartAdultAge.min, Config.Ageing.StartAdultAge.max)
 
+    local Parameters = { 
+      ['identifier']     = targetIdentifier,
+      ['charidentifier'] = targetCharIdentifier,
+      ['model']          = model,
+      ['name']           = 'N/A',
+      ['stats']          = json.encode( { health = 200, stamina = 200, shoes_type = 0, shoes_km_left = 0 } ),
+      ['components']     = json.encode( { saddle = 0, bags = 0, mask = 0, bed = 0, blank = 0, mane = 0, mus = 0, tail = 0, horn = 0, stir = 0, brid = 0, lantern = 0, holster = 0 }),
+      ['type']           = Config.Horses[categoryIndex].Category,
+      ['age']            = randomAge,
+      ['sex']            = sex,
+      ['date']           = date,
+    }
+
+    exports.ghmattimysql:execute("INSERT INTO `horses` ( `identifier`, `charidentifier`, `model`, `name`, `stats`, `components`, `type`, `age`, `sex`, `date` ) VALUES ( @identifier, @charidentifier, @model, @name, @stats, @components, @type, @age, @sex, @date )", Parameters)
+
+    Wait(1500)
+
+    exports["ghmattimysql"]:execute("SELECT `id` FROM `horses` WHERE `date` = @date", { ["@date"] = date }, function(result)
+
+      if result and result[1] then
+
+        local horse_data = {
+          identifier     = targetIdentifier,
+  				charidentifier = targetCharIdentifier,
+  				model          = model,
+  				name           = 'N/A',
+  				stats          = { health = 200, stamina = 200, shoes_type = 0, shoes_km_left = 0 },
+  				components     = { saddle = 0, bags = 0, mask = 0, bed = 0, blank = 0, mane = 0, mus = 0, tail = 0, horn = 0, stir = 0, brid = 0, lantern = 0, holster = 0 },
+  				type           = Config.Horses[categoryIndex].Category,
+  				age            = randomAge,
+  				sex            = sex,
+  				date           = date,
+        }
+
+        local Horses = GetHorses()
+
+        Horses[result[1].id]    = {}
+  			Horses[result[1].id]    = horse_data
+  			Horses[result[1].id].id = result[1].id
+
+  			Horses[result[1].id].entity = 0
+  			Horses[result[1].id].source = 0
+
+  			SendNotification(_source, Locales['SUCCESSFULLY_GAVE_TARGET_A_HORSE'], "success", 3000 )
+		end
+
+	end)
 
   else
     SendNotification(_source, Locales['NOT_PERMITTED'], "error")
