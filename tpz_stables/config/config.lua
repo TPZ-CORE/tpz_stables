@@ -576,6 +576,19 @@ Config.Commands = {
     },
 }
 
+---------------------------------------------------------------
+--[[ Discord Webhooking ]]--
+---------------------------------------------------------------
+
+Config.Webhooks = {
+
+    ["COMMANDS"] = { -- Related only to Config.Commands for giving horses or wagons. 
+        Enabled = false, 
+        Url = "", 
+        Color = 10038562,
+    },
+}
+
 -----------------------------------------------------------
 --[[ Notification Functions  ]]--
 -----------------------------------------------------------
