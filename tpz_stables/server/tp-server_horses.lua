@@ -64,6 +64,8 @@ AddEventHandler('playerDropped', function (reason)
 				if DoesEntityExist(entity) then
 					DeleteEntity(entity)
 				end
+
+                Horses[tonumber(horseIndex)].entity = 0
 	
 			end
 			
