@@ -128,6 +128,8 @@ AddEventHandler("tpz_stables:client:sendPlayerData", function(horses, wagons, se
 
     PlayerData.IsLoaded = true
 
+    TriggerServerEvent("tpz_stables:server:addChatSuggestions")
+
     if Config.Debug then
         print('Stables and Player Data successfully loaded!')
     end
