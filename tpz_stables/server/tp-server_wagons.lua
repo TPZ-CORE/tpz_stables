@@ -117,6 +117,9 @@ AddEventHandler('tpz_stables:server:buyWagon', function(locationIndex, categoryI
 			Wagons[result[1].id]    = wagon_data
 			Wagons[result[1].id].id = result[1].id
 
+            Wagons[result[1].id].entity = 0
+            Wagons[result[1].id].source = _source
+
 			local WagonModelData = GetWagonModelData(WagonData[1])
 
 			SendNotification(_source, Locales['SUCCESSFULLY_BOUGHT_A_WAGON'], "success", 5000 )
