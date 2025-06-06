@@ -34,6 +34,10 @@ Config.CanLassoHorses = true
 -- Set to true to disable horse kicking.
 Config.DisableHorseKicking = false
 
+Config.HorseActions = {
+	['DRINK_WATER'] = { enabled = true, stamina = 30 },
+}
+
 Config.HorseCalling = {
 	
 	CallOnlyNearStables = false, -- Call the horses only near stables?
@@ -106,29 +110,6 @@ Config.HorseFeedItems = {
     ["corn"]                   = { label = "Corn",                  boost = false, health = 45,  stamina = 30}, -- maximum values are 100.
 }
 
-Config.HorseActions = {
-	['DRINK_WATER'] = { enabled = true, stamina = 30 },
-}
---Config.Storages = {
---
---}
---Config.searchhorses = true 
---Config.searchwagons = true 
---Config.policeonly = false
---Config.searchjobs = {"police"}
-
-----------------------------------
-
-
-
---HorseSellPrice = 25 -- % HOW MUCH SELL BACK THE HORSE
----Config.horsehealcost = 5 -- cost to heal horse after its dead 
---Config.deadtimer = 150000 -- time until horse can be called again, set to 2.5 minutes 
-
------------------------------------------------------------
---[[ Training ]]--
------------------------------------------------------------
-
 Config.Trainers = {
 	Jobs = {"wapiti", "wapitishaman", "comanche", "horsetrainer", "anneshorsetrainer", 'blackhorsetrainer', 'strhorsetrainer', 'sdhorsetrainer', 'thieveshorsetrainer'},
 
@@ -147,6 +128,10 @@ Config.Trainers = {
             ["handling"]     = { Modify = true, DivideBy = 2 },
         },
 
+        -- @param Enabled : Set to false to not let the horses stamina consumption run out faster. 
+        -- @param DecreaseBy : The extra decreasing stamina value for faster consumption. 
+        FasterStaminaConsumption = { Enabled = true, DecreaseBy = 10 },
+
     },
 
     MinStamina = -1000, -- IF THE HORSE REACH LESS THAN MINSTAMINA WILL BREAK TRAINING AND DROP DOWN THE TRAINER !
@@ -157,6 +142,18 @@ Config.Trainers = {
 
 	ReviveItem = "horse_syringe" -- THE PILL/SYRYNGE TO REVIVE THE HORSES !
 }
+
+--Config.Storages = {
+--
+--}
+--Config.searchhorses = true 
+--Config.searchwagons = true 
+--Config.policeonly = false
+--Config.searchjobs = {"police"}
+
+--HorseSellPrice = 25 -- % 
+---Config.horsehealcost = 5 -- cost to heal horse after its dead 
+--Config.deadtimer = 150000 -- time until horse can be called again, set to 2.5 minutes 
 
 -----------------------------------------------------------
 --[[ Stable Locations ]]--
