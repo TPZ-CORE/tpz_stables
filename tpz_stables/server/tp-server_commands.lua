@@ -123,6 +123,56 @@ RegisterCommand(Config.Commands["ADD_HORSE"].Command, function(source, args, raw
 
 end, false)
 
+RegisterCommand(Config.Commands["ADD_WAGON"].Command, function(source, args, rawCommand)
+  local _source       = source
+	local xPlayer       = TPZ.GetPlayer(source)
+	local identifier     = xPlayer.getIdentifier()
+	local charIdentifier = xPlayer.getCharacterIdentifier()
+
+  local hasAcePermissions           = xPlayer.hasPermissionsByAce("tpzcore.stables.addwagon") or xPlayer.hasPermissionsByAce("tpzcore.stables.all")
+  local hasAdministratorPermissions = hasAcePermissions
+
+  if not hasAcePermissions then
+      hasAdministratorPermissions = xPlayer.hasAdministratorPermissions(Config.Commands["ADD_WAGON"].PermittedGroups, Config.Commands["ADD_WAGON"].PermittedDiscordRoles)
+  end
+
+  if hasAcePermissions or hasAdministratorPermissions then
+    
+    local target, model = args[1], args[2]
+
+    if target == nil or target == '' or tonumber(target) == nil or model == nil or model == '' then
+      SendNotification(_source,  "~e~ERROR: Use Correct Sintaxis", "error")
+      return
+    end
+
+    target = tonumber(target)
+
+    local targetSteamName = GetPlayerName(target)
+
+    if targetSteamName == nil then
+      SendNotification(_source, Locales['NOT_ONLINE'], "error")
+      return
+    end
+
+    local tPlayer = TPZ.GetPlayer(target)
+
+    if not tPlayer.loaded() then
+      SendNotification(_source, Locales['PLAYER_IS_ON_SESSION'], "error")
+      return
+    end
+
+    local targetIdentifier     = tPlayer.getIdentifier() 
+    local targetCharIdentifier = tPlayer.getCharacterIdentifier()
+    local targetGroup          = tPlayer.getGroup()
+    local targetJob            = tPlayer.getJob()
+
+
+  else
+    SendNotification(_source, Locales['NOT_PERMITTED'], "error")
+  end
+
+end, false)
+
 -----------------------------------------------------------
 --[[ Chat Suggestion Registrations ]]--
 -----------------------------------------------------------
