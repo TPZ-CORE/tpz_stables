@@ -574,7 +574,7 @@ Config.Commands = {
         CommandHelpTips = { { name = "Id", help = 'Player ID' }, { name = "Model", help = "Wagon Vehicle Model Name" } },
 
     },
-
+}
 
 -----------------------------------------------------------
 --[[ Notification Functions  ]]--
