@@ -22,8 +22,8 @@ local PlayerData = {
     SelectedHorseIndex = 0,
     SpawnedHorseEntity = nil,
 
-    SelectedWagonIndex = 0,
     SpawnedWagonEntity = 0,
+    SpawnedWagonModel  = nil,
 
     IsLoaded           = false,
     
