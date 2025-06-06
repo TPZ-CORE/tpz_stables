@@ -587,6 +587,18 @@ Config.Webhooks = {
         Url = "", 
         Color = 10038562,
     },
+
+    ["BOUGHT"] = { -- Buying horses or wagons from the stables. 
+        Enabled = false, 
+        Url = "", 
+        Color = 10038562,
+    },
+
+    ["TRANSFERRED"] = { -- When transferred a horse or a wagon to another player. 
+        Enabled = false, 
+        Url = "", 
+        Color = 10038562,
+    },
 }
 
 -----------------------------------------------------------
