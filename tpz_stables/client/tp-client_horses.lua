@@ -381,6 +381,13 @@ end)
 --[[ General Events ]]--
 -----------------------------------------------------------
 
+RegisterNetEvent('tpz_stables:client:updateHorse')
+AddEventHandler('tpz_stables:client:updateHorse', function(cb)
+	horseIndex, action, data = cb.horseIndex, cb.action, cb.data
+
+	
+end)
+
 RegisterNetEvent("tpz_stables:client:whistle") -- always for horses.
 AddEventHandler("tpz_stables:client:whistle", function()
 
