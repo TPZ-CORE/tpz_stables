@@ -250,7 +250,8 @@ AddEventHandler('tpz_stables:server:updateHorse', function(horseIndex, action, d
         updateActionOnClient = false
 	end
 
-    if updateActionOnClient then
+    -- We update the modified data on client for all players through async. 
+    if updateActionOnClient and Horses[horseIndex].entity ~= 0 then
 
     end
 
