@@ -89,8 +89,8 @@ function SetFleeAway()
 
         local isHorseDead    = IsPedDeadOrDying(entityHandler, 1) and 1 or 0
 
-        TriggerServerEvent("tpz_stables:server:saveHorse", PlayerData.SelectedHorseIndex, stamina + 0.0, health, trainingPoints, shoesType, shoesKmLeft, isHorseDead, true)
-
+        TriggerServerEvent("tpz_stables:server:saveHorse", PlayerData.SelectedHorseIndex, stamina + 0.0, health, trainingPoints, shoesType, shoesKmLeft, isHorseDead)
+		TriggerServerEvent("tpz_stables:server:updateHorse", PlayerData.SelectedHorseIndex, "NETWORK_ID", { 0 } )
 		Wait(500)
 	
 		TaskGoToCoordAnyMeans(entityHandler, entityCoords.x + 20.0, entityCoords.y + 20.0, entityCoords.z, 2.0)
