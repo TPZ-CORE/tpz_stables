@@ -251,14 +251,31 @@ AddEventHandler('tpz_stables:server:updateHorse', function(horseIndex, action, d
 	end
 
     -- We update the modified data on client for all players through async. 
-    if updateActionOnClient and Horses[horseIndex].entity ~= 0 then
+    if updateActionOnClient then
 
-        local entity = NetworkGetEntityFromNetworkId(Horses[horseIndex].entity)
+        local coords
 
-        if DoesEntityExist(entity) then
-            local coords = GetEntityCoords(entity)
-            coords = vector3(coords.x, coords.y, coords.z)
-            TPZ.TriggerClientEventAsyncByCoords("tpz_stables:client:updateHorse", { horseIndex = horseIndex, action = action, data = data }, coords, 500.0, 500, 40, true)
+        local updated = false
+
+        if Horses[horseIndex].entity ~= 0 then
+            local entity = NetworkGetEntityFromNetworkId(Horses[horseIndex].entity)
+
+            if DoesEntityExist(entity) then
+                local tableCoords = GetEntityCoords(entity)
+                coords = vector3(tableCoords.x, tableCoords.y, tableCoords.z)
+                TPZ.TriggerClientEventAsyncByCoords("tpz_stables:client:updateHorse", { horseIndex = horseIndex, action = action, data = data }, coords, 500.0, 500, 40, true)
+                updated = true
+            end
+
+        end
+
+        if not updated then
+            local ped = GetPlayerPed(_source)
+            local playerCoords = GetEntityCoords(ped)
+
+            coords = vector3(playerCoords.x, playerCoords.y, playerCoords.z)
+            TPZ.TriggerClientEventAsyncByCoords("tpz_stables:client:updateHorse", { horseIndex = horseIndex, action = action, data = data }, coords, 150.0, 1000, 40, true)
+            updated = true
         end
 
     end
