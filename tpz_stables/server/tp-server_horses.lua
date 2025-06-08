@@ -253,6 +253,14 @@ AddEventHandler('tpz_stables:server:updateHorse', function(horseIndex, action, d
     -- We update the modified data on client for all players through async. 
     if updateActionOnClient and Horses[horseIndex].entity ~= 0 then
 
+        local entity = NetworkGetEntityFromNetworkId(Horses[horseIndex].entity)
+
+        if DoesEntityExist(entity) then
+            local coords = GetEntityCoords(entity)
+            coords = vector3(coords.x, coords.y, coords.z)
+            TPZ.TriggerClientEventAsyncByCoords("tpz_stables:client:updateHorse, { horseIndex = horseIndex, action = action, data = data }, coords, 500.0, 500, 40, true)
+        end
+
     end
 
 end)
