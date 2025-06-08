@@ -154,6 +154,7 @@ Config.Trainers = {
         ExpWhenRearUp  = { UpdateTick = 15000,  Experience = 30   }, -- EXPERIENCE TO ADD WHEN THE TRAINER IS REARUP WITH THE HORSE ( DEFAULT IS 15 SECONDS )
         ExpWhenSkid    = { UpdateTick = 30000,  Experience = 60   }, -- EXPERIENCE TO ADD WHEN THE TRAINER IS SKID WITH THE HORSE ( DEFAULT IS 30 SECONDS )
 
+        MaxLevelUpExperience = 1000,
     }, 
 }
 
