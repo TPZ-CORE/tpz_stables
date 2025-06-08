@@ -386,7 +386,7 @@ AddEventHandler('tpz_stables:client:updateHorse', function(cb)
 	local PlayerData = GetPlayerData()
 	horseIndex, action, data = cb.horseIndex, cb.action, cb.data
 
-	if Horses[horseIndex] == nil then
+	if PlayerData.Horses[horseIndex] == nil then
 		return
 	end
 
