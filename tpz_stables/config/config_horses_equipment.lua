@@ -988,13 +988,24 @@ Config.Equipment = {
 	[23] = {0xFE8E56EC, 3, 1, "Horsebridles 23"},          
 	},
         
-[12] = { -- SADDLE LANTERNS {hash, price, leave 0, label}
-    [0] = {0, 0, 0, "Remove Lantern..."},            
-	[1] = {0x635E387C, 2, 0, "Saddle Lantern"},
-	},
+    { -- SADDLE LANTERNS {hash, dollars, label}
+
+        Category = "Saddle Lanterns",
+
+        Types = {
+            [0] = {0, 0, "Remove Lantern..."},            
+        	[1] = {0x635E387C, 2, "Saddle Lantern"},
+        },
+
+    },
         
-[13] = { -- WEAPON HOLSTER {hash, price, leave 0, label}
-    [0] = {0, 0, 0, "Remove Holster..."},             
-	[1] = {0xF772CED6, 2, 0, "Weapon Holster"},        
-	},
+    { -- WEAPON HOLSTER {hash, dollars, label}
+
+        Category = "Weapon Holster",
+
+        Types = {
+            [0] = {0, 0, "Remove Holster..."},             
+        	[1] = {0xF772CED6, 2, "Weapon Holster"},        
+    	},
+    },
 }
