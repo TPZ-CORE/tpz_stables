@@ -193,7 +193,7 @@ AddEventHandler('tpz_stables:server:buyHorse', function(locationIndex, categoryI
 end)
 
 RegisterServerEvent('tpz_stables:server:saveHorse')
-AddEventHandler('tpz_stables:server:saveHorse', function(horseIndex, stamina, health, trainingExperience, shoesType, shoesKmLeft, isDead, remove)
+AddEventHandler('tpz_stables:server:saveHorse', function(horseIndex, stamina, health, trainingExperience, shoesType, shoesKmLeft, isDead)
 	local _source = source
 	local Horses  = GetHorses()
 
@@ -216,10 +216,6 @@ AddEventHandler('tpz_stables:server:saveHorse', function(horseIndex, stamina, he
 		['training_experience'] = trainingExperience,
 		['isdead']              = isdead,
 	})
-
-	if remove then
-		Horses[horseIndex].entity = 0
-	end
 
 end)
 
