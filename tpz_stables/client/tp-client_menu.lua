@@ -804,6 +804,14 @@ function OpenHorseManagementById(selectedHorseId)
     local DIV_CATEGORY_LABEL = string.format("<div style='opacity: 0.8; float:left; text-align: left; width: 4vw; font-size: 0.8vw; ' >%s</div>", Locales['HORSE_MANAGEMENT_RACE'])
     local DIV_CATEGORY_DISPLAY = DIV_CATEGORY_LABEL .. string.format("<div style='opacity: 0.8; float:right; text-align: right; font-size: 0.8vw;' >%s</div>", HorseData.type)
 
+    -- MODEL NAME
+    local ModelData = GetHorseModelData(HorseData.model)
+    local modelName = ModelData[2]
+
+    local DIV_MODEL_NAME_LABEL = string.format("<div style='opacity: 0.8; float:left; text-align: left; width: 4vw; font-size: 0.8vw; ' >%s</div>", Locales['HORSE_MANAGEMENT_MODEL_NAME'])
+    local DIV_MODEL_NAME_DISPLAY = DIV_MODEL_NAME_LABEL .. string.format("<div style='opacity: 0.8; float:right; text-align: right; font-size: 0.8vw;' >%s</div>", modelName)
+
+    
     -- SEX
     local DIV_SEX_LABEL = string.format("<div style='opacity: 0.8; float:left; text-align: left; width: 4vw; font-size: 0.8vw; ' >%s</div>", Locales['HORSE_MANAGEMENT_SEX'])
 
@@ -826,6 +834,7 @@ function OpenHorseManagementById(selectedHorseId)
     local description = string.format('%s <br><br> %s <br><br> %s <br><br> %s <br><br> %s', 
         DIV_AGE_DISPLAY, 
         DIV_CATEGORY_DISPLAY, 
+        DIV_MODEL_NAME_DISPLAY,
         DIV_SEX_DISPLAY, 
         DIV_SHOES_DISPLAY,
         DIV_TRAINED_DISPLAY)
