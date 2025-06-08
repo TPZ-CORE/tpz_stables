@@ -831,7 +831,7 @@ function OpenHorseManagementById(selectedHorseId)
     local trained = HorseData.training_experience == -1 and Locales['HORSE_MANAGEMENT_TRAINED_YES'] or Locales['HORSE_MANAGEMENT_TRAINED_NO']
     local DIV_TRAINED_DISPLAY = DIV_TRAINED_LABEL .. string.format("<div style='opacity: 0.8; float:right; text-align: right; font-size: 0.8vw;' >%s</div>", trained)
 
-    local description = string.format('%s <br><br> %s <br><br> %s <br><br> %s <br><br> %s', 
+    local description = string.format('%s <br><br> %s <br><br> %s <br><br> %s <br><br> %s <br><br> %s',
         DIV_AGE_DISPLAY, 
         DIV_CATEGORY_DISPLAY, 
         DIV_MODEL_NAME_DISPLAY,
