@@ -383,9 +383,20 @@ end)
 
 RegisterNetEvent('tpz_stables:client:updateHorse')
 AddEventHandler('tpz_stables:client:updateHorse', function(cb)
+	local PlayerData = GetPlayerData()
 	horseIndex, action, data = cb.horseIndex, cb.action, cb.data
 
-	
+	if Horses[horseIndex] == nil then
+		return
+	end
+
+	if action == 'NETWORK_ID' then
+		PlayerData.Horses[horseIndex].entity = data[1]
+
+	elseif action == 'RENAME' then
+		PlayerData.Horses[horseIndex].name = data[1]
+	end
+
 end)
 
 RegisterNetEvent("tpz_stables:client:whistle") -- always for horses.
