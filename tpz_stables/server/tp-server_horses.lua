@@ -61,12 +61,18 @@ AddEventHandler('playerDropped', function (reason)
 			if HorseData.entity and HorseData.entity ~= 0 then
 	
 				local entity = NetworkGetEntityFromNetworkId(HorseData.entity)
+                local coords
+
 				if DoesEntityExist(entity) then
+                    local tableCoords = GetEntityCoords(entity)
+                    coords = vector3(tableCoords.x, tableCoords.y, tableCoords.z)
 					DeleteEntity(entity)
-				end
+				else
+                    coords = vector3(0.0, 0.0, 0.0)
+                end
 
                 Horses[tonumber(horseIndex)].entity = 0
-	
+                TPZ.TriggerClientEventAsyncByCoords("tpz_stables:client:updateHorse", { horseIndex = tonumber(horseIndex), action = "NETWORK_ID", data = { 0 } }, coords, 200.0, 500, 40, true)
 			end
 			
 			HorseData.source = 0
