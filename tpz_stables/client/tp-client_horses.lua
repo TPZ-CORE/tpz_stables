@@ -566,7 +566,7 @@ Citizen.CreateThread(function()
                                 local shoesType      = HorseData.stats.shoes_type
                                 local shoesKmLeft    = HorseData.stats.shoes_km_left
 
-                                TriggerServerEvent("tpz_stables:server:saveHorse", PlayerData.SelectedHorseIndex, stamina + 0.0, health, trainingPoints, shoesType, shoesKmLeft, 0, false)
+                                TriggerServerEvent("tpz_stables:server:saveHorse", PlayerData.SelectedHorseIndex, stamina + 0.0, health, trainingPoints, shoesType, shoesKmLeft, 0)
                     
                             end
 
@@ -586,7 +586,7 @@ Citizen.CreateThread(function()
                         local shoesType      = HorseData.stats.shoes_type
                         local shoesKmLeft    = HorseData.stats.shoes_km_left
 
-                        TriggerServerEvent("tpz_stables:server:saveHorse", PlayerData.SelectedHorseIndex, stamina + 0.0, health, trainingPoints, shoesType, shoesKmLeft, 0, false)
+                        TriggerServerEvent("tpz_stables:server:saveHorse", PlayerData.SelectedHorseIndex, stamina + 0.0, health, trainingPoints, shoesType, shoesKmLeft, 0)
             
                     end
 
