@@ -67,6 +67,7 @@ Locales = {
 
     ['HORSE_MANAGEMENT_AGE']           = "Age:",
     ['HORSE_MANAGEMENT_RACE']          = "Race:",
+    ['HORSE_MANAGEMENT_MODEL_NAME']    = "Model Name:",
     ['HORSE_MANAGEMENT_SEX']           = "Sex:",
     ['HORSE_MANAGEMENT_SHOES_NONE']    = "Ν/Α",
     ['HORSE_MANAGEMENT_SHOES_KM']      = "Km Left: ",
