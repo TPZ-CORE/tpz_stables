@@ -904,6 +904,11 @@ function OpenHorseManagementById(selectedHorseId)
 
                     PlayerData.Horses[selectedHorseId].name = cb
 
+                    if PlayerData.SpawnedHorseEntity and PlayerData.SelectedHorseIndex == selectedHorseId then
+                        SetPedNameDebug(PlayerData.SpawnedHorseEntity, cb)
+                        SetPedPromptName(PlayerData.SpawnedHorseEntity, cb)
+                    end
+
                     SendNotification(nil, Locales['RENAMED_HORSE'], 'success')
                 end
 
