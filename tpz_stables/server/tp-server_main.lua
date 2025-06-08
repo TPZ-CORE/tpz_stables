@@ -26,6 +26,10 @@ local LoadOwnedHorses = function()
 				Horses[res.id].stats      = json.decode(res.stats)
 				Horses[res.id].components = json.decode(res.components)
 
+				if res.training_experience > 0 and Config.Trainers.HorseTraining.MaxLevelUpExperience <= res.training_experience then
+					Horses[res.id].training_experience = -1
+				end
+
 				local shoesType = Horses[res.id].stats.shoes_type
 				local kmLeft    = Horses[res.id].stats.shoes_km_left
 
