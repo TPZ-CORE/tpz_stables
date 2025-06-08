@@ -226,11 +226,17 @@ AddEventHandler('tpz_stables:server:updateHorse', function(horseIndex, action, d
 		return
 	end
 
+    local updateActionOnClient = false
+
 	if action == 'NETWORK_ID' then
 		Horses[horseIndex].entity = data[1]
 
+        updateActionOnClient = true
+
 	elseif action == 'RENAME' then
 		Horses[horseIndex].name = data[1]
+
+        updateActionOnClient = true
 
 	elseif action == 'SET_DEFAULT' then
 
@@ -241,7 +247,12 @@ AddEventHandler('tpz_stables:server:updateHorse', function(horseIndex, action, d
 
 		exports.ghmattimysql:execute("UPDATE `characters` SET `selected_horse_index` = @selected_horse_index WHERE `charidentifier` = @charidentifier", Parameters)
 
+        updateActionOnClient = false
 	end
+
+    if updateActionOnClient then
+
+    end
 
 end)
 
