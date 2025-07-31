@@ -25,3 +25,13 @@
 
 - The ace permission: `tpzcore.all` Gives permissioms to all commands (FOR ALL OFFICIAL PUBLISHED FREE SCRIPTS).
 - The ace permission: `tpzcore.stables.all` Gives permissions to all commands ONLY for this script.
+
+## Screenshots
+
+<img width="1900" height="970" alt="image" src="https://github.com/user-attachments/assets/c42d108b-aea8-4a9b-adf3-69910d32ace2" />
+<img width="2504" height="1130" alt="image" src="https://github.com/user-attachments/assets/2c9e8a2a-fecb-4661-b262-88a2f1ea56eb" />
+<img width="2503" height="1161" alt="image" src="https://github.com/user-attachments/assets/d3631474-e7a2-4aa9-8df1-92c19396a7c4" />
+<img width="653" height="934" alt="image" src="https://github.com/user-attachments/assets/16d155fb-9de3-4340-a20e-c603931b1066" />
+<img width="1454" height="902" alt="image" src="https://github.com/user-attachments/assets/2003c13b-0dc5-448b-ab2e-cd1d898d681d" />
+<img width="1932" height="908" alt="image" src="https://github.com/user-attachments/assets/66ff1390-6516-4a0b-a66d-21f331e52229" />
+<img width="1980" height="899" alt="image" src="https://github.com/user-attachments/assets/d8a5fc3e-5230-43f7-bfce-2113ee765e0d" />
