@@ -98,12 +98,40 @@ local IsEntityValidHorse = function(entity)
 
 end
 
+local function GetClosestEntity(radius)
+    local playerPed = PlayerPedId()
+	local coords    = GetEntityCoords(playerPed)
+
+	local itemset = CreateItemset(true)
+	local size = Citizen.InvokeNative(0x59B57C4B06531E1E, coords, radius, itemset, 1, Citizen.ResultAsInteger())
+
+	local closestPed
+	local minDist = radius
+
+	if size > 0 then
+		for i = 0, size - 1 do
+			local ped = GetIndexedItemInItemset(i, itemset)
+			if playerPed ~= ped then
+
+                local pedCoords = GetEntityCoords(ped)
+                local distance = #(coords - pedCoords)
+    
+                if distance < minDist then
+                    closestPed = ped
+                    minDist = distance
+                end
+            end
+		end
+	end
+
+	return closestPed
+end
 
 -----------------------------------------------------------
 --[[ Functions ]]--
 -----------------------------------------------------------
 
-function SetFleeAway()
+function SetFleeAway(modifiedHealth, modifiedStamina, modifiedIsDead)
     local PlayerData = GetPlayerData()
 
 	if PlayerData.SpawnedHorseEntity then
@@ -123,15 +151,32 @@ function SetFleeAway()
         local stamina = Citizen.InvokeNative(0x775A1CA7893AA8B5,entityHandler, Citizen.ResultAsFloat()) --ACTUAL STAMINA CORE GETTER
         local health = GetEntityHealth(entityHandler, Citizen.ResultAsInteger())
 
-        local trainingPoints = HorseData.training_experience
         local shoesType      = HorseData.stats.shoes_type
         local shoesKmLeft    = HorseData.stats.shoes_km_left
 
         local isHorseDead    = IsPedDeadOrDying(entityHandler, 1) and 1 or 0
 
-        TriggerServerEvent("tpz_stables:server:saveHorse", PlayerData.SelectedHorseIndex, stamina + 0.0, health, trainingPoints, shoesType, shoesKmLeft, isHorseDead)
+        HorseData.stats.stamina        = stamina + 0.0
+        HorseData.stats.health         = health
+        HorseData.stats.shoes_type     = shoesType
+        HorseData.stats.shoes_km_left  = shoesKmLeft
+        HorseData.isdead               = isHorseDead
+
+        if modifiedHealth then 
+            HorseData.stats.health = modifiedHealth
+        end
+
+        if modifiedStamina then 
+            HorseData.stats.health = modifiedStamina + 0.0
+        end
+
+        if modifiedIsDead then 
+            HorseData.isdead = modifiedIsDead
+        end
+
+        TriggerServerEvent("tpz_stables:server:saveHorse", PlayerData.SelectedHorseIndex, HorseData.stats.stamina, HorseData.stats.health, HorseData.training_experience, HorseData.training_stage_index, HorseData.training_stage_type, shoesType, shoesKmLeft, HorseData.isdead)
 		TriggerServerEvent("tpz_stables:server:updateHorse", PlayerData.SelectedHorseIndex, "NETWORK_ID", { 0 } )
-        
+
 		Wait(500)
 	
         if isHorseDead == 0 then
@@ -268,17 +313,10 @@ function SpawnHorseEntity()
 
     -- END OF HORSE STATISTICS
 
-    local stamina2 = Citizen.InvokeNative(0x775A1CA7893AA8B5,entity, Citizen.ResultAsFloat()) --current stamina 
-    local stamina = Citizen.InvokeNative(0xCB42AFE2B613EE55,entity, Citizen.ResultAsFloat()) --max stamina 
+    local currentHorseStamina = Citizen.InvokeNative(0x775A1CA7893AA8B5,entity, Citizen.ResultAsFloat()) --current stamina 
+    local maximumHorseStamina = Citizen.InvokeNative(0xCB42AFE2B613EE55,entity, Citizen.ResultAsFloat()) --max stamina 
 
     local maxhealth = GetEntityMaxHealth(entity, Citizen.ResultAsInteger())
-
-    local check = (HorseData.stats.stamina-stamina2)
-
-    if stamina2 + check >= stamina then 
-        local valueStamina = Citizen.InvokeNative(0x36731AC041289BB1, entity, 1, Citizen.ResultAsInteger()) 
-        Citizen.InvokeNative(0xC6258F41D86676E0, entity, 1, valueStamina + 100)
-    end
 
     if HorseData.stats.health >= maxhealth then 
         local valueHealth = Citizen.InvokeNative(0x36731AC041289BB1, entity, 0, Citizen.ResultAsInteger())
@@ -289,10 +327,8 @@ function SpawnHorseEntity()
         SetEntityHealth(entity, HorseData.stats.health,0)
     end
 
-    if (stamina2 + check) > 0 then 
-        Citizen.InvokeNative(0xC3D4B754C0E86B9E,entity,check+0.0)
-    end
-    
+    Citizen.InvokeNative(0xC3D4B754C0E86B9E,entity,  (HorseData.stats.stamina-currentHorseStamina) + 0.0)
+
     -- CHECKING IF HORSE HAS BEEN TRAINED.
     if HorseData.training_experience == -1 then
 
@@ -336,7 +372,6 @@ function SpawnHorseEntity()
     end
 
     PlayerData.SpawnedHorseEntity = entity
-
 
     if HorseData.stats.health <= 0 or HorseData.isdead == 1 then
 
@@ -483,39 +518,39 @@ end)
 RegisterNetEvent('tpz_stables:client:updateHorse')
 AddEventHandler('tpz_stables:client:updateHorse', function(cb)
 	local PlayerData = GetPlayerData()
-	horseIndex, action, data = cb.horseIndex, cb.action, cb.data
+	local horseIndex, action, data = cb.horseIndex, cb.action, cb.data
 
-	if PlayerData.Horses[horseIndex] == nil and action ~= 'REGISTER' then
-		return
-	end
+    horseIndex = tonumber(horseIndex)
 
     if action == 'REGISTER' then
 
         local horse_data = {
-            id                  = horseIndex,
-            identifier          = data[1],
-            charidentifier      = data[2],
-            model               = data[3],
-            name                = 'N/A',
-            stats               = { health = 200, stamina = 200, shoes_type = 0, shoes_km_left = 0 },
-            components          = { ['SADDLE'] = 0, ['BAG'] = 0, ['MASK'] = 0, ['BEDROLL'] = 0, ['BLANKET'] = 0, ['MANE'] = 0, ['MUSTACHE'] = 0, ['TAIL'] = 0, ['HORN'] = 0, ['STIRRUP'] = 0, ['BRIDLE'] = 0, ['LANTERN'] = 0, ['HOLSTER'] = 0 },
-            type                = data[4],
-            age                 = data[5],
-            sex                 = data[6],
-            training_experience = 0,
-            breeding            = 0,
-            bought_account      = data[7],
-            container           = data[8],
-            date                = data[9],
+            id                   = horseIndex,
+            identifier           = data[1],
+            charidentifier       = data[2],
+            model                = data[3],
+            name                 = 'N/A',
+            stats                = { health = 200, stamina = 200, shoes_type = 0, shoes_km_left = 0 },
+            components           = { ['SADDLE'] = 0, ['BAG'] = 0, ['MASK'] = 0, ['BEDROLL'] = 0, ['BLANKET'] = 0, ['MANE'] = 0, ['MUSTACHE'] = 0, ['TAIL'] = 0, ['HORN'] = 0, ['STIRRUP'] = 0, ['BRIDLE'] = 0, ['LANTERN'] = 0, ['HOLSTER'] = 0 },
+            type                 = data[4],
+            age                  = data[5],
+            sex                  = data[6],
+            training_experience  = 0,
+            training_stage_index = 1,
+            training_stage_type  = Config.Trainers.HorseTraining.Stages[1].Type,
+            breeding             = 0,
+            bought_account       = data[7],
+            container            = data[8],
+            date                 = data[9],
+            isdead               = 0,
+
+            source               = data[10],
+            entity               = 0,
+
+            loaded_components    = false,
         }
 
-        PlayerData.Horses[horseIndex] = {}
         PlayerData.Horses[horseIndex] = horse_data
-
-        PlayerData.Horses[horseIndex].entity = 0
-        PlayerData.Horses[horseIndex].source = 0
-
-        PlayerData.Horses[horseIndex].loaded_components = false
 
     elseif action == 'TRANSFERRED' then
 
@@ -534,14 +569,30 @@ AddEventHandler('tpz_stables:client:updateHorse', function(cb)
         PlayerData.Horses[horseIndex] = nil
 
 	elseif action == 'NETWORK_ID' then
-		PlayerData.Horses[horseIndex].entity = data[1]
-
+        
+        PlayerData.Horses[horseIndex].entity = data[1]
         PlayerData.Horses[horseIndex].loaded_components = false
+        PlayerData.Horses[horseIndex].loaded_prompts    = false
 
     elseif action == 'HORSE_SHOES' then
 
         PlayerData.Horses[horseIndex].stats.shoes_type     = data[1]
         PlayerData.Horses[horseIndex].stats.shoes_km_left  = data[2]
+
+        
+    elseif action == 'RESURRECT' then
+
+        PlayerData.Horses[horseIndex].stats.health  = 200
+        PlayerData.Horses[horseIndex].stats.stamina = 200
+        PlayerData.Horses[horseIndex].isdead        = 0
+
+        if PlayerData.SelectedHorseIndex == horseIndex then
+            SetFleeAway(200, 200.0, 0)
+
+            Wait(1000)
+            SpawnHorseEntity()
+
+        end
 
     elseif action == 'UPDATE_COMPONENTS' then
 
@@ -599,11 +650,13 @@ AddEventHandler("tpz_stables:client:whistle", function()
 
         end
 
+        local ModelData = GetHorseModelData(PlayerData.Horses[PlayerData.SelectedHorseIndex].model)
+
         WhistleCooldown = Config.HorseCalling.CallCooldown
 
         local getRealAge = math.floor(PlayerData.Horses[PlayerData.SelectedHorseIndex].age * 1 / 1440)
-        local isAgedDead = getRealAge >= Config.Ageing.MaximumAge
-    
+        local isAgedDead = getRealAge >= ModelData[9]
+
         if isAgedDead then
             SendNotification(nil, Locales['HORSE_DEAD_FROM_AGEING'], "error")
             return
@@ -667,6 +720,11 @@ AddEventHandler('tpz_stables:client:onFeedItemUse', function(item)
 
         TriggerServerEvent("tpz_stables:server:onFeedItemUse", item)
 
+        if IsPlayerTrainingHorse() and GetTrainingHorseStageType() == 'FEED' then
+            HorseData.training_experience = HorseData.training_experience + Config.Trainers.HorseTraining.Stages[GetTrainingHorseStageIndex()].Experience
+            SetNextTrainingHorseStage()
+        end
+
         if ItemData.Health > 0 then
 
             local currentCoreHealth = GetAttributeCoreValue(horse, 0)
@@ -682,6 +740,76 @@ AddEventHandler('tpz_stables:client:onFeedItemUse', function(item)
         SendNotification(nil, Locales['HORSE_FEED_NOT_OWNED'], "error")
     end
 
+end)
+
+
+RegisterNetEvent('tpz_stables:client:revive_item_use')
+AddEventHandler('tpz_stables:client:revive_item_use', function()
+    local PlayerData = GetPlayerData()
+    local playerPed  = PlayerPedId()
+    
+    local closestEntity = GetClosestEntity(Config.HorseDeath.Reviving.Radius)
+
+    if closestEntity == nil then
+        SendNotification(nil, Locales['NO_DEAD_HORSE_NEARBY'], "error")
+        return
+    end
+
+    local getHorse = 0
+
+    for _, horse in pairs (PlayerData.Horses) do
+
+        local network = NetworkGetNetworkIdFromEntity(closestEntity)
+        if tonumber(network) == tonumber(horse.entity) then
+            getHorse = horse.id     
+        end
+
+    end
+
+    if getHorse == 0 then
+        SendNotification(nil, Locales['NO_HORSE_DEAD_OTHER_ENTITY'], "error")
+        return
+    end
+
+    local getRealAge = math.floor(PlayerData.Horses[getHorse].age * 1 / 1440)
+    local ModelData  = GetHorseModelData(PlayerData.Horses[getHorse].model)
+    local isAgedDead = getRealAge >= ModelData[9]
+
+    if isAgedDead then
+        SendNotification(nil, Locales['HORSE_DEAD_FROM_AGEING'], "error")
+        return
+    end
+
+    if not IsEntityDead(closestEntity) then
+        SendNotification(nil, Locales['HORSE_NOT_DEAD'], "error")
+        return
+    end
+
+    TaskTurnPedToFaceEntity(playerPed, closestEntity, 2000)
+    ClearPedTasks(playerPed)
+
+    PlayAnimation(playerPed, { 
+        dict = Config.HorseDeath.Reviving.AnimationDict, 
+        name = Config.HorseDeath.Reviving.Animation,
+        blendInSpeed = 8.0,
+        blendOutSpeed = 8.0,
+        duration = -1,
+        flag = 0,
+        playbackRate = 0.0
+    })
+
+    Wait(2000)
+    Citizen.InvokeNative(0xEAA885BA3CEA4E4A, playerPed, Config.HorseDeath.Reviving.AnimationDict, Config.HorseDeath.Reviving.Animation, 0)
+
+    FreezeEntityPosition(playerPed, true)
+    TPZ.DisplayProgressBar(Config.HorseDeath.Reviving.ApplyDuration, Config.HorseDeath.Reviving.Applying)
+    Citizen.InvokeNative(0xEAA885BA3CEA4E4A, playerPed, Config.HorseDeath.Reviving.AnimationDict, Config.HorseDeath.Reviving.Animation, 1)
+    FreezeEntityPosition(playerPed, false)
+
+    RemoveAnimDict(Config.HorseDeath.Reviving.AnimationDict)
+    ClearPedTasks(playerPed)
+
+    TriggerServerEvent("tpz_stables:server:revive_item_use", getHorse)
 end)
 
 -----------------------------------------------------------
@@ -775,11 +903,15 @@ Citizen.CreateThread(function()
                                 local stamina = Citizen.InvokeNative(0x775A1CA7893AA8B5,entityHandler, Citizen.ResultAsFloat()) --ACTUAL STAMINA CORE GETTER
                                 local health = GetEntityHealth(entityHandler, Citizen.ResultAsInteger())
 
-                                local trainingPoints = HorseData.training_experience
                                 local shoesType      = HorseData.stats.shoes_type
                                 local shoesKmLeft    = HorseData.stats.shoes_km_left
 
-                                TriggerServerEvent("tpz_stables:server:saveHorse", PlayerData.SelectedHorseIndex, stamina + 0.0, health, trainingPoints, shoesType, shoesKmLeft, 0)
+                                HorseData.stats.stamina        = stamina + 0.0
+                                HorseData.stats.health         = health
+                                HorseData.stats.shoes_type     = shoesType
+                                HorseData.stats.shoes_km_left  = shoesKmLeft
+
+                                TriggerServerEvent("tpz_stables:server:saveHorse", PlayerData.SelectedHorseIndex, stamina + 0.0, health, HorseData.training_experience, HorseData.training_stage_index, HorseData.training_stage_type, shoesType, shoesKmLeft, 0)
                     
                             end
 
@@ -795,18 +927,46 @@ Citizen.CreateThread(function()
                         local stamina = Citizen.InvokeNative(0x775A1CA7893AA8B5,entityHandler, Citizen.ResultAsFloat()) --ACTUAL STAMINA CORE GETTER
                         local health = GetEntityHealth(entityHandler, Citizen.ResultAsInteger())
 
-                        local trainingPoints = HorseData.training_experience
                         local shoesType      = HorseData.stats.shoes_type
                         local shoesKmLeft    = HorseData.stats.shoes_km_left
 
-                        TriggerServerEvent("tpz_stables:server:saveHorse", PlayerData.SelectedHorseIndex, stamina + 0.0, health, trainingPoints, shoesType, shoesKmLeft, 0)
+                        HorseData.stats.stamina        = stamina + 0.0
+                        HorseData.stats.health         = health
+                        HorseData.stats.shoes_type     = shoesType
+                        HorseData.stats.shoes_km_left  = shoesKmLeft
+
+                        TriggerServerEvent("tpz_stables:server:saveHorse", PlayerData.SelectedHorseIndex, stamina + 0.0, health, HorseData.training_experience, HorseData.training_stage_index, HorseData.training_stage_type, shoesType, shoesKmLeft, 0)
             
                     end
 
                 end
 
             else
-                Wait(2000)
+
+                -- We flee away the horse in case player has gone too far by walking away, there is no reason having the horse spawned.
+                if DoesEntityExist(PlayerData.SpawnedHorseEntity) then 
+
+                    local coords       = GetEntityCoords(PlayerPedId())
+                    local entityCoords = GetEntityCoords(PlayerData.SpawnedHorseEntity)
+                    local distance     = #(coords - entityCoords)
+
+                    if distance > 400.0 then -- 400.0 is more than enough by default.
+                        SetFleeAway()
+                    end
+
+                end
+
+            end
+
+        end
+
+        -- WHISTLE COOLDOWN REMOVE (NO NEED FOR EXTRA REPEATING THREAD TASK)
+        if PlayerData.IsLoaded and WhistleCooldown > 0 then
+
+            WhistleCooldown = WhistleCooldown - 1
+
+            if WhistleCooldown <= 0 then
+                WhistleCooldown = 0
             end
 
         end
@@ -840,9 +1000,9 @@ Citizen.CreateThread(function()
                                 local network = NetworkGetNetworkIdFromEntity(entity)
 
                                 if network and network ~= 0 then
-    
+
                                     local horseId = IsEntityValidHorse(network)
-    
+
                                     if horseId ~= 0 and not PlayerData.Horses[horseId].loaded_prompts then
                                         AddHorsePrompts(entity)
                                         PlayerData.Horses[horseId].loaded_prompts = true
@@ -950,6 +1110,10 @@ Citizen.CreateThread(function()
                                     ClearPedBloodDamage(entity)
                                     Citizen.InvokeNative(0xD8544F6260F5F01E, entity, 10)
         
+                                    if IsPlayerTrainingHorse() and GetTrainingHorseStageType() == 'BRUSH' then
+                                        SetNextTrainingHorseStage()
+                                    end
+
                                 end
 
                                 PlayerData.IsBusy = false
@@ -969,142 +1133,6 @@ Citizen.CreateThread(function()
 
 end)
 
---[[
--- Loading components through rendering.
-Citizen.CreateThread(function()
-
-    RegisterHorseActionPrompts()
-
-    while true do
-
-        Wait(0)
-
-        local PlayerData = GetPlayerData()
-        local sleep      = true
-        
-        if PlayerData.IsLoaded then
-
-            local player     = PlayerPedId()
-
-            local coords     = GetEntityCoords(player)
-            local coordsDist = vector3(coords.x, coords.y, coords.z)
-
-            for index, horse in pairs (PlayerData.Horses) do
-
-                if horse.entity and horse.entity ~= 0 then
-
-                    local entityPed = Citizen.InvokeNative(0xBDCD95FC216A8B3E, horse.entity)
-
-                    if DoesEntityExist(entityPed) then
-                        
-                        local entityCoords = GetEntityCoords(entityPed)
-                        local entityDist   = vector3(entityCoords.x, entityCoords.y, entityCoords.z)
-                        local distance     = #(coordsDist - entityDist)
-
-                        if (distance <= Config.LoadComponentsRendering) and not horse.loaded_components then
-
-                            LoadHorseComponents(entityPed, horse.id)
-                            PlayerData.Horses[horse.id].loaded_components = true
-
-                        end
-
-                        -- Checking near horse distance while player is not on mount and horse has a bag equipped.
-                        if distance <= Config.Storages.Horses.SearchActionDistance then
-
-                            -- We check below in order to not check all of them at the same time but only when distance near.
-                            if not IsPedOnMount(player) then
-                                sleep = false
-
-                                local promptGroup, promptList = GetHorseActionsPromptData()
-    
-                                local label = CreateVarString(10, 'LITERAL_STRING', PlayerData.Horses[horse.id].name )
-                                PromptSetActiveGroupThisFrame(promptGroup, label)
-
-                                local isOwner = tonumber(horse.charidentifier) == tonumber(PlayerData.CharIdentifier)
-    
-                                for index, prompt in pairs (promptList) do 
-
-                                    PromptSetEnabled(prompt.prompt, 1)
-                                    PromptSetVisible(prompt.prompt, 1)
-
-                                    if (prompt.type == 'SEARCH' and horse.components['BAG'] == 0 or horse.container == 0) or (prompt.type == 'MENU' and not isOwner) then
-                                        PromptSetEnabled(prompt.prompt, 0)
-                                        PromptSetVisible(prompt.prompt, 0)
-                                    end
-
-                                    if PromptHasHoldModeCompleted(prompt.prompt) then
-    
-                                        if prompt.type == 'SEARCH' then
-
-                                            local hasRequiredJob = IsPermittedToAccessBag(PlayerData.Job, Config.Storages.Horses.SearchByJobs.Jobs)
-        
-                                            -- checking for jobs (if enabled) or ownership
-                                            if (isOwner) or (Config.Storages.Horses.SearchByJobs.Enabled and hasRequiredJob) then
-                                                Citizen.InvokeNative(0xCD181A959CFDD7F4, player, entityPed, GetHashKey("Interaction_LootSaddleBags"), 0, 1)
-
-                                                exports.tpz_inventory:getInventoryAPI().openInventoryContainerById(tonumber(horse.container), Config.Storages.Horses.InventoryStorageHeader)
-                                            else
-                                                SendNotification(nil, Locales['NOT_PERMITTED_ACCESS_BAG'], "error")
-                                            end
-
-                                        elseif prompt.type == 'MENU' then
-
-                                            local isHorseDead = IsPedDeadOrDying(entityHandler, 1) and 1 or 0
-
-                                            if isHorseDead == 0 and horse.isdead == 0 then
-
-                                            else
-                                                SendNotification(nil, Locales['HORSE_UNCONSIOUS'], "error")
-                                            end
-
-                                        end
-    
-                                        Wait(1000)
-        
-                                    end
-
-                                    
-                                end
-
-                            end
-
-                        end
-
-                    end
-
-                end
-
-            end
-
-        end
-
-        if sleep then
-            Wait(1000)
-        end
-
-    end
-
-
-end)]]--
-
-
-Citizen.CreateThread(function()
-
-    while true do
-        Wait(1000)
-
-        local PlayerData = GetPlayerData()
-
-        if PlayerData.IsLoaded and WhistleCooldown > 0 then
-
-            WhistleCooldown = WhistleCooldown - 1
-
-            if WhistleCooldown <= 0 then
-                WhistleCooldown = 0
-            end
-
-        end
-
-    end
-
+RegisterCommand(Config.Commands["FLEE"].Command, function(source, args, rawCommand)
+    SetFleeAway()
 end)

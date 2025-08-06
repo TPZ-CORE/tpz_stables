@@ -260,20 +260,22 @@ Citizen.CreateThread(function()
                 for _, horse in pairs (Horses) do
 
 					local Parameters = { 
-						['id']                  = tonumber(horse.id),
-						['identifier']          = horse.identifier, -- in case for transfers.
-						['charidentifier']      = horse.charidentifier, -- in case for transfers.
-						['name']                = horse.name,
-						['stats']               = json.encode( horse.stats ),
-						['components']          = json.encode (horse.components),
-						['age']                 = horse.age,
-						['isdead']              = horse.isdead,
-						['training_experience'] = horse.training_experience,
-						['breeding']            = horse.breeding,
-						['container']           = horse.container
+						['id']                   = tonumber(horse.id),
+						['identifier']           = horse.identifier, -- in case for transfers.
+						['charidentifier']       = horse.charidentifier, -- in case for transfers.
+						['name']                 = horse.name,
+						['stats']                = json.encode( horse.stats ),
+						['components']           = json.encode (horse.components),
+						['age']                  = horse.age,
+						['isdead']               = horse.isdead,
+						['training_experience']  = horse.training_experience,
+						['training_stage_index'] = horse.training_stage_index,
+						['training_stage_type']  = horse.training_stage_type,
+						['breeding']             = horse.breeding,
+						['container']            = horse.container
 					}
-			
-					exports.ghmattimysql:execute("UPDATE `horses` SET `identifier` = @identifier, `charidentifier` = @charidentifier, `name` = @name, `stats` = @stats, `components` = @components, `age` = @age, `isdead` = @isdead, `training_experience` = @training_experience, `breeding` = @breeding, `container` = @container WHERE id = @id", Parameters)
+
+					exports.ghmattimysql:execute("UPDATE `horses` SET `identifier` = @identifier, `charidentifier` = @charidentifier, `name` = @name, `stats` = @stats, `components` = @components, `age` = @age, `isdead` = @isdead, `training_experience` = @training_experience, `training_stage_index` = @training_stage_index, `training_stage_type` = @training_stage_type, `breeding` = @breeding, `container` = @container WHERE id = @id", Parameters)
 
                 end
     

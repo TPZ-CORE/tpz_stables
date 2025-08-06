@@ -90,7 +90,7 @@ function DisplayWagonDetails(category, wagonData)
     local WagonData  = wagonData
     local PlayerData = GetPlayerData()
 
-    GetPlayerData().HasNUIActive = true
+    PlayerData.HasNUIActive = true
 
     local label = category .. " - " .. WagonData[2]
     local stats = WagonData[5]

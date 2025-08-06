@@ -1,5 +1,5 @@
-local PromptGroup, HorsePromptGroup  = GetRandomIntInRange(0, 0xffffff), nil
-local PromptList,  HorsePromptsList  = nil, {}
+local PromptGroup, HorsePromptGroup, HorseTrainingPromptGroup  = GetRandomIntInRange(0, 0xffffff), nil, GetRandomIntInRange(0, 0xffffff)
+local PromptList,  HorsePromptsList, HorseTrainingPromptsList  = nil, {}, nil
 
 --[[-------------------------------------------------------
  Base Events
@@ -12,6 +12,7 @@ AddEventHandler('onResourceStop', function(resourceName)
 
     Citizen.InvokeNative(0x00EDE88D4D13CF59, PromptGroup) -- UiPromptDelete
     Citizen.InvokeNative(0x00EDE88D4D13CF59, HorsePromptGroup) -- UiPromptDelete
+    Citizen.InvokeNative(0x00EDE88D4D13CF59, HorseTrainingPromptGroup) -- UiPromptDelete
 
     if GetPlayerData().IsBusy then
         ClearPedTasksImmediately(PlayerPedId())
@@ -92,6 +93,27 @@ end
 
 function GetHorsePrompts()
     return HorsePromptsList
+end
+
+RegisterHorseTrainingActionPrompt = function()
+    local str = Config.HorseTrainingPromptAction.Label
+    local _prompt = PromptRegisterBegin()
+    PromptSetControlAction(_prompt, Config.Keys[Config.HorseTrainingPromptAction.Key])
+    str = CreateVarString(10, 'LITERAL_STRING', str)
+    PromptSetText(_prompt, str)
+    PromptSetEnabled(_prompt, 1)
+    PromptSetVisible(_prompt, 1)
+    PromptSetStandardMode(_prompt, 1)
+    PromptSetHoldMode(_prompt, Config.HorseTrainingPromptAction.HoldMode)
+    PromptSetGroup(_prompt, HorseTrainingPromptGroup)
+    Citizen.InvokeNative(0xC5F428EE08FA7F2C, _prompt, true)
+    PromptRegisterEnd(_prompt)
+
+    HorseTrainingPromptsList = _prompt
+end
+
+GetHorseTrainingPromptData = function ()
+    return HorseTrainingPromptGroup, HorseTrainingPromptsList
 end
 
 --[[-------------------------------------------------------
@@ -209,4 +231,22 @@ function ContainsRequiredParameterOnTable(table, element)
     end
 
     return false
+end
+
+function PlayAnimation(ped, anim)
+	if not DoesAnimDictExist(anim.dict) then
+		return false
+	end
+
+	RequestAnimDict(anim.dict)
+
+	while not HasAnimDictLoaded(anim.dict) do
+		Wait(0)
+	end
+
+	TaskPlayAnim(ped, anim.dict, anim.name, anim.blendInSpeed, anim.blendOutSpeed, anim.duration, anim.flag, anim.playbackRate, false, false, false, '', false)
+
+	RemoveAnimDict(anim.dict)
+
+	return true
 end

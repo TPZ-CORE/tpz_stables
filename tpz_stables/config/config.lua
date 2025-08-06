@@ -13,6 +13,8 @@ Config.Keys = {
 
 Config.PromptAction = { Key = 'G', HoldMode = 1000 } 
 
+Config.HorseTrainingPromptAction = { Key = 'G', HoldMode = 1000, Label = 'Press' }
+
 -----------------------------------------------------------
 --[[ General ]]--
 -----------------------------------------------------------
@@ -87,14 +89,11 @@ Config.OwnedLimitations = {
 
 -- @param UpdateTime    : Time in minutes (every how long should it update the ageing for each horse)
 -- @param StartAdultAge : When purchasing a horse, it will select a random age between 5 - 10 years old (days) as default.
--- @param MaximumAge    : The time in days - 3 months by default. (This will be spawning the horse as dead).
--- @param DeleteAge     : The time in days (This will delete permanently the horse).
+-- (!) FOR MAXIMUM AGE AND DELETION AGE, CHECKOUT CONFIG.HORSES, EVERY BREED CAN HAVE ITS OWN MAXIMUM AND DELETION AGE.
 Config.Ageing = { 
 	UpdateTime    = 10, -- UPDATING (NOT SAVING).
 
 	StartAdultAge = { min = 5, max = 10 }, 
-	MaximumAge    = 90,
-	DeleteAge     = 100,
 }
 
 -- @param Destroy : To destroy (remove) the item permanently when reaching <= 0 durability.
@@ -120,14 +119,25 @@ Config.HorseFeedItems = {
 
 Config.HorseDeath = {
 
-    -- THE ITEM CAN BE USED ONLY BY THE HORSE TRAINERS!
-    -- WHEN USED, IT WILL PERFORM A SYRINGE ACTION ANIMATION. 
-	HorseReviveItem = { Enabled = true, Item = "horse_syringe" }, -- THE USED ITEM TO REVIVE THE HORSES (IF ENABLED).
+	-- THE USED ITEM TO REVIVE THE HORSES (IF ENABLED).
+	Reviving = { 
+		Enabled = true, 
+		Item = "horse_syringe", 
+		Radius = 1.2,
+		Jobs = {"wapiti", "wapitishaman", "comanche", "horsetrainer", "anneshorsetrainer", 'blackhorsetrainer', 'strhorsetrainer', 'sdhorsetrainer', 'thieveshorsetrainer'},
+
+		AnimationDict = "mech_revive@unapproved", 
+		Animation = "revive", 
+		ApplyDuration = 10000,
+		Applying = "Injecting syringe..."
+	},
 
 	-- IN CASE THERE ARE NO HORSE TRAINERS OR REVIVE ITEM IS DISABLED, ALLOW THE PLAYER TO PAY FOR REVIVE ON ANY STABLE LOCATIONS?
 	PayToRevive = { Enabled = true, Cost = 20, OptionTitle = "Would you like to pay 20 dollars to let the stable horse trainers take care of your horse?" } -- IN CASH 
 }
 
+-- (!) WOULD YOU LIKE TO HAVE TRAINING OBJECTS?
+-- > CHECKOUT tpz_objectloader (https://github.com/TPZ-CORE/tpz_objectloader) to add objects on the desired locations with perfect rendering and loading / unloading objects.
 Config.Trainers = {
 	Jobs = {"wapiti", "wapitishaman", "comanche", "horsetrainer", "anneshorsetrainer", 'blackhorsetrainer', 'strhorsetrainer', 'sdhorsetrainer', 'thieveshorsetrainer'},
 
@@ -152,14 +162,114 @@ Config.Trainers = {
     },
 
     HorseTraining = { 
-        MinStamina     = -1000, -- IF THE HORSE REACH LESS THAN MINSTAMINA WILL BREAK TRAINING AND DROP DOWN THE TRAINER !
-        ExpWhenWalking = { UpdateTick = 0.1,    Experience = 0.02 }, -- EXPERIENCE TO ADD WHEN THE TRAINER IS WALKING WITH THE HORSE ( DEFAULT IS 0.1 MILISECONDS)
-        ExpWhenRunning = { UpdateTick = 0.1,    Experience = 0.04 }, -- EXPERIENCE TO ADD WHEN THE TRAINER IS RUNNING WITH THE HORSE ( DEFAULT IS 0.1 EVERY MILISECONDS)
-        ExpWhenRearUp  = { UpdateTick = 15000,  Experience = 30   }, -- EXPERIENCE TO ADD WHEN THE TRAINER IS REARUP WITH THE HORSE ( DEFAULT IS 15 SECONDS )
-        ExpWhenSkid    = { UpdateTick = 30000,  Experience = 60   }, -- EXPERIENCE TO ADD WHEN THE TRAINER IS SKID WITH THE HORSE ( DEFAULT IS 30 SECONDS )
 
+		-- How many seconds will it take to cancel the training when someone is outside from the training pos or not in mount?
+		CancelDuration = 10, -- time in seconds.
+		
         MaxLevelUpExperience = 1000,
+
+		Stages = {
+
+			[1] = {
+				Type = "BRUSH", -- Brush the horse.
+				Experience = 50,
+				Description = "Brush the horse.",
+				-- No duration
+			},
+
+			[2] = {
+				Type = "FEED", -- Feed the horse any food from @Config.HorseFeedItems.
+				Experience = 50,
+				Description = "Feed the horse.",
+				-- No duration
+			},
+
+			[3] = {
+				Type = "LEAD", -- Lead the horse for x seconds / minutes.
+				Experience = 125,
+				Description = "Lead the horse for %s seconds.", -- %s required, returns the countdown (@duration)
+				Duration = 60, -- The horse leading total duration to go to the next stage.
+			},
+
+			[4] = {
+				Type = "WALK", -- Mount on the horse and walk slowly.
+				Experience = 125,
+				Description = "Walk slowly while mounted on the horse for %s seconds.", -- %s required, returns the countdown (@duration)
+				Duration = 120, -- The horse walking total duration to go to the next stage.
+			},
+
+			[5] = {
+				Type = "RUN", -- Mount on the horse and run or sprint.
+				Experience = 125,
+				Description = "Run or sprint while mounted on the horse for %s seconds.", -- %s required, returns the countdown (@duration)
+				Duration = 120, -- The horse running / sprinting total duration to go to the next stage.
+			},
+
+		},
+
     }, 
+}
+
+Config.Taming = {
+
+	-- Set Jobs = false if you wan't all the players to be able to tame horses.
+	Jobs = false,
+	--Jobs = {"wapiti", "wapitishaman", "comanche", "horsetrainer", "anneshorsetrainer", 'blackhorsetrainer', 'strhorsetrainer', 'sdhorsetrainer', 'thieveshorsetrainer'},
+
+	-- What are the permitted horse models for taming? 
+	-- The specified list is in purpose so the players won't tame high tier horses to get greater money on selling.
+	HorseModels = {
+		"a_c_horse_morgan_bay",
+		"a_c_horse_morgan_bayroan",
+		"a_c_horse_morgan_flaxenchestnut",
+		"a_c_Horse_morgan_liverchestnut_pc",
+		"a_c_horse_morgan_palomino",
+
+		"a_c_horse_kentuckysaddle_black",
+		"a_c_horse_kentuckysaddle_buttermilkbuckskin_pc",
+		"a_c_horse_kentuckysaddle_chestnutpinto",
+		"a_c_horse_kentuckysaddle_grey",
+		"a_c_horse_kentuckysaddle_silverbay",
+		
+		"a_c_horse_tennesseewalker_blackrabicano",
+		"a_c_horse_tennesseewalker_chestnut",
+		"a_c_horse_tennesseewalker_dapplebay",
+		"a_c_horse_tennesseewalker_flaxenroan",
+		"a_c_horse_tennesseewalker_goldpalomino_pc",
+		"a_c_horse_tennesseewalker_mahoganybay",
+		"a_c_horse_tennesseewalker_redroan",
+
+		"a_c_horse_suffolkpunch_redchestnut",
+		"a_c_horse_suffolkpunch_sorrel",
+
+		"a_c_horse_shire_darkbay",
+		"a_c_horse_shire_lightgrey",
+		"a_c_horse_shire_ravenblack",
+		
+		"a_c_horse_belgian_blondchestnut",
+		"a_c_horse_belgian_mealychestnut",
+
+		"a_c_horse_hungarianhalfbred_darkdapplegrey",
+		"a_c_horse_hungarianhalfbred_flaxenchestnut",
+		"a_c_horse_hungarianhalfbred_liverchestnut",
+		"a_c_horse_hungarianhalfbred_piebaldtobiano",
+
+		"a_c_horse_americanpaint_greyovero",
+		"a_c_horse_americanpaint_overo",
+		"a_c_horse_americanpaint_splashedwhite",
+		"a_c_horse_americanpaint_tobiano",
+
+		"a_c_horse_americanstandardbred_silvertailbuckskin",
+		"a_c_horse_americanstandardbred_palominodapple",
+		"a_c_horse_americanstandardbred_buckskin",
+		"a_c_horse_americanstandardbred_black",
+	},
+
+	--MaxFails  = 1, -- MAX FAILS TO DROP THE PLAYER
+    --MaxSucces = 3, -- SUCCES HITS FOR TAMING THE HORSE
+    --RandomTime = {1000, 5000}, -- RANDOM TIME TO SHOW A BUTTON TO HIT
+    --ReactionTime = 500, -- TIME TO HAVE TO HIT THE BUTTON
+    --TamingPrice = 50, -- THE % OF HORSE PRICE TO TAMING ITEM
 }
 
 Config.Storages = {
@@ -171,7 +281,6 @@ Config.Storages = {
 
 		InventoryStorageHeader = 'Horse Bag Storage',
 	},
-
 
 }
 
@@ -204,16 +313,39 @@ Config.Locations = {
 		Horses = {
 			SpawnCoords  = { x = -369.6344299316406, y = 791.5049438476562, z = 115.08021545410156, h = -175.34},
 			CameraCoords = { x = -370.560,           y = 788.125,           z = 117.16,             rotx = -15.0, roty = 0.0, rotz = 345.9746, fov = 45.0},
+
+			Training = {
+				Enabled = true,
+
+				TrainingCoords = { x = -381.209, y = 785.9589, z = 115.97}, -- START / STOP.
+
+				TrainingCoordsMarker = { -- START / STOP CIRCULAR MARKER DISPLAY.
+					Enabled = true,
+		
+					Distance = 5.0,
+					RGBA = {r = 255, g = 255, b = 255, a = 55},
+				},
+
+				Debug = false, -- Set to true if you want to see the zone on the map.
+
+				MinZ = 114.00, -- Minimum Z coordinate for the zone. aka the lowest point of the zone.
+				MaxZ = 125.00, -- Maximum Z coordinate for the zone. aka the highest point of the zone.(Recommended to use the PolyZone Editor to get the correct values (https://github.com/mkafrin/PolyZone https://github.com/mkafrin/PolyZone/wiki/Using-the-creation-script) This is not needed for the Script to work, but it is recommended for setting the correct values.)
+			   
+				Coords = { -- Polyzone.
+					vector2(-405.0909729003906, 792.3719482421875),
+					vector2(-376.98272705078125, 795.5293579101562 ),
+					vector2(-375.3771667480469, 764.8612670898438),
+					vector2(-403.12054443359375, 765.0199584960938),
+				}
+
+			},
+
 		},
 
 		Wagons = {
 			SpawnCoords  = { x = -363.7694396972656, y = 775.3441772460938, z = 116.27066040039062, h = -85.7157},
 			CameraCoords = { x = -351.24,            y = 779.73,            z = 120.42,             rotx = -20.0, roty = 0.0, rotz = 114.52, fov = 45.0},
 		},
-
-		TrainingCoords         = { x = -392.7306213378906, y = 778.4085693359375, z = 114.70181274414062},
-		StartDistance          = 15.0, -- Distance <= Coords for starting the training.
-		CancelTrainingDistance = 50.0, -- Distance > Coords for cancelling the training in case player went too far.
 
 		MenuCategories = {
 			{ Enabled = true, Action = 'BUY_HORSES',    Title = 'Buy Horses',          Description = '' },
@@ -248,17 +380,39 @@ Config.Locations = {
 		Horses = {
 			SpawnCoords  = { x = -867.5707397460938, y = -1370.5565185546875, z = 42.81821060180664, h = 0.0946},
 			CameraCoords = { x = -869.077,           y = -1366.55,            z = 43.530,            rotx = 0.0, roty = 0.0, rotz = 204.424, fov = 45.0 },
+
+			Training = {
+				Enabled = true,
+
+				TrainingCoords = { x = -863.532, y = -1382.62, z = 43.615}, -- START / STOP.
+
+				TrainingCoordsMarker = { -- START / STOP CIRCULAR MARKER DISPLAY.
+					Enabled = true,
+		
+					Distance = 5.0,
+					RGBA = {r = 255, g = 255, b = 255, a = 55},
+				},
+
+				Debug = false, -- Set to true if you want to see the zone on the map.
+
+				MinZ = 35.00, -- Minimum Z coordinate for the zone. aka the lowest point of the zone.
+				MaxZ = 50.00, -- Maximum Z coordinate for the zone. aka the highest point of the zone.(Recommended to use the PolyZone Editor to get the correct values (https://github.com/mkafrin/PolyZone https://github.com/mkafrin/PolyZone/wiki/Using-the-creation-script) This is not needed for the Script to work, but it is recommended for setting the correct values.)
+			   
+				Coords = { -- Polyzone.
+					vector2(-850.45263671875, -1402.158203125),
+					vector2(-850.6724853515625, -1355.578369140625),
+					vector2(-918.4435424804688, -1355.5570068359375),
+					vector2(-917.1760864257812, -1405.5513916015625),
+				}
+
+			},
+
 		},
 
 		Wagons = {
 			SpawnCoords  = { x = -892.8502807617188, y = -1370.4193115234375, z = 42.29966354370117, h = 2.659},
 			CameraCoords = { x = -885.14,            y = -1360.08,            z = 47.77,             rotx = -20.0, roty = 0.0, rotz = 131.27, fov = 45.0 },
 		},
-
-	
-		TrainingCoords         = { x = -876.697, y = -1377.77, z = 43.599},
-		StartDistance          = 15.0, -- Distance <= Coords for starting the training.
-		CancelTrainingDistance = 50.0, -- Distance > Coords for cancelling the training in case player went too far.
 
 		MenuCategories = {
 			{ Enabled = true, Action = 'BUY_HORSES',    Title = 'Buy Horses',          Description = '' },
@@ -292,6 +446,10 @@ Config.Locations = {
 		Horses = {
 			SpawnCoords  = { x = 1440.130126953125,  y = -1299.832275390625,  z = 76.9581298828125,  h = 99.97},
 			CameraCoords = { x = 1436.463,           y = -1302.85,            z = 78.816,            rotx = -20.0, roty = 0.0, rotz = 313.0792, fov = 45.0 },
+
+			Training = {
+				Enabled = false, -- NO TRAINING SPOT
+			},
 		},
 
 		Wagons = {
@@ -299,10 +457,6 @@ Config.Locations = {
 			CameraCoords = { x = 1445.57,            y = -1292.33,            z = 82.21,            rotx = -20.0, roty = 0.0, rotz = -26.83, fov = 45.0 },
 		},
 
-		TrainingCoords         = { x = 1429.839, y = -1296.06, z = 77.821},
-		StartDistance          = 15.0, -- Distance <= Coords for starting the training.
-		CancelTrainingDistance = 50.0, -- Distance > Coords for cancelling the training in case player went too far.
-		
 		MenuCategories = {
 			{ Enabled = true, Action = 'BUY_HORSES',    Title = 'Buy Horses',          Description = '' },
 			{ Enabled = true, Action = 'MANAGE_HORSES', Title = 'Manage Owned Horses', Description = '' },
@@ -335,16 +489,41 @@ Config.Locations = {
 		Horses = {
 			SpawnCoords  = { x = 2961.482666015625,  y = 801.2601318359375,   z = 50.60737991333008, h = 178.452},
 			CameraCoords = { x = 2962.581,           y = 797.3046,            z = 52.402,            rotx = 0.0, roty = 0.0, rotz = 14.651041, fov = 45.0 },
+
+			Training = {
+				Enabled = true,
+
+				TrainingCoords = { x = 2962.085, y = 779.7634, z = 51.369}, -- START / STOP.
+
+				TrainingCoordsMarker = { -- START / STOP CIRCULAR MARKER DISPLAY.
+					Enabled = true,
+		
+					Distance = 5.0,
+					RGBA = {r = 255, g = 255, b = 255, a = 55},
+				},
+
+				Debug = false, -- Set to true if you want to see the zone on the map.
+
+				MinZ = 35.00, -- Minimum Z coordinate for the zone. aka the lowest point of the zone.
+				MaxZ = 60.00, -- Maximum Z coordinate for the zone. aka the highest point of the zone.(Recommended to use the PolyZone Editor to get the correct values (https://github.com/mkafrin/PolyZone https://github.com/mkafrin/PolyZone/wiki/Using-the-creation-script) This is not needed for the Script to work, but it is recommended for setting the correct values.)
+			   
+				Coords = { -- Polyzone.
+					vector2(2954.000244140625, 812.0416259765625 ),
+					vector2(2950.690673828125, 750.4906005859375),
+					vector2(2976.803955078125, 747.7428588867188),
+					vector2(2977.570068359375, 767.4178466796875),
+					vector2(3003.672119140625, 768.7509155273438),
+					vector2(3003.576171875, 810.7088012695312),
+					vector2(2954.000244140625, 812.0416259765625),
+				},
+
+			},
 		},
 
 		Wagons = {
 			SpawnCoords  = { x = 2957.07080078125,   y = 808.7708129882812,   z = 51.39369583129883, h = 178.807},
 			CameraCoords = { x = 2950.75,            y = 798.78,              z = 54.97,            rotx = -20.0, roty = 0.0, rotz = -47.25, fov = 45.0 },
 		},
-
-		TrainingCoords         = { x = 2976.165771484375, y = 785.5613403320312, z = 51.24640274047851},
-		StartDistance          = 15.0, -- Distance <= Coords for starting the training.
-		CancelTrainingDistance = 50.0, -- Distance > Coords for cancelling the training in case player went too far.
 
 		MenuCategories = {
 			{ Enabled = true, Action = 'BUY_HORSES',    Title = 'Buy Horses',          Description = '' },
@@ -378,16 +557,16 @@ Config.Locations = {
 		Horses = {
 			SpawnCoords  = { x = 2508.5751953125,  y = -1450.6090087890625,   z = 45.57754135131836, h = 103.277},
 			CameraCoords = { x = 2504.397,         y = -1448.40,              z = 48.513,            rotx = -20.0, roty = 0.0, rotz = 235.2450256, fov = 45.0 },
+
+			Training = {
+				Enabled = false, -- NO TRAINING SPOT
+			},
 		},
 
 		Wagons = {
 			SpawnCoords  = { x = 2483.1103515625,    y = -1441.0220947265625, z = 45.1094741821289, h = -179.43212890625},
 			CameraCoords = { x = 2477.28,            y = -1451.43,            z = 50.02,            rotx = -15.0, roty = 0.0, rotz = -45.83, fov = 45.0 },
 		},
-
-		TrainingCoords         = { x = 2502.4794921875, y = -1450.6439208984375, z = 46.4422492980957},
-		StartDistance          = 15.0, -- Distance <= Coords for starting the training.
-		CancelTrainingDistance = 50.0, -- Distance > Coords for cancelling the training in case player went too far.
 
 		MenuCategories = {
 			{ Enabled = true, Action = 'BUY_HORSES',    Title = 'Buy Horses',          Description = '' },
@@ -421,16 +600,37 @@ Config.Locations = {
 		Horses = {
 			SpawnCoords  = { x = -1825.1441650390625, y = -565.1942138671875, z = 155.26583862304688, h = -15.152},
 			CameraCoords = { x = -1823.08,            y = -561.568,           z = 156.05,             rotx = 0.0, roty = 0.0, rotz = 145.3800 , fov = 45.0 },
+
+			Training = {
+				Enabled = true,
+
+				TrainingCoords = { x = -1803.20, y = -564.308, z = 155.99}, -- START / STOP.
+
+				TrainingCoordsMarker = { -- START / STOP CIRCULAR MARKER DISPLAY.
+					Enabled = true,
+		
+					Distance = 5.0,
+					RGBA = {r = 255, g = 255, b = 255, a = 55},
+				},
+
+				Debug = false, -- Set to true if you want to see the zone on the map.
+
+				MinZ = 140.00, -- Minimum Z coordinate for the zone. aka the lowest point of the zone.
+				MaxZ = 170.00, -- Maximum Z coordinate for the zone. aka the highest point of the zone.(Recommended to use the PolyZone Editor to get the correct values (https://github.com/mkafrin/PolyZone https://github.com/mkafrin/PolyZone/wiki/Using-the-creation-script) This is not needed for the Script to work, but it is recommended for setting the correct values.)
+			   
+				Coords = { -- Polyzone.
+					vector2(-1805.637939453125, -640.2822265625 ),
+					vector2(-1771.049072265625, -548.5028076171875),
+					vector2(-1797.5489501953125, -510.0735778808594),
+					vector2(-1862.13720703125, -619.0802001953125),
+				},
+			},
 		},
 
 		Wagons = {
 			SpawnCoords  = { x = -1786.7723388671875, y = -548.4891967773438, z = 155.98793029785156, h = 124.589},
 			CameraCoords = { x = -1791.76,            y = -559.01,            z = 159.68,             rotx = -20.0, roty = 0.0, rotz = -16.78, fov = 45.0 },
 		},
-
-		TrainingCoords         = { x = -1828.0577392578125, y = -576.6152954101562, z = 156.09359741210938}, 
-		StartDistance          = 15.0, -- Distance <= Coords for starting the training.
-		CancelTrainingDistance = 50.0, -- Distance > Coords for cancelling the training in case player went too far.
 
 		MenuCategories = {
 			{ Enabled = true, Action = 'BUY_HORSES',    Title = 'Buy Horses',          Description = '' },
@@ -464,16 +664,41 @@ Config.Locations = {
 		Horses = {
 			SpawnCoords  = { x = -5525.21,            y = -3038.95,           z = -3.286,               h = 187.08},
 			CameraCoords = { x = -5523.98,            y = -3042.75,           z = -1.187,               rotx = -20.0, roty = 0.0, rotz = 17.6548614, fov = 45.0 },
+
+			Training = {
+				Enabled = true,
+
+				TrainingCoords = { x = -5519.08, y = -3028.10, z = -2.386}, -- START / STOP.
+
+				TrainingCoordsMarker = { -- START / STOP CIRCULAR MARKER DISPLAY.
+					Enabled = true,
+		
+					Distance = 5.0,
+					RGBA = {r = 255, g = 255, b = 255, a = 55},
+				},
+
+				Debug = false, -- Set to true if you want to see the zone on the map.
+
+				MinZ = -1.00, -- Minimum Z coordinate for the zone. aka the lowest point of the zone.
+				MaxZ = -5.00, -- Maximum Z coordinate for the zone. aka the highest point of the zone.(Recommended to use the PolyZone Editor to get the correct values (https://github.com/mkafrin/PolyZone https://github.com/mkafrin/PolyZone/wiki/Using-the-creation-script) This is not needed for the Script to work, but it is recommended for setting the correct values.)
+			   
+				Coords = { -- Polyzone.
+					vector2(-5508.7548828125, -3056.1494140625),
+					vector2(-5507.390625, -3036.147705078125),
+					vector2(-5510.94091796875, -3035.05517578125),
+					vector2(-5518.4853515625, -3011.917724609375),
+					vector2(-5552.97802734375, -3027.270263671875),
+					vector2(-5548.67822265625, -3055.322998046875),
+					vector2(-5544.52197265625, -3059.75146484375),
+				},
+
+			},
 		},
 
 		Wagons = {
 			SpawnCoords  = { x = -5509.44,            y = -3061.79,           z = -2.506,               h = 8.04},
 			CameraCoords = { x = -5503.32,            y = -3051.75,           z = 1.94,                 rotx = -20.0, roty = 0.0, rotz = 130.37, fov = 45.0 },
 		},
-
-		TrainingCoords         = { x = -5538.96, y = -3036.41, z = -1.295},
-		StartDistance          = 15.0, -- Distance <= Coords for starting the training.
-		CancelTrainingDistance = 50.0, -- Distance > Coords for cancelling the training in case player went too far.
 
 		MenuCategories = {
 			{ Enabled = true, Action = 'BUY_HORSES',    Title = 'Buy Horses',          Description = '' },
@@ -507,16 +732,16 @@ Config.Locations = {
 		Horses = {
 			SpawnCoords  = { x = -1416.284912109375,  y = -2189.870849609375, z = 42.32751083374023,  h = -128.53},
 			CameraCoords = { x = -1413.96,            y = -2193.61,           z = 43.399,             rotx = 0.0, roty = 0.0, rotz = 30.9404, fov = 45.0 },
+
+			Training = {
+				Enabled = false, -- NO TRAINING SPOT
+			},
 		},
 
 		Wagons = {
 			SpawnCoords  = { x = -1428.40,            y = -2208.49,           z = 42.317,             h = 240.3992},
 			CameraCoords = { x = -1422.09,            y = -2218.74,           z = 48.03,             rotx = -20.0, roty = 0.0, rotz = 15.22, fov = 45.0 },
 		},
-
-		TrainingCoords         = { x = -1407.04, y = -2203.63, z = 42.531}, -- ZONE WHERE CAN START TRAINING AND BREEDING
-		StartDistance          = 15.0, -- Distance <= Coords for starting the training.
-		CancelTrainingDistance = 50.0, -- Distance > Coords for cancelling the training in case player went too far.
 
 		MenuCategories = {
 			{ Enabled = true, Action = 'BUY_HORSES',    Title = 'Buy Horses',          Description = '' },
@@ -526,50 +751,6 @@ Config.Locations = {
 			{ Enabled = true, Action = 'EXIT',          Title = 'Exit',                Description = '' },
 		},
 	},
-
-	["HEFE"] = { -- GUARMA ISLAND
-		
-		Name = 'Stable Of Hefe',
-				
-		Coords = { x = 1500.212, y = -7077.13, z = 77.242, h = 20.246 }, -- THE LOCATION FOR OPENING THE MENU TO BUY OR SELL HORSES AND WAGONS.
-		ActionDistance = 2.0,
-
-		MainCameraCoords = { x = 1492.270, y = -7071.85, z = 77.827, rotx = 0.0, roty = 0.0, rotz = 303.9746, fov = 45.0}, -- THE MAIN CAMERA BEFORE SELECTING ANY OF THE MENU OPTIONS.
-
-		BlipData = { 
-            Allowed = true,
-            Name    = "Stable",
-            Sprite  = -1456209806,
-
-			OpenBlipModifier = 'BLIP_MODIFIER_MP_COLOR_32',
-            DisplayClosedHours = { Enabled = true, Sprite = -1456209806, BlipModifier = "BLIP_MODIFIER_MP_COLOR_2" },
-        },
-
-		Hours = { Allowed = true, Opening = 7, Closing = 23 },
-
-		Horses = {
-			SpawnCoords  = { x = 1498.774658203125,   y = -7065.8251953125,           z = 76.08771514892578,  h = -104.761},
-			CameraCoords = { x = 1500.547,            y = -7070.13,                   z = 77.871,             rotx = 0.0, roty = 0.0, rotz = 23.052982, fov = 45.0 },
-		},
-
-		Wagons = {
-			SpawnCoords  = { x = 1495.36376953125,    y = -7074.7412109375,           z = 76.8135986328125,   h = -137.6897430419922},
-			CameraCoords = { x = 1506.71,             y = -7076.93,                   z = 80.60,              rotx = -20.0, roty = 0.0, rotz = 88.62, fov = 45.0 },
-		},
-
-		TrainingCoords         = { x = 1497.343017578125, y = -7073.33056640625, z = 76.97714233398438},
-		StartDistance          = 15.0, -- Distance <= Coords for starting the training.
-		CancelTrainingDistance = 50.0, -- Distance > Coords for cancelling the training in case player went too far.
-
-		MenuCategories = {
-			{ Enabled = true, Action = 'BUY_HORSES',    Title = 'Buy Horses',          Description = '' },
-			{ Enabled = true, Action = 'MANAGE_HORSES', Title = 'Manage Owned Horses', Description = '' },
-			{ Enabled = true, Action = 'BUY_WAGONS',    Title = 'Buy Wagons',          Description = '' },
-			{ Enabled = true, Action = 'MANAGE_WAGONS', Title = 'Manage Owned Wagons', Description = '' },
-			{ Enabled = true, Action = 'EXIT',          Title = 'Exit',                Description = '' },
-		},
-	}, 
-	
 
 }
 
@@ -607,6 +788,11 @@ Config.Commands = {
         CommandHelpTips = { { name = "Id", help = 'Player ID' }, { name = "Model", help = "Wagon Vehicle Model Name" } },
 
     },
+
+	["FLEE"] = { 
+		Suggestion = "Execute this command to flee your horse when unconscious.",
+		Command = 'fleehorse',
+	},
 }
 
 ---------------------------------------------------------------

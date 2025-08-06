@@ -23,12 +23,11 @@ function ResetAll() {
   $("#main-handling-progress-reaching-age-template").css('width', "0%");
 
   $("#center-side").hide();
-
+  $("#training").hide();
 }
 
 document.addEventListener('DOMContentLoaded', function() { 
   $("#tpz_stables").fadeOut(); 
-
   ResetAll();
 
 }, false);
@@ -80,11 +79,47 @@ $(function() {
 
       $("#tpz_stables").fadeIn(1000);
 
+
+    } else if (item.action == 'displayTrainingInformation') {
+      
+      $("#training-title").show();
+      $("#training-title-description").show();
+      $("#training-horse-experience").show();
+
+      $("#training-title").text(item.title);
+      $("#training-title-description").text(item.title_description);
+      $("#training-horse-experience").text(item.experience);
+      $("#training-title-success").text(item.title_success);
+
+      $("#training-title-success").fadeOut();
+
+      if (!$('#tpz_stables').is(':visible')) {
+        $("#training").show();
+        $("#tpz_stables").fadeIn(1000);
+      }
+
+    } else if (item.action == 'updateTrainingCountdown') {
+
+      $("#training-title-description").text(item.title_description);
+
+    } else if (item.action == 'updateTrainingHorseExperience') {
+
+      $("#training-horse-experience").text(item.experience);
+      
+    } else if (item.action == 'success') {
+
+      $("#training-title").fadeOut();
+      $("#training-title-description").fadeOut();
+      $("#training-horse-experience").fadeOut();
+
+      $("#training-title-success").fadeIn(2000);
+
     } else if (item.action == "close") {
       CloseNUI();
     }
 
   });
+
 
   //$("body").on("keyup", function (key) { if (key.which == 27){ CloseNUI(); } });
   

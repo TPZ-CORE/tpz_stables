@@ -31,16 +31,6 @@ body {
 
   margin-top: 105vh;
 
-  background-image: url(../img/default.png);
-  background-repeat: no-repeat;
-  background-size:cover;
-  background-position-x: center;
-
-  background-size: 100% 100%;
-
-  opacity: 0.9;
-
-
   overflow: hidden;
   width: 30%;
   height: 32vh;
@@ -55,12 +45,38 @@ body {
   user-select: none; /* Non-prefixed version, currently */
 }
 
+#main-background-image {
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+
+  overflow: hidden;
+
+  width: 30%;
+  height: 32vh;
+
+  margin-top: -11vw;
+    
+  justify-content: center;
+  
+  background-image: url(../img/default.png);
+  background-repeat: no-repeat;
+  background-size:cover;
+  background-position-x: center;
+
+  background-size: 100% 100%;
+
+  opacity: 0.9;
+}
+
 /* LEFT SIDE */
 #center-side{
   border-radius: 5%;
   width: 78%;
   height: 100%;
   margin: 0% 0% 15% 0%;
+
 }
 
 #centerinfo{
@@ -177,3 +193,71 @@ body {
 #main-health-progress  { margin-top: -2vh; }
 #main-acceleration-progress  { margin-top: 2vh; }
 #main-handling-progress  { margin-top: 6vh; }
+
+/* TRAINING */
+
+#training-title, #training-title-description, #training-title-success {
+  position: absolute;
+  top: 5%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Centering trick */
+
+  font-family: 'Chinese Rocks Rg', sans-serif;
+  color: rgba(255, 217, 0, 0.911);
+  padding-top: 0.5vw;
+  text-align: center;
+  font-size: 2vw;
+  width: fit-content;
+  height: fit-content;
+
+  width: calc(fit-content + 2vw); /* if you previously had 100%, or adjust accordingly */
+  padding-left: 1vw;
+  padding-right: 1vw;
+
+  background-image: url(../img/default.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  opacity: 0.8;
+}
+
+#training-title-description { 
+  font-size: 1.2vw;
+  top: 9%;
+
+  max-width: 30vw;
+
+  color: rgba(247, 247, 247, 0.911);
+}
+
+#training-title-success {
+  top: 35%;
+  left: 50%;
+
+  font-size: 4vw;
+}
+
+#training-horse-experience {
+  position: absolute;
+  top: 30%;
+  left: 89%;
+  transform: translate(-50%, -50%); /* Centering trick */
+
+  font-family: 'Chinese Rocks Rg', sans-serif;
+  color: rgba(247, 247, 247, 0.911);
+  padding-top: 0.5vw;
+  text-align: center;
+  font-size: 1.2vw;
+  width: 16%;
+  height: 1.4vw;
+
+  width: calc(fit-content + 2vw); /* if you previously had 100%, or adjust accordingly */
+  padding-left: 1vw;
+  padding-right: 1vw;
+
+  background-image: url(../img/default.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  opacity: 0.8;
+}

@@ -160,10 +160,11 @@ AddEventHandler('tpz_stables:server:buyHorse', function(locationIndex, categoryI
 		['age']            = randomAge,
 		['sex']            = randomSex,
 		['bought_account'] = boughtAccount,
+		['training_stage_type'] = Config.Trainers.HorseTraining.Stages[1].Type,
 		['date']           = date,
 	}
 
-	exports.ghmattimysql:execute("INSERT INTO `horses` ( `identifier`, `charidentifier`, `model`, `name`, `stats`, `components`, `type`, `age`, `sex`, `bought_account`, `date` ) VALUES ( @identifier, @charidentifier, @model, @name, @stats, @components, @type, @age, @sex, @bought_account, @date )", Parameters)
+	exports.ghmattimysql:execute("INSERT INTO `horses` ( `identifier`, `charidentifier`, `model`, `name`, `stats`, `components`, `type`, `age`, `sex`, `bought_account`, `date`, `training_stage_type` ) VALUES ( @identifier, @charidentifier, @model, @name, @stats, @components, @type, @age, @sex, @bought_account, @date, @training_stage_type )", Parameters)
 
 	Wait(1500)
 
@@ -172,20 +173,23 @@ AddEventHandler('tpz_stables:server:buyHorse', function(locationIndex, categoryI
 		if result and result[1] then
 
 			local horse_data = {
-				identifier          = identifier,
-				charidentifier      = charIdentifier,
-				model               = HorseData[1],
-				name                = 'N/A',
-				stats               = { health = 200, stamina = 200, shoes_type = 0, shoes_km_left = 0 },
-				components          = { ['SADDLE'] = 0, ['BAG'] = 0, ['MASK'] = 0, ['BEDROLL'] = 0, ['BLANKET'] = 0, ['MANE'] = 0, ['MUSTACHE'] = 0, ['TAIL'] = 0, ['HORN'] = 0, ['STIRRUP'] = 0, ['BRIDLE'] = 0, ['LANTERN'] = 0, ['HOLSTER'] = 0 },
-				type                = Config.Horses[categoryIndex].Category,
-				age                 = randomAge,
-				sex                 = randomSex,
-				training_experience = 0,
-				breeding            = 0,
-				bought_account      = boughtAccount,
-				container           = 0,
-				date                = date,
+				identifier           = identifier,
+				charidentifier       = charIdentifier,
+				model                = HorseData[1],
+				name                 = 'N/A',
+				stats                = { health = 200, stamina = 200, shoes_type = 0, shoes_km_left = 0 },
+				components           = { ['SADDLE'] = 0, ['BAG'] = 0, ['MASK'] = 0, ['BEDROLL'] = 0, ['BLANKET'] = 0, ['MANE'] = 0, ['MUSTACHE'] = 0, ['TAIL'] = 0, ['HORN'] = 0, ['STIRRUP'] = 0, ['BRIDLE'] = 0, ['LANTERN'] = 0, ['HOLSTER'] = 0 },
+				type                 = Config.Horses[categoryIndex].Category,
+				age                  = randomAge,
+				sex                  = randomSex,
+				training_experience  = 0,
+				training_stage_index = 1,
+				training_stage_type  = Config.Trainers.HorseTraining.Stages[1].Type,
+				breeding             = 0,
+				bought_account       = boughtAccount,
+				container            = 0,
+				date                 = date,
+				isdead               = 0,
 			}
 
 			local Horses = GetHorses()
@@ -212,7 +216,7 @@ AddEventHandler('tpz_stables:server:buyHorse', function(locationIndex, categoryI
             TPZ.TriggerClientEventAsyncByCoords("tpz_stables:client:updateHorse", { 
 				horseIndex = result[1].id, 
 				action = 'REGISTER', 
-				data = { identifier, charIdentifier, HorseData[1], Config.Horses[categoryIndex].Category, randomAge, randomSex, boughtAccount, containerId, date} 
+				data = { identifier, charIdentifier, HorseData[1], Config.Horses[categoryIndex].Category, randomAge, randomSex, boughtAccount, containerId, date, _source} 
 			}, coords, 350.0, 1000, true, 40)
 
 			if Config.Webhooks['BOUGHT'].Enabled then
@@ -405,7 +409,7 @@ end)
 
 
 RegisterServerEvent('tpz_stables:server:saveHorse')
-AddEventHandler('tpz_stables:server:saveHorse', function(horseIndex, stamina, health, trainingExperience, shoesType, shoesKmLeft, isDead)
+AddEventHandler('tpz_stables:server:saveHorse', function(horseIndex, stamina, health, trainingExperience, trainingMissionIndex, trainingMissionIndexType, shoesType, shoesKmLeft, isDead)
 	local _source = source
 	local Horses  = GetHorses()
 
@@ -419,14 +423,41 @@ AddEventHandler('tpz_stables:server:saveHorse', function(horseIndex, stamina, he
 	Horses[horseIndex].stats.shoes_km_left  = shoesKmLeft
 
 	Horses[horseIndex].training_experience  = trainingExperience
+	Horses[horseIndex].training_stage_index = trainingMissionIndex
+	Horses[horseIndex].training_stage_type  = trainingMissionIndexType
 
 	Horses[horseIndex].isdead = isDead
 
-	exports.ghmattimysql:execute("UPDATE `horses` SET `stats` = @stats, `training_experience` = @training_experience, `isdead` = @isdead WHERE `id` = @id ", { 
-		['id']                  = horseIndex, 
-		['stats']               = json.encode( Horses[horseIndex].stats ),
-		['training_experience'] = trainingExperience,
-		['isdead']              = isdead,
+	exports.ghmattimysql:execute("UPDATE `horses` SET `stats` = @stats, `training_experience` = @training_experience, `training_stage_index` = @training_stage_index, `training_stage_type` = @training_stage_type, `isdead` = @isdead WHERE `id` = @id ", { 
+		['id']                   = horseIndex, 
+		['stats']                = json.encode( Horses[horseIndex].stats ),
+		['training_experience']  = trainingExperience,
+		['training_stage_index'] = trainingMissionIndex,
+		['training_stage_type']  = trainingMissionIndexType,
+		['isdead']               = isdead,
+	})
+
+end)
+
+
+RegisterServerEvent('tpz_stables:server:saveHorseTrainingExperience')
+AddEventHandler('tpz_stables:server:saveHorseTrainingExperience', function(horseIndex, trainingExperience, trainingMissionIndex, trainingMissionIndexType)
+	local _source = source
+	local Horses  = GetHorses()
+
+	if Horses[horseIndex] == nil then
+		return
+	end
+
+	Horses[horseIndex].training_experience  = trainingExperience
+	Horses[horseIndex].training_stage_index = trainingMissionIndex
+	Horses[horseIndex].training_stage_type  = trainingMissionIndexType
+
+	exports.ghmattimysql:execute("UPDATE `horses` SET `training_experience` = @training_experience, `training_stage_index` = @training_stage_index, `training_stage_type` = @training_stage_type WHERE `id` = @id ", { 
+		['id']                   = horseIndex, 
+		['training_experience']  = trainingExperience,
+		['training_stage_index'] = trainingMissionIndex,
+		['training_stage_type']  = trainingMissionIndexType,
 	})
 
 end)
@@ -488,6 +519,7 @@ AddEventHandler('tpz_stables:server:updateHorse', function(horseIndex, action, d
             local entity = NetworkGetEntityFromNetworkId(Horses[horseIndex].entity)
 
             if DoesEntityExist(entity) then
+
                 local tableCoords = GetEntityCoords(entity)
                 coords = vector3(tableCoords.x, tableCoords.y, tableCoords.z)
                 TPZ.TriggerClientEventAsyncByCoords("tpz_stables:client:updateHorse", { horseIndex = horseIndex, action = action, data = data }, coords, 500.0, 500, true, 40)
@@ -527,7 +559,9 @@ Citizen.CreateThread(function()
                 
                 horse.age = horse.age + Config.Ageing.UpdateTime
                 
-                if age >= Config.Ageing.DeleteAge then
+				local ModelData = GetHorseModelData(horse.model)
+
+                if age >= ModelData[10] then
                     
 					exports["ghmattimysql"]:execute("SELECT `selected_horse_index` FROM `characters` WHERE `charidentifier` = @charidentifier", { ["@charidentifier"] = horse.charidentifier }, function(result)
 

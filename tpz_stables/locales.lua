@@ -1,7 +1,8 @@
 Locales = {
 
     ['PROMPT_TEXT']                   = "Press",
-
+    ['HORSE_TRAINING_LOCATION_START_PROMPT'] = 'Start Horse Training',
+    ['HORSE_TRAINING_LOCATION_STOP_PROMPT']  = 'Stop Horse Training',
     ['HORSE_BRUSH']                   = "Brush",
     ['HORSE_SADDLEBAG']               = "Open Saddlebag",
 
@@ -124,8 +125,8 @@ Locales = {
     ['HORSE_TRANSFERRED']                  = "You have successfully transferred a horse.",
     ['HORSE_TRANSFERRED_TARGET']           = "Someone has transferred a horse to your ownership.",
 
-    ['WAGON_SELL_TITLE']               = "Sell Wagon",
-    ['WAGON_SELL_DESCRIPTION']         = "",
+    ['WAGON_SELL_TITLE']                   = "Sell Wagon",
+    ['WAGON_SELL_DESCRIPTION']             = "",
 
     ['HORSES_EQUIPMENTS_TITLE']            = "Horse Equipments List",
     ['NOT_ENOUGH_DOLLARS_TO_BUY_COMP']     = "~e~You don't have enough dollars to buy the equipment.",
@@ -138,6 +139,54 @@ Locales = {
 
     ['NO_HORSE_BRUSH']                     = "~e~You don't have any horse brush.",
 
+    ['TRAINING_CANCEL_DURATION']           = "Cancelling horse training in %s seconds.",
+    ['TRAINING_TITLE']                     = "START TRAINING YOUR HORSE",
+    ['TRAINING_EXPERIENCE_TITLE']          = "Training Experience: ",
+
+    ['TRAINING_SUCCESS']                   = "Horse Training Finished",
+
     -- [1] IS ALWAYS CASH, [2] IS ALWAYS GOLD! FOR HORSES OR WAGONS THAT CONTAIN DOLLARS AND GOLD
     ['INPUT_BUY_CURRENCIES']          = { 'DOLLARS', 'GOLD' },
+
+    -- Horse Related (Training, etc).
+    ['TRAINING_NO_HORSE'] = {
+        title = "Horse Training", 
+        message = "You don't have any horse spawned to start training.",
+        icon = "horse",
+        duration = 4,
+        align = 'left',
+    },
+
+    ['TRAINING_STARTED'] = {
+        title = "Horse Training", 
+        message = "The horse training has officially started! Do your best!",
+        icon = "horse",
+        duration = 4,
+        align = 'left',
+    },
+
+    ['TRAINING_STOPPED'] = {
+        title = "Horse Training", 
+        message = "The horse training been stopped or cancelled.",
+        icon = "horse",
+        duration = 4,
+        align = 'left',
+    },
+
+    ['TRAINING_CANCELLED'] = {
+        title = "Horse Training", 
+        message = "The horse training been cancelled.",
+        icon = "horse",
+        duration = 4,
+        align = 'left',
+    },
+
+    ['TRAININING_ALREADY_TRAINED'] = {
+        title = "Horse Training", 
+        message = "The specified horse is already trained.",
+        icon = "horse",
+        duration = 4,
+        align = 'left',
+    },
+
 }

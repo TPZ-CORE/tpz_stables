@@ -710,7 +710,7 @@ function OpenHorsesManagement()
         end
 
         local getRealAge = math.floor(ownedHorsesList[data.current.value].age * 1 / 1440)
-        local isAgedDead = getRealAge >= Config.Ageing.MaximumAge
+        local isAgedDead = getRealAge >= modelData[9]
 
         if not isAgedDead then
             menu.close()
@@ -808,18 +808,18 @@ function OpenHorseManagementById(selectedHorseId)
     local StableData = Config.Locations[LocationIndex]
 
     local HorseData  = PlayerData.Horses[selectedHorseId]
+    local ModelData  = GetHorseModelData(HorseData.model)
 
     -- AGE
     local getRealAge = math.floor(HorseData.age * 1 / 1440)
     local DIV_AGE_LABEL = string.format("<div style='opacity: 0.8; float:left; text-align: left; width: 4vw; font-size: 0.8vw;' >%s</div>", Locales['HORSE_MANAGEMENT_AGE'])
-    local DIV_AGE_DISPLAY = DIV_AGE_LABEL .. string.format("<div style='opacity: 0.8; float:right; text-align: right; font-size: 0.8vw; ' >%s</div>", getRealAge)
+    local DIV_AGE_DISPLAY = DIV_AGE_LABEL .. string.format("<div style='opacity: 0.8; float:right; text-align: right; font-size: 0.8vw; ' >%s</div>", getRealAge .. 'd / ' .. ModelData[9] .. 'd')
 
     -- RACE
     local DIV_CATEGORY_LABEL = string.format("<div style='opacity: 0.8; float:left; text-align: left; width: 4vw; font-size: 0.8vw; ' >%s</div>", Locales['HORSE_MANAGEMENT_RACE'])
     local DIV_CATEGORY_DISPLAY = DIV_CATEGORY_LABEL .. string.format("<div style='opacity: 0.8; float:right; text-align: right; font-size: 0.8vw;' >%s</div>", HorseData.type)
 
     -- MODEL NAME
-    local ModelData = GetHorseModelData(HorseData.model)
     local modelName = ModelData[2]
 
     local DIV_MODEL_NAME_LABEL = string.format("<div style='opacity: 0.8; float:left; text-align: left; width: 6vw; font-size: 0.8vw; ' >%s</div>", Locales['HORSE_MANAGEMENT_MODEL_NAME'])
@@ -909,6 +909,10 @@ function OpenHorseManagementById(selectedHorseId)
 
     local subtext = string.format(Locales['CURRENT_ACCOUNT'], PlayerData.Cash, PlayerData.Gold)
 
+    if HorseData.name == nil then
+        HorseData.name = 'N/A'
+    end
+    
     MenuData.Open('default', GetCurrentResourceName(), 'horse_management',
 
     {
