@@ -203,13 +203,14 @@ if Config.Taming.Enabled then
                         })
 
                         if TAMING_COUNTDOWN <= 0 then
+                            
+                            Citizen.InvokeNative(0xAEB97D84CDF3C00B, entity, true) -- -wild horse for taming.
+
                             CloseNUI()
 
                             Wait(500)
 
                             local success = false
-
-                            Citizen.InvokeNative(0xAEB97D84CDF3C00B, entity, true) -- -wild horse for taming.
 
                             for index, difficulty in pairs (horse.difficulties) do
 
@@ -223,7 +224,7 @@ if Config.Taming.Enabled then
 
                                 else
 
-                                    TaskHorseAction(entity,10, PlayerPedId())
+                                    TaskHorseAction(entity,2, PlayerPedId())
 
                                     Wait(250)
 
