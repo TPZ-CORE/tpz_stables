@@ -11,6 +11,8 @@ CREATE TABLE IF NOT EXISTS `horses` (
   `age` int(11) NOT NULL DEFAULT 0,
   `sex` int(11) NOT NULL DEFAULT 0,
   `training_experience` int(11) DEFAULT 0,
+  `training_stage_index` int(11) DEFAULT 1,
+  `training_stage_type` varchar(50) DEFAULT NULL,
   `breeding` int(11) DEFAULT 0,
   `container` int(11) DEFAULT 0,
   `isdead` int(11) NOT NULL DEFAULT 0,
