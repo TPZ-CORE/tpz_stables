@@ -340,6 +340,426 @@ function OpenBuyWagonsByCategory(categoryIndex)
 
 end
 
+-- WAGONS MANAGEMENT
+
+function OpenWagonsManagement()
+    MenuData.CloseAll()
+
+    if StoreEntity then
+        RemoveEntityProperly(StoreEntity, GetHashKey(StoreEntityModel))
+
+        StoreEntity        = nil
+        StoreEntityModel   = nil
+
+        CloseNUI()
+        Wait(500)
+    end
+
+    local PlayerData = GetPlayerData()
+    local StableData = Config.Locations[LocationIndex]
+
+    local currentWagons  = GetPlayerWagons(PlayerData.CharIdentifier)	
+    local count          = currentWagons.wagonsIndex
+
+    local elements       = {}
+
+    local ownedWagonsList = {}
+    local ownedCount      = 0
+
+    for index, wagon in pairs (PlayerData.Wagons) do 
+
+        if wagon.charidentifier == PlayerData.CharIdentifier then
+
+            ownedCount = ownedCount + 1
+
+            local modelData = GetWagonModelData(wagon.model)
+
+            local model = MANAGEMENT_MODEL_TITLE:format(modelData[2])
+            local name  = MANAGEMENT_NAME_TITLE:format(wagon.name)
+
+            table.insert(elements, {
+                label = model .. name,
+                value = ownedCount,
+                desc = "",
+            })
+
+            ownedWagonsList[ownedCount] = {}
+            ownedWagonsList[ownedCount] = wagon
+        end
+
+    end
+
+    table.insert(elements, { label = Locales['BACK'], value = 'back', desc = Locales['BACK_DESCRIPTION'] })
+
+    -- Forcing MenuData Index to always be the first result when opening a wagon category.
+    MenuData.ResetLastSelectedIndex('default', "tpz_stables", "wagons_management")
+
+    local model     = ownedWagonsList[1].model
+    local modelData = GetWagonModelData(model)
+
+    LoadModel(model)
+
+    local coords   = StableData.Wagons.SpawnCoords
+    local spawnPos = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 3.0, 0.0, 0.0)
+    local wagon    = CreateVehicle(model, coords.x, coords.y, coords.z, coords.h, false, false, false, false)
+
+    SetVehicleOnGroundProperly(wagon)
+    SetEntityAsMissionEntity(wagon, true, true)
+    FreezeEntityPosition(wagon, true)
+    SetEntityCollision(wagon, false, true)
+
+    StoreEntity        = wagon
+    StoreEntityModel   = model
+
+    SetModelAsNoLongerNeeded(model)
+
+    LoadWagonComponents(wagon, ownedWagonsList[1].id)
+
+    local subtext = string.format(Locales['CURRENT_ACCOUNT'], PlayerData.Cash, PlayerData.Gold)
+
+    MenuData.Open('default', GetCurrentResourceName(), 'wagons_management',
+
+    {
+        title    = Locales['WAGONS_MANAGEMENT'],
+        subtext  = subtext,
+        align    = "right",
+        elements = elements,
+        lastmenu = "notMenu"
+    },
+
+    function(data, menu)
+
+        if (data.current == "backup" or data.current.value == "back") then 
+            menu.close()
+            OnBackToStableMenu()
+            OpenStableMenu()
+            return
+        end
+
+        menu.close()
+        OpenWagonManagementById(ownedWagonsList[data.current.value].id)
+
+    end,
+
+    function(data, menu)
+        menu.close()
+    end,
+
+    function(data, menu)
+
+        if data.current.value ~= 'back' then
+
+            local removedEntity = false
+    
+            if StoreEntity then
+                RemoveEntityProperly(StoreEntity, GetHashKey(StoreEntityModel))
+    
+                StoreEntity        = nil
+                StoreEntityModel   = nil
+    
+                CloseNUI()
+                removedEntity      = true
+
+            else
+                removedEntity      = true
+            end
+    
+            while not removedEntity do
+                Wait(500)
+            end
+    
+            
+            local model     = ownedWagonsList[data.current.value].model
+            local modelData = GetWagonModelData(model)
+
+            LoadModel(model)
+    
+            local coords   = StableData.Wagons.SpawnCoords
+            local spawnPos = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 3.0, 0.0, 0.0)
+            local wagon    = CreateVehicle(model, coords.x, coords.y, coords.z, coords.h, false, false, false, false)
+    
+            SetVehicleOnGroundProperly(wagon)
+            SetEntityAsMissionEntity(wagon, true, true)
+            FreezeEntityPosition(wagon, true)
+            SetEntityCollision(wagon, false, true)
+
+            StoreEntity        = wagon
+            StoreEntityModel   = model
+
+            SetModelAsNoLongerNeeded(model)
+
+            LoadWagonComponents(wagon, ownedWagonsList[data.current.value].id)
+
+        end
+
+        if data.current.value == 'back' then 
+
+            if StoreEntity then
+                RemoveEntityProperly(StoreEntity, GetHashKey(StoreEntityModel))
+        
+                StoreEntity        = nil
+                StoreEntityModel   = nil
+            end
+
+        end
+
+    end)
+
+end
+
+function OpenWagonManagementById(selectedWagonId)
+    MenuData.CloseAll()
+
+    local PlayerData = GetPlayerData()
+    local StableData = Config.Locations[LocationIndex]
+
+    local WagonData  = PlayerData.Wagons[selectedWagonId]
+    local ModelData  = GetWagonModelData(WagonData.model)
+
+    -- CATEGORY
+    local DIV_CATEGORY_LABEL = string.format("<div style='opacity: 0.8; float:left; text-align: left; width: 4vw; font-size: 0.8vw; ' >%s</div>", Locales['WAGON_MANAGEMENT_CATEGORY'])
+    local DIV_CATEGORY_DISPLAY = DIV_CATEGORY_LABEL .. string.format("<div style='opacity: 0.8; float:right; text-align: right; font-size: 0.8vw;' >%s</div>", WagonData.type)
+
+    -- MODEL NAME
+    local modelName = ModelData[2]
+
+    local DIV_MODEL_NAME_LABEL = string.format("<div style='opacity: 0.8; float:left; text-align: left; width: 6vw; font-size: 0.8vw; ' >%s</div>", Locales['WAGON_MANAGEMENT_MODEL_NAME'])
+    local DIV_MODEL_NAME_DISPLAY = DIV_MODEL_NAME_LABEL .. string.format("<div style='opacity: 0.8; float:right; text-align: right; font-size: 0.8vw;' >%s</div>", modelName)
+
+    -- SELL PRICES
+
+    local SELL_TITLE_STYLE <const>      = "<span style='opacity: 0.8; float:right; text-align: right; font-size: 0.8vw; margin-top: -0.20vw;' >%s</span>"
+    
+    local SELL_CASH_IMAGE_PATH <const>  = "<img style='max-height:2.3vw;max-width:2.3vw; float:%s; margin-top: -0.25vw;' src='nui://tpz_stables/html/img/%s.png'>"
+    local SELL_CASH_TEXT_PATH <const>   = "<span style='opacity: 0.8; float:left; text-align: left; width: 2.5vw; font-size: 0.8vw; margin-top: -0.20vw; margin-left: 0.25vw;' >%s</span>"
+    local SELL_TITLE_STYLE <const>      = "<span style='opacity: 0.8; float:right; text-align: right; font-size: 0.8vw; margin-top: -0.20vw;' >%s</span>"
+    
+    local sellMoney, sellGold = ModelData[7], ModelData[8]
+    
+    local icon, text
+
+    if WagonData.bought_account == 0 then
+        icon = SELL_CASH_IMAGE_PATH:format("left", "money")
+        text = SELL_CASH_TEXT_PATH:format(sellMoney)
+    
+    elseif WagonData.bought_account == 1 then
+        icon = SELL_CASH_IMAGE_PATH:format("left", "gold")
+        text = SELL_CASH_TEXT_PATH:format(sellGold)
+
+    elseif WagonData.bought_account == -1 then
+        icon = ""
+        text = SELL_CASH_IMAGE_PATH:format("left", "money") .. SELL_CASH_TEXT_PATH:format(0) .. SELL_CASH_IMAGE_PATH:format("left", "gold") .. SELL_CASH_TEXT_PATH:format(0)
+    end
+
+    local title = SELL_TITLE_STYLE:format(Locales['SELL_WAGON_DISPLAY'])
+    local SPAN_SELL_TITLE_DISPLAY = title .. icon .. text
+
+    if WagonData.bought_account == -1 then
+        SPAN_SELL_TITLE_DISPLAY = title .. text
+    end
+    
+    -- description
+
+    local description = string.format('%s <br><br> %s <br><br><br><br> %s', DIV_CATEGORY_DISPLAY,  DIV_MODEL_NAME_DISPLAY, SPAN_SELL_TITLE_DISPLAY)
+
+    local elements   = {
+        { label = Locales['WAGON_SPAWN'],                  value = 'spawn',      desc = description },
+        --{ label = Locales['WAGON_COMPONENTS_TITLE'],       value = 'components', desc = description }, -- soon
+        { label = Locales['WAGON_RENAME_TITLE'],           value = 'rename',     desc = description },
+        { label = Locales['WAGON_TRANSFER_TITLE'],         value = 'transfer',   desc = description },
+        { label = Locales['WAGON_SELL_TITLE'],             value = 'sell',       desc = description },
+    }
+
+    table.insert(elements, { label = Locales['BACK'], value = 'back', desc = description })
+
+    MenuData.ResetLastSelectedIndex('default', "tpz_stables", "wagon_management")
+
+    local subtext = string.format(Locales['CURRENT_ACCOUNT'], PlayerData.Cash, PlayerData.Gold)
+
+    if WagonData.name == nil then
+        WagonData.name = 'N/A'
+    end
+    
+    MenuData.Open('default', GetCurrentResourceName(), 'wagon_id_management',
+
+    {
+        title    = WagonData.name .. " #" .. selectedWagonId,
+        subtext  = subtext,
+        align    = "right",
+        elements = elements,
+        lastmenu = "notMenu"
+    },
+
+    function(data, menu)
+        if (data.current == "backup" or data.current.value == "back") then 
+            menu.close()
+            OpenWagonsManagement()
+            return
+        end
+
+        if (data.current.value == 'spawn') then 
+
+            MenuData.CloseAll()
+
+            while not IsScreenFadedOut() do
+                Wait(50)
+                DoScreenFadeOut(2000)
+            end
+        
+            if StoreEntity then
+                RemoveEntityProperly(StoreEntity, GetHashKey(StoreEntityModel))
+        
+                StoreEntity        = nil
+                StoreEntityModel   = nil
+            end
+
+            DestroyAllCams(true)
+            TaskStandStill(PlayerPedId(), 1)
+
+            LoadModel(WagonData.model)
+            local coords = StableData.Wagons.SpawnSelectCoords
+            local vehicle = CreateVehicle(GetHashKey(WagonData.model), coords.x, coords.y, coords.z, coords.h, true, false)
+            SetVehicleOnGroundProperly(vehicle)
+            SetModelAsNoLongerNeeded(GetHashKey(WagonData.model))
+
+            Citizen.InvokeNative(0x79811282A9D1AE56, vehicle)
+            SetEntityHealth(vehicle, 1000, 0)
+            Citizen.InvokeNative(0xAC2767ED8BDFAB15, vehicle, 1000)
+            Citizen.InvokeNative(0x55CCAAE4F28C67A0, vehicle, 1000)
+
+            Wait(1000)
+            SetPedIntoVehicle(PlayerPedId(), vehicle, -1)
+
+            PlayerData.SpawnedWagonIndex  = selectedWagonId
+            PlayerData.SpawnedWagonEntity = vehicle
+     
+            Wait(4000)
+            DoScreenFadeIn(2000)
+
+            PlayerData.IsOnMenu = false
+        
+            DisplayRadar(true)
+        
+            LocationIndex = nil
+
+        elseif (data.current.value == 'rename') then
+
+            local inputData = {
+                title        = Locales['WAGON_RENAME_TITLE'],
+                desc         = Locales['WAGON_RENAME_INPUT_DESC'],
+                buttonparam1 = Locales['RENAME_INPUT_ACCEPT'],
+                buttonparam2 = Locales['RENAME_INPUT_CANCEL'],
+            }
+                                        
+            TriggerEvent("tpz_inputs:getTextInput", inputData, function(cb)
+            
+                if cb ~= "DECLINE" and cb ~= Locales['BUY_INPUT_CANCEL'] then
+                    TriggerServerEvent("tpz_stables:server:updateWagon", selectedWagonId, 'RENAME', { cb })
+
+                    PlayerData.Wagons[selectedWagonId].name = cb
+
+                    SendNotification(nil, Locales['RENAMED_WAGON'], 'success')
+
+                    menu.close()
+                    OpenWagonManagementById(selectedWagonId)
+                end
+
+            end) 
+
+        elseif (data.current.value == 'sell') then
+
+            local sellDescription
+
+            if WagonData.bought_account == 0 then
+                sellDescription = string.format(Locales['WAGON_SELL_CASH_DESCRIPTION'], sellMoney)
+
+            elseif WagonData.bought_account == 1 then
+                sellDescription = string.format(Locales['WAGON_SELL_GOLD_DESCRIPTION'], sellGold)
+
+            elseif WagonData.bought_account == -1 then
+                sellDescription = Locales['WAGON_SELL_NO_EARNINGS_DESCRIPTION']
+            end
+
+            local inputData = {
+                title        = Locales['WAGON_SELL_TITLE'],
+                desc         = sellDescription,
+                buttonparam1 = Locales['SELL_INPUT_ACCEPT'],
+                buttonparam2 = Locales['SELL_INPUT_CANCEL'],
+            }
+                                        
+            TriggerEvent("tpz_inputs:getButtonInput", inputData, function(cb)
+            
+                if cb == "ACCEPT" then
+
+                    TriggerServerEvent("tpz_stables:server:sellWagon", selectedWagonId)
+                    menu.close()
+                    
+                    Wait(1500)
+                    OnBackToStableMenu()
+                    OpenStableMenu()
+                end
+
+            end) 
+
+        elseif (data.current.value == 'transfer') then
+
+            local inputData = {
+                title        = Locales['WAGON_TRANSFER_TITLE'],
+                desc         = Locales['WAGON_TRANSFER_INPUT_DESC'],
+                buttonparam1 = Locales['TRANSFER_INPUT_ACCEPT'],
+                buttonparam2 = Locales['TRANSFER_INPUT_CANCEL'],
+            }
+                                        
+            TriggerEvent("tpz_inputs:getTextInput", inputData, function(cb)
+            
+                local inputId = tonumber(cb)
+
+                if inputId == nil and inputId <= 0 then
+                    SendNotification(Locales['INVALID_INPUT'], "error")
+                    return
+                end
+
+                local nearestPlayers = TPZ.GetNearestPlayers(Config.TransferMaximumDistance)
+                local foundPlayer    = false
+
+                for _, targetPlayer in pairs(nearestPlayers) do
+
+                    if inputId == GetPlayerServerId(targetPlayer) then
+                       foundPlayer = true
+                    end
+                end
+
+                if foundPlayer then
+
+                    TriggerServerEvent("tpz_stables:server:transferWagon", selectedWagonId, inputId )
+
+                    menu.close()
+                    
+                    Wait(1500)
+                    OnBackToStableMenu()
+                    OpenStableMenu()
+
+                else
+                    SendNotification(nil, Locales['PLAYER_NOT_FOUND'], "error")
+                end
+
+            end) 
+
+        elseif (data.current.value == 'components') then
+            menu.close()
+           -- OpenHorseManagementEquipments(selectedHorseId)
+        end
+
+
+    end,
+
+    function(data, menu)
+        menu.close()
+        OpenWagonsManagement()
+    end)
+
+end
+
 -- BUY HORSES -------------------------------------------------
 
 function OpenBuyHorsesList()
@@ -1239,7 +1659,6 @@ function OpenHorseManagementEquipmentsByCategory(selectedHorseId, categoryIndex)
 
             if success then
 
-                print(selectedHorseId, EquipmentData.Type, data.current.value)
                 PlayerData.Horses[selectedHorseId].components[EquipmentData.Type] = data.current.value
     
             end
@@ -1409,6 +1828,18 @@ function OpenStableMenu(locationIndex)
 
         elseif (data.current.value == 'BUY_WAGONS') then
             cameraCoords = StableData.Wagons.CameraCoords
+
+        elseif (data.current.value == 'MANAGE_WAGONS') then
+            cameraCoords = StableData.Wagons.CameraCoords
+
+            local currentHorses  = GetPlayerWagons(PlayerData.CharIdentifier)	
+            local count          = currentHorses.count
+
+            if count <= 0 then
+                SendNotification(nil, Locales['NO_WAGONS_AVAILABLE'], "error")
+                return
+            end
+
         end
 
         menu.close()
@@ -1436,6 +1867,10 @@ function OpenStableMenu(locationIndex)
 
         elseif (data.current.value == 'BUY_WAGONS') then
             OpenBuyWagonsList()
+
+        elseif (data.current.value == 'MANAGE_WAGONS') then
+            OpenWagonsManagement()
+
         end
 
     end,

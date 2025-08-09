@@ -140,6 +140,16 @@ AddEventHandler('tpz_stables:server:buyWagon', function(locationIndex, categoryI
 				exports.ghmattimysql:execute("UPDATE `wagons` SET `container` = @container WHERE `id` = @id ", { ['id'] = result[1].id, ['container'] = containerId })
 			end
 
+			local ped = GetPlayerPed(_source)
+            local playerCoords = GetEntityCoords(ped)
+
+            local coords = vector3(playerCoords.x, playerCoords.y, playerCoords.z)
+            TPZ.TriggerClientEventAsyncByCoords("tpz_stables:client:updateWagon", { 
+				wagonIndex = result[1].id, 
+				action = 'REGISTER', 
+				data = { identifier, charIdentifier, WagonData[1], category, boughtAccount, Wagons[result[1].id].container, date} 
+			}, coords, 350.0, 1000, true, 40)
+
 		end
 
 	end)
@@ -157,6 +167,149 @@ AddEventHandler('tpz_stables:server:updateWagon', function(wagonIndex, action, d
 
 	if action == 'NETWORK_ID' then
         Wagons[wagonIndex].entity = data[1]
+
+	elseif action == 'RENAME' then
+		Wagons[wagonIndex].name = data[1]
 	end
+
+end)
+
+RegisterServerEvent('tpz_stables:server:transferWagon')
+AddEventHandler('tpz_stables:server:transferWagon', function(wagonIndex, target)
+	local _source        = source
+	local xPlayer        = TPZ.GetPlayer(_source)
+	local identifier     = xPlayer.getIdentifier()
+	local charIdentifier = xPlayer.getCharacterIdentifier()
+	local steamName      = GetPlayerName(_source)
+
+	local Wagons         = GetWagons()
+
+	if Wagons[wagonIndex] == nil then
+		return
+	end
+
+    target = tonumber(target)
+
+    local targetSteamName = GetPlayerName(target)
+
+	if target == _source then
+		SendNotification(_source, Locales['CANNOT_TRANSFER_TO_SELF'], "error")
+		return
+	end
+
+    if targetSteamName == nil then
+      SendNotification(_source, Locales['NOT_ONLINE'], "error")
+      return
+    end
+
+    local tPlayer = TPZ.GetPlayer(target)
+
+    if not tPlayer.loaded() then
+      SendNotification(_source, Locales['PLAYER_IS_ON_SESSION'], "error")
+      return
+    end
+
+    local targetIdentifier     = tPlayer.getIdentifier() 
+    local targetCharIdentifier = tPlayer.getCharacterIdentifier()
+    local targetSteamName      = GetPlayerName(target)
+    local targetGroup          = tPlayer.getGroup()
+    local targetJob            = tPlayer.getJob()
+
+	Wagons[wagonIndex].identifier     = targetIdentifier
+	Wagons[wagonIndex].charidentifier = targetCharIdentifier
+
+	SendNotification(_source, Locales['WAGON_TRANSFERRED'], "success")
+	SendNotification(target, Locales['WAGON_TRANSFERRED_TARGET'], "success")
+
+	TriggerClientEvent("tpz_stables:client:updateWagon", _source, { wagonIndex = wagonIndex, action = 'TRANSFERRED', data = { targetIdentifier, targetCharIdentifier } } )
+	TriggerClientEvent("tpz_stables:client:updateWagon", target, {  wagonIndex = wagonIndex, action = 'TRANSFERRED', data = { targetIdentifier, targetCharIdentifier } } )
+	
+	if Config.Webhooks['TRANSFERRED'].Enabled then
+
+		local category = GetWagonModelCategory(Wagons[wagonIndex].model)
+
+		local _w, _c      = Config.Webhooks['TRANSFERRED'].Url, Config.Webhooks['TRANSFERRED'].Color
+		local title       = "🐎`Player Transferred Wagon`"
+		local description = string.format('A user with the steam name (`%s`), identifier (`%s`) and character identifier (`%s`) has transferred a wagon.\n\n**Wagon Model:** `%s, %s - %s `.\n\n**Target Identifier:** `%s`\n\n**Target Character Identifier:** `%s`.',
+		steamName, identifier, charIdentifier, Wagons[wagonIndex].model, category, ModelData[2], targetIdentifier, targetCharIdentifier)
+
+		TPZ.SendToDiscord(_w, title, description, _c)
+	end
+
+end)
+
+
+RegisterServerEvent('tpz_stables:server:sellWagon')
+AddEventHandler('tpz_stables:server:sellWagon', function(wagonIndex)
+	local _source        = source
+	local xPlayer        = TPZ.GetPlayer(_source)
+	local identifier     = xPlayer.getIdentifier()
+	local charIdentifier = xPlayer.getCharacterIdentifier()
+	local steamName      = GetPlayerName(_source)
+
+	local Wagons         = GetWagons()
+
+	if Wagons[wagonIndex] == nil then
+		return
+	end
+
+	local WagonData = Wagons[wagonIndex]
+	local ModelData = GetWagonModelData(WagonData.model)
+	
+	local receiveMoney, receiveGold = ModelData[7], ModelData[8]
+	
+	local sellDescription, receivedDescription
+	
+	if WagonData.bought_account == 0 then
+		sellDescription = string.format(Locales['WAGON_SOLD_CASH'], receiveMoney)
+
+		xPlayer.addAccount(0, receiveMoney)
+
+		receivedDescription = receiveMoney .. " dollars."
+	
+	elseif WagonData.bought_account == 1 then
+		sellDescription = string.format(Locales['WAGON_SOLD_GOLD'], receiveGold)
+
+		xPlayer.addAccount(1, receiveGold)
+
+		receivedDescription = receiveGold .. " gold."
+
+	elseif WagonData.bought_account == -1 then
+		sellDescription = Locales['WAGON_SOLD_NO_EARNINGS']
+
+		receivedDescription = "nothing"
+	end
+
+	SendNotification(_source, sellDescription, "success")
+
+	if tonumber(WagonData.container) ~= 0 then
+		TriggerEvent("tpz_inventory:unregisterCustomContainer", WagonData.container) -- unregister container of the wagon.
+	end
+
+	exports.ghmattimysql:execute("DELETE FROM `wagons` WHERE `id` = @id", {["@id"] = wagonIndex}) 
+	Wagons[wagonIndex] = nil
+
+	local ped = GetPlayerPed(_source)
+	local playerCoords = GetEntityCoords(ped)
+
+	local coords = vector3(playerCoords.x, playerCoords.y, playerCoords.z)
+	TPZ.TriggerClientEventAsyncByCoords("tpz_stables:client:updateWagon", { 
+		wagonIndex = wagonIndex, 
+		action = 'DELETE', 
+		data = {} 
+	}, coords, 350.0, 1000, true, 40)
+
+	if Config.Webhooks['SOLD'].Enabled then
+
+		local category = GetWagonModelCategory(WagonData.model)
+
+		local _w, _c      = Config.Webhooks['SOLD'].Url, Config.Webhooks['SOLD'].Color
+		local title       = "🐎`Player Sold Wagon`"
+		local description = string.format('A user with the steam name (`%s`), identifier (`%s`) and character identifier (`%s`) has sold a wagon.\n\n**Wagon Model:** `%s, %s - %s `.\n\n **Received:** `%s`.',
+		steamName, identifier, charIdentifier, WagonData.model, category, ModelData[2], receivedDescription)
+
+		TPZ.SendToDiscord(_w, title, description, _c)
+	end
+
 
 end)

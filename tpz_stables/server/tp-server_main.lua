@@ -61,6 +61,32 @@ end
 
 local LoadOwnedWagons = function()
 
+	exports["ghmattimysql"]:execute("SELECT * FROM wagons", {}, function(result)
+
+		local length = TPZ.GetTableLength(result)
+
+        if length > 0 then
+
+            for _, res in pairs (result) do
+
+                Wagons[res.id] = {}
+                Wagons[res.id] = res
+
+				Wagons[res.id].entity = 0
+				Wagons[res.id].source = 0
+
+				Wagons[res.id].components = json.decode(res.components)
+            end
+
+			if Config.Debug then
+                print(string.format("Successfully loaded %s owned wagons.", length ))
+            end
+
+		end
+
+
+	end)
+
 end
 
 -----------------------------------------------------------
@@ -92,6 +118,30 @@ GetPlayerHorses = function(charIdentifier)
 	return { count = count, horsesIndex = currentHorses }
 end
 
+-- @return total owned count and owned wagon id's.
+function GetPlayerWagons(charIdentifier)
+
+	local length = TPZ.GetTableLength(Wagons)
+
+	if length <= 0 then
+		return { count = 0, wagonsIndex = {} }
+	end
+
+	local currentWagons = {}
+	local count  = 0
+
+	for index, wagon in pairs (Wagons) do
+
+		if tonumber(wagon.charidentifier) == tonumber(charIdentifier) then
+			count = count + 1
+
+			table.insert(currentWagons, wagon.id)
+		end
+
+	end
+
+	return { count = count, wagonsIndex = currentWagons }
+end
 
 -- @return the maximum horses the player can have on his / her ownership.
 GetPlayerMaximumHorsesLimit = function(identifier, group, job)
@@ -176,6 +226,14 @@ AddEventHandler('tpz_stables:server:requestPlayerData', function()
 
 	while not LoadedResults do
 		Wait(1000)
+	end
+
+	local currentWagons = GetPlayerWagons(charIdentifier)
+
+	if currentWagons.count > 0 then -- Updating all owned wagons the Source ID.
+		for index, wagonIndex in pairs (currentWagons.wagonsIndex) do
+			Wagons[wagonIndex].source = _source
+		end
 	end
 
 	exports["ghmattimysql"]:execute("SELECT `selected_horse_index` FROM `characters` WHERE `charidentifier` = @charidentifier", { ["@charidentifier"] = charIdentifier }, function(result)
@@ -296,13 +354,12 @@ Citizen.CreateThread(function()
 						['identifier']          = wagon.identifier, -- in case for transfers.
 						['charidentifier']      = wagon.charidentifier, -- in case for transfers.
 						['name']                = wagon.name,
-						['stats']               = json.encode(wagon.stats),
 						['components']          = json.encode(wagon.components),
 						['broken']              = wagon.broken,
 						['container']           = wagon.container
 					}
 			
-					exports.ghmattimysql:execute("UPDATE `wagons` SET `identifier` = @identifier, `charidentifier` = @charidentifier, `name` = @name, `stats` = @stats, `components` = @components, `broken` = @broken, `container` = @container WHERE id = @id", Parameters)
+					exports.ghmattimysql:execute("UPDATE `wagons` SET `identifier` = @identifier, `charidentifier` = @charidentifier, `name` = @name, `components` = @components, `broken` = @broken, `container` = @container WHERE id = @id", Parameters)
 
                 end
     

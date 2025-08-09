@@ -1,6 +1,6 @@
 Config = {}
 
-Config.DevMode = false
+Config.DevMode = true
 Config.Debug   = true
 
 Config.Keys = {
@@ -164,8 +164,8 @@ Config.Taming = {
 	-- For the taming, difficulty, stages, tpz_skillcheck is required.
 	-- @param difficulties : easy, normal, hard
 	Horses = {
-		{ model = "a_c_horse_morgan_bay",                              difficulties = { 'easy', 'normal', 'normal', 'normal'}, coords = { x = -1958.06, y = 434.6420, z = 119.93, h = 315.64672851 }, spawn_chance = 100 },
-		{ model = "a_c_horse_morgan_bayroan",                          difficulties = { 'easy', 'normal', 'normal', 'normal'}, coords = { x = 0, y = 0, z = 0 }, spawn_chance = 100  },
+		{ model = "a_c_horse_morgan_bay",                              difficulties = { 'easy', 'normal', 'normal', 'normal'}, coords = { x = -1958.06, y = 434.6420, z = 119.93 }, spawn_chance = 100 },
+		{ model = "a_c_horse_morgan_bayroan",                          difficulties = { 'easy', 'normal', 'normal', 'normal'}, coords = { x = -1791.29, y = -568.960, z = 155.98 }, spawn_chance = 100  },
 		{ model = "a_c_horse_morgan_flaxenchestnut",                   difficulties = { 'easy', 'normal', 'normal', 'normal'}, coords = { x = 0, y = 0, z = 0 }, spawn_chance = 100  },
 		{ model = "a_c_Horse_morgan_liverchestnut_pc",                 difficulties = { 'easy', 'normal', 'normal', 'normal'}, coords = { x = 0, y = 0, z = 0 }, spawn_chance = 100  },
 		{ model = "a_c_horse_morgan_palomino",                         difficulties = { 'easy', 'normal', 'normal', 'normal'}, coords = { x = 0, y = 0, z = 0 }, spawn_chance = 100  },
@@ -367,6 +367,9 @@ Config.Locations = {
 		Wagons = {
 			SpawnCoords  = { x = -363.7694396972656, y = 775.3441772460938, z = 116.27066040039062, h = -85.7157},
 			CameraCoords = { x = -351.24,            y = 779.73,            z = 120.42,             rotx = -20.0, roty = 0.0, rotz = 114.52, fov = 45.0},
+
+			-- What should be the position for spawning the selected wagon / coach on spawn option?
+			SpawnSelectCoords = { x = -409.10760498046875, y = 777.1738891601562, z = 115.40164947509766, h = -172.5738983154297 },
 		},
 
 		MenuCategories = {
@@ -434,6 +437,10 @@ Config.Locations = {
 		Wagons = {
 			SpawnCoords  = { x = -892.8502807617188, y = -1370.4193115234375, z = 42.29966354370117, h = 2.659},
 			CameraCoords = { x = -885.14,            y = -1360.08,            z = 47.77,             rotx = -20.0, roty = 0.0, rotz = 131.27, fov = 45.0 },
+		
+			-- What should be the position for spawning the selected wagon / coach on spawn option?
+			SpawnSelectCoords = { x = -893.21435546875, y = -1364.9049072265625, z = 43.54707336425781, h = -1.02203941345214 },
+
 		},
 
 		MenuCategories = {
@@ -477,6 +484,10 @@ Config.Locations = {
 		Wagons = {
 			SpawnCoords  = { x = 1448.527587890625,  y = -1280.5701904296875, z = 77.71709442138672, h = -162.727},
 			CameraCoords = { x = 1445.57,            y = -1292.33,            z = 82.21,            rotx = -20.0, roty = 0.0, rotz = -26.83, fov = 45.0 },
+		
+			-- What should be the position for spawning the selected wagon / coach on spawn option?
+			SpawnSelectCoords = { x = 1441.8072509765625, y = -1311.58837890625, z = 77.28524017333984, h = 96.52580261230469 },
+
 		},
 
 		MenuCategories = {
@@ -545,6 +556,10 @@ Config.Locations = {
 		Wagons = {
 			SpawnCoords  = { x = 2957.07080078125,   y = 808.7708129882812,   z = 51.39369583129883, h = 178.807},
 			CameraCoords = { x = 2950.75,            y = 798.78,              z = 54.97,            rotx = -20.0, roty = 0.0, rotz = -47.25, fov = 45.0 },
+		
+			-- What should be the position for spawning the selected wagon / coach on spawn option?
+			SpawnSelectCoords = { x = 2942.66796875, y = 765.1943969726562, z = 51.3520393371582, h = -48.09039688110351 },
+
 		},
 
 		MenuCategories = {
@@ -588,6 +603,10 @@ Config.Locations = {
 		Wagons = {
 			SpawnCoords  = { x = 2483.1103515625,    y = -1441.0220947265625, z = 45.1094741821289, h = -179.43212890625},
 			CameraCoords = { x = 2477.28,            y = -1451.43,            z = 50.02,            rotx = -15.0, roty = 0.0, rotz = -45.83, fov = 45.0 },
+		
+			-- What should be the position for spawning the selected wagon / coach on spawn option?
+			SpawnSelectCoords = { x = 2511.53173828125, y = -1431.0782470703125, z = 46.15480804443359, h = 90.74808502197266 },
+
 		},
 
 		MenuCategories = {
@@ -652,6 +671,9 @@ Config.Locations = {
 		Wagons = {
 			SpawnCoords  = { x = -1786.7723388671875, y = -548.4891967773438, z = 155.98793029785156, h = 124.589},
 			CameraCoords = { x = -1791.76,            y = -559.01,            z = 159.68,             rotx = -20.0, roty = 0.0, rotz = -16.78, fov = 45.0 },
+		
+			-- What should be the position for spawning the selected wagon / coach on spawn option?
+			SpawnSelectCoords = { x = -1818.967529296875, y = -617.9981689453125, z = 154.53311157226562, h = -17.83588790893554 },
 		},
 
 		MenuCategories = {
@@ -720,6 +742,9 @@ Config.Locations = {
 		Wagons = {
 			SpawnCoords  = { x = -5509.44,            y = -3061.79,           z = -2.506,               h = 8.04},
 			CameraCoords = { x = -5503.32,            y = -3051.75,           z = 1.94,                 rotx = -20.0, roty = 0.0, rotz = 130.37, fov = 45.0 },
+		
+			-- What should be the position for spawning the selected wagon / coach on spawn option?
+			SpawnSelectCoords = { x = -5496.93212890625, y = -3058.22412109375, z = -3.19481348991394, h = 153.64639282226562 },
 		},
 
 		MenuCategories = {
@@ -763,6 +788,10 @@ Config.Locations = {
 		Wagons = {
 			SpawnCoords  = { x = -1428.40,            y = -2208.49,           z = 42.317,             h = 240.3992},
 			CameraCoords = { x = -1422.09,            y = -2218.74,           z = 48.03,             rotx = -20.0, roty = 0.0, rotz = 15.22, fov = 45.0 },
+		
+			-- What should be the position for spawning the selected wagon / coach on spawn option?
+			SpawnSelectCoords = { x = -1377.6676025390625, y = -2224.45947265625, z = 42.90032577514648, h = 5.04614496231079 },
+
 		},
 
 		MenuCategories = {
@@ -839,6 +868,12 @@ Config.Webhooks = {
 		Enabled = false, 
         Url = "", 
         Color = 10038562,
+	},
+
+	['SOLD_TAMED_HORSE'] = { -- Selling horses or wagons from the stables.
+	    Enabled = false, 
+		Url = "", 
+		Color = 10038562,
 	},
 
     ["TRANSFERRED"] = { -- When transferred a horse or a wagon to another player. 

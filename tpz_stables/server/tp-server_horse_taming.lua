@@ -179,6 +179,201 @@ AddEventHandler('tpz_stables:server:updateTamingHorse', function(horseIndex, act
 
 end)
 
+RegisterServerEvent('tpz_stables:server:sell_tamed_horse')
+AddEventHandler('tpz_stables:server:sell_tamed_horse', function(horseIndex)
+	local _source        = source
+	local xPlayer        = TPZ.GetPlayer(_source)
+	local identifier     = xPlayer.getIdentifier()
+	local charIdentifier = xPlayer.getCharacterIdentifier()
+	local steamName      = GetPlayerName(_source)
+
+    local HorseData      = TamingHorses[horseIndex]
+
+    if (HorseData == nil) or (HorseData and HorseData.entity == 0) then
+        SendNotification(_source, Locales['ONLY_TAMED_HORSES_CAN_BE_SOLD'], "error")
+        return
+    end
+
+    local ModelData = GetHorseModelData(HorseData.model)
+
+    local receiveMoney = ModelData[7]
+    local sellDescription = string.format(Locales['HORSE_SOLD_CASH'], receiveMoney)
+
+    xPlayer.addAccount(0, receiveMoney)
+
+    SendNotification(_source, sellDescription, "success")
+
+    TamingHorses[horseIndex].source = 0
+    TamingHorses[horseIndex].tamed  = 0
+    TamingHorses[horseIndex].entity = 0
+
+    local entity = NetworkGetEntityFromNetworkId(HorseData.entity)
+
+    if DoesEntityExist(entity) then
+        DeleteEntity(entity)
+    end
+
+    local coords = vector3(HorseData.coords.x, HorseData.coords.y, HorseData.coords.z)
+    TPZ.TriggerClientEventAsyncByCoords("tpz_stables:client:updateTamingHorse", { 
+        horseIndex = horseIndex, 
+        action = 'SOLD', 
+        data = {} 
+    }, coords, 350.0, 1000, true, 40)
+
+    if Config.Webhooks['SOLD_TAMED_HORSE'].Enabled then
+
+        local _w, _c      = Config.Webhooks['SOLD_TAMED_HORSE'].Url, Config.Webhooks['SOLD_TAMED_HORSE'].Color
+        local title       = "🐎`Player Sold Tamed Horse`"
+        local description = string.format('A user with the steam name (`%s`), identifier (`%s`) and character identifier (`%s`) has sold a tamed horse.\n\n**Horse Model:** `%s (%s)`.\n\n **Received:** `%s`.',
+        steamName, identifier, charIdentifier, HorseData.model, ModelData[2], receiveMoney .. ' ' .. Locales['DOLLARS'])
+
+        TPZ.SendToDiscord(_w, title, description, _c)
+    end
+
+end)
+
+RegisterServerEvent('tpz_stables:server:tamed_horse_ownership')
+AddEventHandler('tpz_stables:server:tamed_horse_ownership', function(horseIndex)
+	local _source        = source
+	local xPlayer        = TPZ.GetPlayer(_source)
+	local identifier     = xPlayer.getIdentifier()
+	local charIdentifier = xPlayer.getCharacterIdentifier()
+	local steamName      = GetPlayerName(_source)
+	local group          = xPlayer.getGroup()
+	local job            = xPlayer.getJob()
+
+    local HorseData      = TamingHorses[horseIndex]
+
+    if (HorseData == nil) or (HorseData and HorseData.entity == 0) then
+        SendNotification(_source, Locales['ONLY_TAMED_HORSES'], "error")
+        return
+    end
+
+    local currentHorses  = GetPlayerHorses(charIdentifier)	
+	local count          = currentHorses.count
+
+	local maxHorsesLimit = GetPlayerMaximumHorsesLimit(identifier, group, job)
+
+	if count >= maxHorsesLimit then
+		SendNotification(_source, Locales['REACHED_HORSES_LIMIT'], "error", 3000 )
+		return
+	end
+
+	SendNotification(_source, Locales['SUCCESSFULLY_RECEIVED_TAMED_HORSE'], "success", 5000 )
+
+    TamingHorses[horseIndex].source = 0
+    TamingHorses[horseIndex].tamed  = 0
+    TamingHorses[horseIndex].entity = 0
+
+    local entity = NetworkGetEntityFromNetworkId(HorseData.entity)
+
+    if DoesEntityExist(entity) then
+        DeleteEntity(entity)
+    end
+
+    local coords = vector3(HorseData.coords.x, HorseData.coords.y, HorseData.coords.z)
+    TPZ.TriggerClientEventAsyncByCoords("tpz_stables:client:updateTamingHorse", { 
+        horseIndex = horseIndex, 
+        action = 'RECEIVED', 
+        data = {} 
+    }, coords, 350.0, 1000, true, 40)
+
+    local date          = os.date('%d').. '/' ..os.date('%m').. '/' .. Config.Year .. " " .. os.date('%H') .. ":" .. os.date('%M') .. ":" .. os.date("%S") .. math.random(1,9)
+	local randomAge     = math.random(Config.Ageing.StartAdultAge.min, Config.Ageing.StartAdultAge.max)
+	randomAge           = math.floor(randomAge * 1440)
+
+	local randomSex     = math.random(0, 1)
+
+    local ModelData     = GetHorseModelData(HorseData.model)
+    local category      = GetHorseModelCategory(HorseData.model)
+
+	local Parameters = { 
+		['identifier']     = identifier,
+		['charidentifier'] = charIdentifier,
+		['model']          = HorseData.model,
+		['name']           = 'N/A',
+		['stats']          = json.encode( { health = 200, stamina = 200, shoes_type = 0, shoes_km_left = 0 } ),
+		['components']     = json.encode( { ['SADDLE'] = 0, ['BAG'] = 0, ['MASK'] = 0, ['BEDROLL'] = 0, ['BLANKET'] = 0, ['MANE'] = 0, ['MUSTACHE'] = 0, ['TAIL'] = 0, ['HORN'] = 0, ['STIRRUP'] = 0, ['BRIDLE'] = 0, ['LANTERN'] = 0, ['HOLSTER'] = 0 }),
+		['type']           = category,
+		['age']            = randomAge,
+		['sex']            = randomSex,
+		['bought_account'] = 0,
+		['training_stage_type'] = Config.Trainers.HorseTraining.Stages[1].Type,
+		['date']           = date,
+	}
+
+	exports.ghmattimysql:execute("INSERT INTO `horses` ( `identifier`, `charidentifier`, `model`, `name`, `stats`, `components`, `type`, `age`, `sex`, `bought_account`, `date`, `training_stage_type` ) VALUES ( @identifier, @charidentifier, @model, @name, @stats, @components, @type, @age, @sex, @bought_account, @date, @training_stage_type )", Parameters)
+
+	Wait(1500)
+
+	exports["ghmattimysql"]:execute("SELECT `id` FROM `horses` WHERE `date` = @date", { ["@date"] = date }, function(result)
+
+		if result and result[1] then
+
+			local horse_data = {
+				identifier           = identifier,
+				charidentifier       = charIdentifier,
+				model                = HorseData.model,
+				name                 = 'N/A',
+				stats                = { health = 200, stamina = 200, shoes_type = 0, shoes_km_left = 0 },
+				components           = { ['SADDLE'] = 0, ['BAG'] = 0, ['MASK'] = 0, ['BEDROLL'] = 0, ['BLANKET'] = 0, ['MANE'] = 0, ['MUSTACHE'] = 0, ['TAIL'] = 0, ['HORN'] = 0, ['STIRRUP'] = 0, ['BRIDLE'] = 0, ['LANTERN'] = 0, ['HOLSTER'] = 0 },
+				type                 = category,
+				age                  = randomAge,
+				sex                  = randomSex,
+				training_experience  = 0,
+				training_stage_index = 1,
+				training_stage_type  = Config.Trainers.HorseTraining.Stages[1].Type,
+				breeding             = 0,
+				bought_account       = 0,
+				container            = 0,
+				date                 = date,
+				isdead               = 0,
+			}
+
+			local Horses = GetHorses()
+
+			Horses[result[1].id]    = {}
+			Horses[result[1].id]    = horse_data
+			Horses[result[1].id].id = result[1].id
+
+			Horses[result[1].id].entity = 0
+			Horses[result[1].id].source = _source
+
+			TriggerEvent("tpz_inventory:registerContainerInventory", "horse_" .. result[1].id, Config.Storages.Horses.MaxWeightCapacity, true)
+
+			Wait(2500) -- mandatory wait.
+			local containerId = exports.tpz_inventory:getInventoryAPI().getContainerIdByName("horse_" .. result[1].id)
+			Horses[result[1].id].container = containerId
+	
+			exports.ghmattimysql:execute("UPDATE `horses` SET `container` = @container WHERE `id` = @id ", { ['id'] = result[1].id, ['container'] = containerId })
+
+			local ped = GetPlayerPed(_source)
+            local playerCoords = GetEntityCoords(ped)
+
+            local coords = vector3(playerCoords.x, playerCoords.y, playerCoords.z)
+            TPZ.TriggerClientEventAsyncByCoords("tpz_stables:client:updateHorse", { 
+				horseIndex = result[1].id, 
+				action = 'REGISTER', 
+				data = { identifier, charIdentifier, HorseData.model, category, randomAge, randomSex, 0, containerId, date, _source} 
+			}, coords, 350.0, 1000, true, 40)
+
+			if Config.Webhooks['RECEIVED_TAMED_HORSE'].Enabled then
+
+				local _w, _c      = Config.Webhooks['RECEIVED_TAMED_HORSE'].Url, Config.Webhooks['RECEIVED_TAMED_HORSE'].Color
+
+				local title       = "🐎`Player Received Tamed Horse`"
+				local description = string.format('A user with the steam name (`%s`), identifier (`%s`) and character identifier (`%s`) has received a new tamed horse.\n\n**Horse Model:** `%s, %s - %s `.',
+				steamName, identifier, charIdentifier, HorseData.model, category, ModelData[2])
+	
+				TPZ.SendToDiscord(_w, title, description, _c)
+			end
+
+		end
+
+	end)
+
+end)
+
 -----------------------------------------------------------
 --[[ Threads ]]--
 -----------------------------------------------------------
@@ -212,7 +407,7 @@ if Config.Taming.Enabled then
 
         for _, horse in pairs (TamingHorses) do
 
-            if horse.cooldown > 0 then
+            if horse.cooldown > 0 and horse.entity == 0 then
 
                 horse.cooldown = horse.cooldown - 1
 

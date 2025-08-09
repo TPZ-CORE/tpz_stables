@@ -57,6 +57,7 @@ Locales = {
     ['NOT_ENOUGH_TO_BUY_HORSE']       = "~e~You don't have enough dollars.",
     ['NOT_ENOUGH_TO_BUY_HORSE_GOLD']  = "~e~You don't have enough gold.",
     ['SUCCESSFULLY_BOUGHT_A_HORSE']   = "Congratulations, you have successfully bought new horse.",
+    ['SUCCESSFULLY_RECEIVED_TAMED_HORSE'] = "Congratulations, you are now having a new horse.",
     ['SUCCESSFULLY_GAVE_TARGET_A_HORSE'] = "You added a new horse to the target's ownership.",
     ["TARGET_RECEIVED_HORSE"]          = "You have received a new horse, check it out!",
 
@@ -79,6 +80,7 @@ Locales = {
 
     ['HORSE_NOT_OWNED']                = "~e~You don't have any horse active.",
     ['NO_HORSES_AVAILABLE']            = "~e~You don't have any horses available.",
+    ['NO_WAGONS_AVAILABLE']            = "~e~You don't have any wagons available.",
 
     ['NOT_PERMITTED']                  = "~e~You have insufficient permissions.",
     ['NOT_ONLINE']                     = "~e~Player is not online.",
@@ -87,6 +89,7 @@ Locales = {
     ['INVALID_WAGON_DOES_NOT_EXIST']   = "~e~The specified wagon model does not seem to exist.",
 
     ['HORSES_MANAGEMENT']              = "Horses Management",
+    ['WAGONS_MANAGEMENT']              = "Wagons Management",
 
     ['HORSE_SET_DEFAULT_TITLE']        = "Set Default",
     ['HORSE_COMPONENTS_TITLE']         = "Modify Outfit Equipments",
@@ -147,6 +150,31 @@ Locales = {
 
     ['TAMING_STARTS_TITLE']                = "TAMING STARTS IN",
     ['TAMING_STARTS_DESCRIPTION']          = "%s seconds",
+    ['ONLY_TAMED_HORSES']                  = "~e~The specified horse is not a tamed one.",
+
+    ['WAGON_MANAGEMENT_CATEGORY']          = "Category:",
+    ['WAGON_MANAGEMENT_MODEL_NAME']        = "Model Name:",
+    ['WAGON_SPAWN']                        = "Spawn Wagon / Coach",
+    ['WAGON_COMPONENTS_TITLE']             = "Modify Equipments",
+    ['WAGON_RENAME_TITLE']                 = "Rename Wagon",
+    ['WAGON_RENAME_INPUT_DESC']            = "What would you like to name the specified wagon?",
+    ['WAGON_TRANSFER_TITLE']               = "Transfer",
+    ['HORSE_TRANSFER_INPUT_DESC']          = "Insert a valid online player ID to transfer the specified horse.",
+    ['WAGON_SELL_TITLE']                   = "Sell",
+    ['RENAMED_WAGON']                      = "The specified wagon has been successfully renamed.",
+
+    ['WAGON_SELL_CASH_DESCRIPTION']        = "By selling, you will receive %s dollars.\n\nAre you sure that you want to sell the specified wagon?",
+    ['WAGON_SELL_GOLD_DESCRIPTION']        = "By selling, you will receive %s gold.\n\nAre you sure that you want to sell the specified wagon?",
+    ['WAGON_SELL_NO_EARNINGS_DESCRIPTION'] = "You are NOT getting any earnings, are you sure that you want to sell the specified wagon?",
+
+    ['WAGON_TRANSFERRED']                  = "You have successfully transferred a wagon.",
+    ['WAGON_TRANSFERRED_TARGET']           = "Someone has transferred a wagon to your ownership.",
+
+    ['WAGON_SOLD_CASH']                    = "You have received %s dollars for selling a wagon.",
+    ['WAGON_SOLD_GOLD']                    = "You have received %s gold for selling a wagon.",
+    ['WAGON_SOLD_NO_EARNINGS']             = "You have not received any earnings for selling the specified wagon.",
+
+    ['DOLLARS']                            = "dollars",
     
     -- [1] IS ALWAYS CASH, [2] IS ALWAYS GOLD! FOR HORSES OR WAGONS THAT CONTAIN DOLLARS AND GOLD
     ['INPUT_BUY_CURRENCIES']          = { 'DOLLARS', 'GOLD' },
@@ -189,6 +217,23 @@ Locales = {
         message = "The specified horse is already trained.",
         icon = "horse",
         duration = 4,
+        align = 'left',
+    },
+
+    
+    ['TAMING_FAILED'] = {
+        title = "Horse Training", 
+        message = "The horse taming has been failed and the horse can no longer be found.",
+        icon = "horse",
+        duration = 10,
+        align = 'left',
+    },
+
+    ['TAMING_SUCCESS'] = {
+        title = "Horse Training", 
+        message = "The horse has been successfully tamed! Go to the nearest stable to sell or get the horse into your ownership.",
+        icon = "horse",
+        duration = 10,
         align = 'left',
     },
 

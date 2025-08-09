@@ -399,8 +399,8 @@ AddEventHandler('tpz_stables:server:transferHorse', function(horseIndex, target)
 
 		local _w, _c      = Config.Webhooks['TRANSFERRED'].Url, Config.Webhooks['TRANSFERRED'].Color
 		local title       = "🐎`Player Transferred Horse`"
-		local description = string.format('A user with the steam name (`%s`), identifier (`%s`) and character identifier (`%s`) has sold a horse.\n\n**Horse Model:** `%s, %s - %s `.\n\n **Received:** `%s`.',
-		steamName, identifier, charIdentifier, HorseData.model, category, ModelData[2], receivedDescription)
+		local description = string.format('A user with the steam name (`%s`), identifier (`%s`) and character identifier (`%s`) has transferred a horse.\n\n**Horse Model:** `%s, %s - %s `.\n\n**Target Identifier:** `%s`\n\n**Target Character Identifier:** `%s`.',
+		steamName, identifier, charIdentifier, HorseData.model, category, ModelData[2], targetIdentifier, targetCharIdentifier)
 
 		TPZ.SendToDiscord(_w, title, description, _c)
 	end

@@ -109,6 +109,13 @@ AddEventHandler('tpz_stables:client:updateTamingHorse', function(cb)
 
     elseif action == 'NETWORK_ID' then
         TamingHorses[horseIndex].entity = data[1]
+
+    elseif action == 'SOLD' or action == 'RECEIVED' then
+        
+        TamingHorses[horseIndex].source = 0
+        TamingHorses[horseIndex].tamed  = 0
+        TamingHorses[horseIndex].entity = 0
+        
 	end
 
 end)
@@ -154,7 +161,7 @@ if Config.Taming.Enabled then
                         TriggerServerEvent("tpz_stables:server:updateTamingHorse", horse.id, 'REGISTER_SPAWNED')
                         Wait(2000)
                     end
-         
+
                 end
     
             end
@@ -233,6 +240,9 @@ if Config.Taming.Enabled then
 	
                                     Wait(5000)
                                     TriggerServerEvent("tpz_stables:server:updateTamingHorse", horse.id, 'FAILED_TAMING' )
+
+                                    local NotifyData = Locales['TAMING_FAILED']
+                                    TriggerEvent("tpz_notify:sendNotification", NotifyData.title, NotifyData.message, NotifyData.icon, 'error', NotifyData.duration, NotifyData.align)
                                     break
                                 end
 
@@ -241,7 +251,14 @@ if Config.Taming.Enabled then
 
                                 if success then
                                     Citizen.InvokeNative(0xAEB97D84CDF3C00B, entity, false) -- -wild horse for taming.
+
+                                    local NotifyData = Locales['TAMING_SUCCESS']
+                                    TriggerEvent("tpz_notify:sendNotification", NotifyData.title, NotifyData.message, NotifyData.icon, 'success', NotifyData.duration, NotifyData.align)
                                 end
+
+                                RIDING_TAMED_HORSE_ID = 0
+                                IS_TAMING             = false
+                                TAMING_COUNTDOWN      = Config.Taming.StartTamingCountdown
                             end
 
                         end
@@ -255,5 +272,60 @@ if Config.Taming.Enabled then
         end
 
     end)
+
+    Citizen.CreateThread(function()
+
+        while true do
+            Citizen.Wait(0)
+    
+            local sleep        = true
+
+            local PlayerData   = GetPlayerData()
+
+            local player       = PlayerPedId()
+            local isPlayerDead = IsEntityDead(player)
+    
+            if PlayerData.IsLoaded and not PlayerData.IsBusy and not PlayerData.IsOnMenu and not isPlayerDead then
+                
+                local hour       = GetClockHours()
+    
+                local coords     = GetEntityCoords(player)
+                local coordsDist = vector3(coords.x, coords.y, coords.z)
+    
+                for stableIndex, stableConfig in pairs(Config.Locations) do
+    
+                    local coordsStable = vector3(stableConfig.Coords.x, stableConfig.Coords.y, stableConfig.Coords.z)
+                    local distance     = #(coordsDist - coordsStable)
+    
+                    if (distance <= stableConfig.ActionDistance) and IsPedOnMount(player) then
+                        sleep = false
+
+                       -- local entityHorse = GetMount(playerPed)
+
+                        local promptGroup, promptList = GetPromptData()
+
+                        local label = CreateVarString(10, 'LITERAL_STRING', stableConfig.Name)
+                        PromptSetActiveGroupThisFrame(promptGroup, label)
+
+                        if PromptHasHoldModeCompleted(promptList) then
+
+                            PlayerData.IsOnMenu = true
+
+                        end
+
+                    end
+
+                end
+
+            end
+
+            if sleep then
+                Wait(1200)
+            end
+
+        end
+
+    end)
+
 
 end

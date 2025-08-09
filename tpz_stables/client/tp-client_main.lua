@@ -24,8 +24,8 @@ local PlayerData = {
     SelectedHorseIndex = 0,
     SpawnedHorseEntity = nil,
 
-    SpawnedWagonEntity = 0,
-    SpawnedWagonModel  = nil,
+    SpawnedWagonIndex  = 0,
+    SpawnedWagonEntity = nil,
 
     IsLoaded           = false,
     
@@ -216,7 +216,7 @@ Citizen.CreateThread(function()
 
                 end
 
-                if isAllowed then
+                if isAllowed and not IsPedOnMount(player) then
 
                     if (distance <= stableConfig.ActionDistance) then
                         sleep = false
