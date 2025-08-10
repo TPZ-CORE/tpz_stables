@@ -18,10 +18,10 @@
 
 ## Commands 
 
-| Command                          | Ace Permission                     | Description                                                               |
-|----------------------------------|------------------------------------|---------------------------------------------------------------------------|
-| addhorse [source] [model] [sex]  | tpzcore.stables.addhorse           | Execute this command to add (give) a horse on the selected player source. |
-| addwagon [source] [model]        | tpzcore.stables.addwagon           | Execute this command to add (give) a wagon on the selected player source. |
+| Command                          | Ace Permission                     | Description                                                               | Console / TXAdmin Console Support |
+|----------------------------------|------------------------------------|---------------------------------------------------------------------------|-----------------------------------|
+| addhorse [source] [model] [sex]  | tpzcore.stables.addhorse           | Execute this command to add (give) a horse on the selected player source. | Yes |
+| addwagon [source] [model]        | tpzcore.stables.addwagon           | Execute this command to add (give) a wagon on the selected player source. | Yes |
 
 - The ace permission: `tpzcore.all` Gives permissioms to all commands (FOR ALL OFFICIAL PUBLISHED FREE SCRIPTS).
 - The ace permission: `tpzcore.stables.all` Gives permissions to all commands ONLY for this script.
