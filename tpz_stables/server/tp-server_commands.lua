@@ -5,20 +5,31 @@ local TPZ = exports.tpz_core:getCoreAPI()
 -----------------------------------------------------------
 
 RegisterCommand(Config.Commands["ADD_HORSE"].Command, function(source, args, rawCommand)
-  local _source        = source
-	local xPlayer        = TPZ.GetPlayer(source)
-	local identifier     = xPlayer.getIdentifier()
-	local charIdentifier = xPlayer.getCharacterIdentifier()
-  local steamName      = GetPlayerName(_source)
+  local _source = source
+  local hasPermissions, await = false, true
 
-  local hasAcePermissions           = xPlayer.hasPermissionsByAce("tpzcore.stables.addhorse") or xPlayer.hasPermissionsByAce("tpzcore.stables.all")
-  local hasAdministratorPermissions = hasAcePermissions
+  if _source ~= 0 then
+    local xPlayer = TPZ.GetPlayer(source)
 
-  if not hasAcePermissions then
-      hasAdministratorPermissions = xPlayer.hasAdministratorPermissions(Config.Commands["ADD_HORSE"].PermittedGroups, Config.Commands["ADD_HORSE"].PermittedDiscordRoles)
+    hasPermissions = xPlayer.hasPermissionsByAce("tpzcore.stables.addhorse") or xPlayer.hasPermissionsByAce("tpzcore.stables.all")
+
+    if not hasPermissions then
+      hasPermissions = xPlayer.hasAdministratorPermissions(Config.Commands["ADD_HORSE"].PermittedGroups, Config.Commands["ADD_HORSE"].PermittedDiscordRoles)
+    end
+
+    await = false
+
+  else
+
+    hasPermissions = true
+    await = false
   end
 
-  if hasAcePermissions or hasAdministratorPermissions then
+  while await do
+    Wait(100)
+  end
+
+  if hasPermissions then
     
     local target, model, sex = args[1], args[2], args[3]
 
@@ -72,6 +83,9 @@ RegisterCommand(Config.Commands["ADD_HORSE"].Command, function(source, args, raw
       return
     end
 
+    SendNotification(_source, Locales['SUCCESSFULLY_GAVE_TARGET_A_HORSE'], "success", 3000 )
+    SendNotification(target, Locales["TARGET_RECEIVED_HORSE"], "success", 5000)
+
     local date      = os.date('%d').. '/' ..os.date('%m').. '/' .. Config.Year .. " " .. os.date('%H') .. ":" .. os.date('%M') .. ":" .. os.date("%S") .. math.random(1,9)
     local randomAge = math.random(Config.Ageing.StartAdultAge.min, Config.Ageing.StartAdultAge.max)
     randomAge       = math.floor(randomAge * 1440)
@@ -109,11 +123,14 @@ RegisterCommand(Config.Commands["ADD_HORSE"].Command, function(source, args, raw
   				type                = category,
   				age                 = randomAge,
   				sex                 = sex,
-          training_experience = 0,
+          training_experience  = 0,
+          training_stage_index = 1,
+          training_stage_type  = Config.Trainers.HorseTraining.Stages[1].Type,
           breeding            = 0,
           bought_account      = -1,
           container           = 0,
   				date                = date,
+          isdead               = 0,
         }
 
         local Horses = GetHorses()
@@ -125,21 +142,30 @@ RegisterCommand(Config.Commands["ADD_HORSE"].Command, function(source, args, raw
   			Horses[result[1].id].entity = 0
   			Horses[result[1].id].source = target
 
-  			SendNotification(_source, Locales['SUCCESSFULLY_GAVE_TARGET_A_HORSE'], "success", 3000 )
-        SendNotification(target, Locales["TARGET_RECEIVED_HORSE"], "success", 5000)
+        TriggerEvent("tpz_inventory:registerContainerInventory", "horse_" .. result[1].id, Config.Storages.Horses.MaxWeightCapacity, true)
+
+        Wait(2500) -- mandatory wait.
+        local containerId = exports.tpz_inventory:getInventoryAPI().getContainerIdByName("horse_" .. result[1].id)
+        Horses[result[1].id].container = containerId
+    
+        exports.ghmattimysql:execute("UPDATE `horses` SET `container` = @container WHERE `id` = @id ", { ['id'] = result[1].id, ['container'] = containerId })
 
         local ped = GetPlayerPed(target)
         local targetPlayerCoords = GetEntityCoords(ped)
 
         local coords = vector3(targetPlayerCoords.x, targetPlayerCoords.y, targetPlayerCoords.z)
-
         TPZ.TriggerClientEventAsyncByCoords("tpz_stables:client:updateHorse", { 
           horseIndex = result[1].id, 
           action = 'REGISTER', 
-          data = { targetIdentifier, targetCharIdentifier, model, category, randomAge, sex, -1, date} 
+          data = { targetIdentifier, targetCharIdentifier, model, category, randomAge, sex, -1, containerId, date, target} 
         }, coords, 350.0, 1000, true, 40)
 
-        if Config.Webhooks['COMMANDS'].Enabled then
+        if Config.Webhooks['COMMANDS'].Enabled and _source ~= 0 then
+
+          local xPlayer        = TPZ.GetPlayer(_source)
+          local identifier     = xPlayer.getIdentifier()
+          local charIdentifier = xPlayer.getCharacterIdentifier()
+          local steamName      = GetPlayerName(_source)
 
           local _w, _c  = Config.Webhooks['COMMANDS'].Url, Config.Webhooks['COMMANDS'].Color
           local title   = string.format("📋` /%s %s %s %s`", Config.Commands["ADD_HORSE"].Command, target, model, sex)
@@ -161,20 +187,27 @@ RegisterCommand(Config.Commands["ADD_HORSE"].Command, function(source, args, raw
 end, false)
 
 RegisterCommand(Config.Commands["ADD_WAGON"].Command, function(source, args, rawCommand)
-  local _source        = source
-	local xPlayer        = TPZ.GetPlayer(source)
-	local identifier     = xPlayer.getIdentifier()
-	local charIdentifier = xPlayer.getCharacterIdentifier()
-  local steamName      = GetPlayerName(_source)
+  local _source = source
+  local hasPermissions, await = false, true
 
-  local hasAcePermissions           = xPlayer.hasPermissionsByAce("tpzcore.stables.addwagon") or xPlayer.hasPermissionsByAce("tpzcore.stables.all")
-  local hasAdministratorPermissions = hasAcePermissions
+  if _source ~= 0 then
 
-  if not hasAcePermissions then
-      hasAdministratorPermissions = xPlayer.hasAdministratorPermissions(Config.Commands["ADD_WAGON"].PermittedGroups, Config.Commands["ADD_WAGON"].PermittedDiscordRoles)
+    hasPermissions = xPlayer.hasPermissionsByAce("tpzcore.stables.addwagon") or xPlayer.hasPermissionsByAce("tpzcore.stables.all")
+
+    if not hasPermissions then
+      hasPermissions = xPlayer.hasAdministratorPermissions(Config.Commands["ADD_WAGON"].PermittedGroups, Config.Commands["ADD_WAGON"].PermittedDiscordRoles)
+    end
+
+  else
+    hasPermissions = true
+    await = false
   end
 
-  if hasAcePermissions or hasAdministratorPermissions then
+  while await do
+    Wait(100)
+  end
+
+  if hasPermissions then
     
     local target, model = args[1], args[2]
 
@@ -223,10 +256,11 @@ RegisterCommand(Config.Commands["ADD_WAGON"].Command, function(source, args, raw
   		['stats']          = json.encode( { body = 1000, wheels = 0 } ),
   		['components']     = json.encode( { colors = 0, livery = 0, props = 0, lights = 0 } ),
       ['type']           = category,
+      ['bought_account'] = -1,
   		['date']           = date,
     }
 
-    exports.ghmattimysql:execute("INSERT INTO `wagons` ( `identifier`, `charidentifier`, `model`, `name`, `components`, `type`, `date` ) VALUES ( @identifier, @charidentifier, @model, @name, @components, @type, @date )", Parameters)
+    exports.ghmattimysql:execute("INSERT INTO `wagons` ( `identifier`, `charidentifier`, `model`, `name`, `components`, `type`, `bought_account`, `date` ) VALUES ( @identifier, @charidentifier, @model, @name, @components, @type, @bought_account, @date )", Parameters)
 
     Wait(1500)
 
@@ -270,7 +304,22 @@ RegisterCommand(Config.Commands["ADD_WAGON"].Command, function(source, args, raw
           exports.ghmattimysql:execute("UPDATE `wagons` SET `container` = @container WHERE `id` = @id ", { ['id'] = result[1].id, ['container'] = containerId })
         end
 
-        if Config.Webhooks['COMMANDS'].Enabled then
+        local ped = GetPlayerPed(target)
+        local targetPlayerCoords = GetEntityCoords(ped)
+
+        local coords = vector3(targetPlayerCoords.x, targetPlayerCoords.y, targetPlayerCoords.z)
+        TPZ.TriggerClientEventAsyncByCoords("tpz_stables:client:updateWagon", { 
+          wagonIndex = result[1].id, 
+          action = 'REGISTER', 
+          data = { targetIdentifier, targetCharIdentifier, model, category, -1, Wagons[result[1].id].container, date} 
+        }, coords, 350.0, 1000, true, 40)
+      
+        if Config.Webhooks['COMMANDS'].Enabled and _source ~= 0 then
+
+          local xPlayer        = TPZ.GetPlayer(_source)
+          local identifier     = xPlayer.getIdentifier()
+          local charIdentifier = xPlayer.getCharacterIdentifier()
+          local steamName      = GetPlayerName(_source)
 
           local _w, _c  = Config.Webhooks['COMMANDS'].Url, Config.Webhooks['COMMANDS'].Color
           local title   = string.format("📋` /%s %s %s`", Config.Commands["ADD_WAGON"].Command, target, model)
