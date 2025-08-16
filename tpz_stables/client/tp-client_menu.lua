@@ -1804,7 +1804,7 @@ function OpenStableMenu(locationIndex)
     },
 
     function(data, menu)
-        if (data.current == "backup") or (data.current.value == "exit") then 
+        if (data.current == "backup") or (data.current.value == "EXIT") then 
             menu.close()
             CloseMenu()
             return
@@ -1986,3 +1986,4 @@ function StartStableThreads()
     end)
 
 end
+
