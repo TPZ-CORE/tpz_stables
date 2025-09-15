@@ -21,19 +21,19 @@ We provide you all the following features:
 __Horses:__
 
 1. **Horse Training** — When a horse is not trained, the statistics of this horse will be lower - until this horse gets trained. (Supports Jobs Only)
-2. Horse Taming — When a horse is tamed, this horse can be sold to the stable or become yours (Supports Jobs / Not).
-3. Horse Bags, Brushing & Feeding actions. 
-4. Horse Outfit Components — The outfits of the horses spawn properly with a rendering system, all components are local-sided. 
-5. Horse Shoes — When a horse is wearing horse shoes, there will NOT be any stamina consumption.
-6. Horse Reviving — A horse trainer can revive with an injection horses who are unconscious. 
-7. Aging System — An aging system for the horses which prevents a horse to live forever but having a real-time aging. 
-8. Owned Horse Limitations. 
+2. **Horse Taming** — When a horse is tamed, this horse can be sold to the stable or become yours (Supports Jobs / Not).
+3. **Horse Bags, Brushing & Feeding actions.**
+4. **Horse Outfit Components** — The outfits of the horses spawn properly with a rendering system, all components are local-sided. 
+5. **Horse Shoes** — When a horse is wearing horse shoes, there will NOT be any stamina consumption.
+6. **Horse Reviving** — A horse trainer can revive with an injection horses who are unconscious. 
+7. **Aging System** — An aging system for the horses which prevents a horse to live forever but having a real-time aging. 
+8. **Owned Horse Limitations** — This can be used for normal users to prevent having many horses on their ownership. 
 
 __Wagons:__
 
-1. Wagon Wheel Repairs — The required jobs will be able to repair the destroyed wagon wheels. Once the wagon is stored, the system checks which wheels are broken or not, in order to spawn the wagon the next time with the correct destroyed wheels. 
-2. Wagon Storage, Wardrobe, Store and Repair actions. 
-3. Wagon Outfit Components — The outfits of the wagons spawn properly with a rendering system, all components are local-sided. 
+1. **Wagon Wheel Repairs** — The required jobs will be able to repair the destroyed wagon wheels. Once the wagon is stored, the system checks which wheels are broken or not, in order to spawn the wagon the next time with the correct destroyed wheels. 
+2. **Wagon Storage, Wardrobe, Store and Repair actions.**
+3. **Wagon Outfit Components** — The outfits of the wagons spawn properly with a rendering system, all components are local-sided. 
 
 
 
