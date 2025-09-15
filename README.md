@@ -27,6 +27,7 @@ __Horses:__
 5. Horse Shoes — When a horse is wearing horse shoes, there will NOT be any stamina consumption.
 6. Horse Reviving — A horse trainer can revive with an injection horses who are unconscious. 
 7. Aging System — An aging system for the horses which prevents a horse to live forever but having a real-time aging. 
+8. Owned Horse Limitations. 
 
 __Wagons:__
 
