@@ -199,79 +199,13 @@ Locales = {
     ['INPUT_BUY_CURRENCIES']          = { 'DOLLARS', 'GOLD' },
 
     -- Horse Related (Training, etc).
-    ['TRAINING_NO_HORSE'] = {
-        title = "Horse Training", 
-        message = "You don't have any horse spawned to start training.",
-        icon = "horse",
-        duration = 4,
-        align = 'left',
-    },
-
-    ['TRAINING_STARTED'] = {
-        title = "Horse Training", 
-        message = "The horse training has officially started! Do your best!",
-        icon = "horse",
-        duration = 4,
-        align = 'left',
-    },
-
-    ['TRAINING_STOPPED'] = {
-        title = "Horse Training", 
-        message = "The horse training been stopped or cancelled.",
-        icon = "horse",
-        duration = 4,
-        align = 'left',
-    },
-
-    ['TRAINING_CANCELLED'] = {
-        title = "Horse Training", 
-        message = "The horse training been cancelled.",
-        icon = "horse",
-        duration = 4,
-        align = 'left',
-    },
-
-    ['TRAININING_ALREADY_TRAINED'] = {
-        title = "Horse Training", 
-        message = "The specified horse is already trained.",
-        icon = "horse",
-        duration = 4,
-        align = 'left',
-    },
-
-    
-    ['TAMING_FAILED'] = {
-        title = "Horse Training", 
-        message = "The horse taming has been failed and the horse can no longer be found.",
-        icon = "horse",
-        duration = 10,
-        align = 'left',
-    },
-
-    ['TAMING_SUCCESS'] = {
-        title = "Horse Training", 
-        message = "The horse has been successfully tamed! Go to the nearest stable to sell or get the horse into your ownership.",
-        icon = "horse",
-        duration = 10,
-        align = 'left',
-    },
-
-    
-    ['CANNOT_SPAWN_WAGON_NEARBY_WAGONS'] = {
-        title = "Wagons", 
-        message = "You cannot spawn the wagon, there is already a vehicle blocking the spawning position.",
-        icon = "wagon",
-        duration = 5,
-        align = 'left',
-    },
-
-    ['WAGON_EQUIPMENTS_DOES_NOT_EXIST'] = {
-        title = "Wagons", 
-        message = "The specified model does not seem to have any equipments available such as: colors, liveries, props or lights.",
-        icon = "wagon",
-        duration = 7,
-        align = 'left',
-    },
-
-
+    ['TRAINING_NO_HORSE'] = "You don't have any horse spawned to start training.",
+    ['TRAINING_STARTED'] = "The horse training has officially started! Do your best!",
+    ['TRAINING_STOPPED'] = "The horse training been stopped or cancelled.",
+    ['TRAINING_CANCELLED'] = "The horse training been cancelled.",
+    ['TRAININING_ALREADY_TRAINED'] = "The specified horse is already trained.",
+    ['TAMING_FAILED'] = "The horse taming has been failed and the horse can no longer be found.",
+    ['TAMING_SUCCESS'] = "The horse has been successfully tamed! Go to the nearest stable to sell or get the horse into your ownership.",
+    ['CANNOT_SPAWN_WAGON_NEARBY_WAGONS'] = "You cannot spawn the wagon, there is already a vehicle blocking the spawning position.",
+    ['WAGON_EQUIPMENTS_DOES_NOT_EXIST'] = "The specified model does not seem to have any equipments available such as: colors, liveries, props or lights.",
 }
