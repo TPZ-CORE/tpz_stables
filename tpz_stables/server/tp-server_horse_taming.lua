@@ -190,7 +190,7 @@ AddEventHandler('tpz_stables:server:sell_tamed_horse', function(horseIndex)
     local HorseData      = TamingHorses[horseIndex]
 
     if (HorseData == nil) or (HorseData and HorseData.entity == 0) then
-        SendNotification(_source, Locales['ONLY_TAMED_HORSES_CAN_BE_SOLD'], "error")
+        SendNotification(_source, Locales['HORSE_NOTIFY_TITLE'], Locales['ONLY_TAMED_HORSES_CAN_BE_SOLD'], "error", 3, "horse", "left")
         return
     end
 
@@ -201,7 +201,7 @@ AddEventHandler('tpz_stables:server:sell_tamed_horse', function(horseIndex)
 
     xPlayer.addAccount(0, receiveMoney)
 
-    SendNotification(_source, sellDescription, "success")
+    SendNotification(_source, Locales['HORSE_NOTIFY_TITLE'], sellDescription, "success", 5, "horse", "left")
 
     TamingHorses[horseIndex].source = 0
     TamingHorses[horseIndex].tamed  = 0
@@ -245,7 +245,8 @@ AddEventHandler('tpz_stables:server:tamed_horse_ownership', function(horseIndex)
     local HorseData      = TamingHorses[horseIndex]
 
     if (HorseData == nil) or (HorseData and HorseData.entity == 0) then
-        SendNotification(_source, Locales['ONLY_TAMED_HORSES'], "error")
+        SendNotification(_source, Locales['HORSE_NOTIFY_TITLE'], Locales['ONLY_TAMED_HORSES'], "error", 3, "horse", "left")
+
         return
     end
 
@@ -255,11 +256,11 @@ AddEventHandler('tpz_stables:server:tamed_horse_ownership', function(horseIndex)
 	local maxHorsesLimit = GetPlayerMaximumHorsesLimit(identifier, group, job)
 
 	if count >= maxHorsesLimit then
-		SendNotification(_source, Locales['REACHED_HORSES_LIMIT'], "error", 3000 )
+        SendNotification(_source, Locales['HORSE_NOTIFY_TITLE'], Locales['REACHED_HORSES_LIMIT'], "error", 3, "horse", "left")
 		return
 	end
 
-	SendNotification(_source, Locales['SUCCESSFULLY_RECEIVED_TAMED_HORSE'], "success", 5000 )
+    SendNotification(_source, Locales['HORSE_NOTIFY_TITLE'], Locales['SUCCESSFULLY_RECEIVED_TAMED_HORSE'], "success", 5, "horse", "left")
 
     TamingHorses[horseIndex].source = 0
     TamingHorses[horseIndex].tamed  = 0
