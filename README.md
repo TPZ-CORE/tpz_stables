@@ -1,7 +1,5 @@
 # TPZ-CORE Stables
 
-## UNDER DEVELOPMENT! 
-
 ## Requirements
 
 1. TPZ-Core: https://github.com/TPZ-CORE/tpz_core
@@ -15,6 +13,25 @@
 1. When opening the zip file, open `tpz_stables-main` directory folder and inside there will be another directory folder which is called as `tpz_stables`, this directory folder is the one that should be exported to your resources (The folder which contains `fxmanifest.lua`).
 
 2. Add `ensure tpz_stables` after the **REQUIREMENTS** in the resources.cfg or server.cfg, depends where your scripts are located.
+
+## Features
+
+We provide you all the following features:
+
+__Horses:__
+
+1. Horse Training
+2. Horse Taming. 
+3. Horse Bags, Brushing & Feeding actions. 
+4. Horse Outfit Components. 
+
+__Wagons:__
+
+1. Wagon Wheel Repairs — The required jobs will be able to repair the destroyed wagon wheels. Once the wagon is stored, the system checks which wheels are broken or not, in order to spawn the wagon the next time with the correct destroyed wheels. 
+2. Wagon Storage, Wardrobe, Store and Repair actions. 
+3. Wagon Outfit Components. 
+
+
 
 ## Commands 
 
