@@ -106,7 +106,7 @@ AddEventHandler('tpz_stables:server:buyHorse', function(locationIndex, categoryI
 	local maxHorsesLimit = GetPlayerMaximumHorsesLimit(identifier, group, job)
 
 	if count >= maxHorsesLimit then
-		SendNotification(_source, Locales['REACHED_HORSES_LIMIT'], "error", 3000 )
+		TriggerClientEvent("tpz_core:sendBottomTipNotification", _source, Locales['REACHED_HORSES_LIMIT'], "error", 3000 )
 		return
 	end
 
@@ -128,7 +128,7 @@ AddEventHandler('tpz_stables:server:buyHorse', function(locationIndex, categoryI
 	end
 
 	if money < cost then
-		SendNotification(_source, notEnoughDisplay, "error", 3000)
+		TriggerClientEvent("tpz_core:sendBottomTipNotification", _source, notEnoughDisplay, "error", 3000)
 		return
 	end
 
@@ -353,19 +353,19 @@ AddEventHandler('tpz_stables:server:transferHorse', function(horseIndex, target)
     local targetSteamName = GetPlayerName(target)
 
 	if target == _source then
-		SendNotification(_source, Locales['CANNOT_TRANSFER_TO_SELF'], "error")
+		TriggerClientEvent("tpz_core:sendBottomTipNotification", _source, Locales['CANNOT_TRANSFER_TO_SELF'], "error")
 		return
 	end
 
     if targetSteamName == nil then
-      SendNotification(_source, Locales['NOT_ONLINE'], "error")
+      TriggerClientEvent("tpz_core:sendBottomTipNotification", _source, Locales['NOT_ONLINE'], "error")
       return
     end
 
     local tPlayer = TPZ.GetPlayer(target)
 
     if not tPlayer.loaded() then
-      SendNotification(_source, Locales['PLAYER_IS_ON_SESSION'], "error")
+      TriggerClientEvent("tpz_core:sendBottomTipNotification", _source, Locales['PLAYER_IS_ON_SESSION'], "error")
       return
     end
 
@@ -380,7 +380,7 @@ AddEventHandler('tpz_stables:server:transferHorse', function(horseIndex, target)
     local maxHorsesLimit      = GetPlayerMaximumHorsesLimit(targetIdentifier, targetGroup, targetJob)
 
     if count >= maxHorsesLimit then
-      SendNotification(_source, Locales['TARGET_REACHED_HORSES_LIMIT'], "error", 3000 )
+      TriggerClientEvent("tpz_core:sendBottomTipNotification", _source, Locales['TARGET_REACHED_HORSES_LIMIT'], "error", 3000 )
       return
     end
 
