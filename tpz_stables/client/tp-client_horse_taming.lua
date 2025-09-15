@@ -7,7 +7,7 @@ local RIDING_TAMED_HORSE_ID = 0
 local IS_TAMING = false
 local TAMING_COUNTDOWN = Config.Taming.StartTamingCountdown
 
-local HasThreadStarted = false
+local hasThreadActive = false
 
 -----------------------------------------------------------
 --[[ Local Functions ]]--
@@ -139,16 +139,17 @@ end)
 if Config.Taming.Enabled then
 
 AddEventHandler('tpz_stables:client:start_taming_tasks', function(cb)
-    local PlayerData  = GetPlayerData()
-    local canDoTaming = false
 
     while not Loaded do
         Wait(500)
     end
 
-    if HasThreadStarted then
+    if hasThreadActive then
         return
     end
+
+    local PlayerData  = GetPlayerData()
+    local canDoTaming = false
 
     if Config.Taming.Jobs == false then
         canDoTaming = true
@@ -169,7 +170,7 @@ AddEventHandler('tpz_stables:client:start_taming_tasks', function(cb)
         return
     end
 
-    HasThreadStarted = true
+    hasThreadActive = true
     
     Citizen.CreateThread(function()
 
