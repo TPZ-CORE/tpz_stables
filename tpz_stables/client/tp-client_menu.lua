@@ -624,7 +624,7 @@ function OpenWagonManagementById(selectedWagonId)
             PlayerData.SelectedWagonIndex = selectedWagonId
             TriggerServerEvent("tpz_stables:server:updateWagon", selectedWagonId, 'SET_DEFAULT', { })
 
-            SendNotification(nil, Locales['WAGON_SET_AS_DEFAULT'], 'success')
+            SendNotification(nil, Locales['WAGON_NOTIFY_TITLE'], Locales["WAGON_SET_AS_DEFAULT"], "success", 5, "wagon", "left")
 
         elseif (data.current.value == 'rename') then
 
@@ -642,7 +642,7 @@ function OpenWagonManagementById(selectedWagonId)
 
                     PlayerData.Wagons[selectedWagonId].name = cb
 
-                    SendNotification(nil, Locales['RENAMED_WAGON'], 'success')
+                    SendNotification(nil, Locales['WAGON_NOTIFY_TITLE'], Locales[RENAMED_WAGON"], "success", 3, "wagon", "left")
 
                     menu.close()
                     OpenWagonManagementById(selectedWagonId)
@@ -699,7 +699,7 @@ function OpenWagonManagementById(selectedWagonId)
                 local inputId = tonumber(cb)
 
                 if inputId == nil and inputId <= 0 then
-                    SendNotification(Locales['INVALID_INPUT'], "error")
+                    SendNotification(nil, Locales['WAGON_NOTIFY_TITLE'], Locales["INVALID_INPUT"], "error", 3, "wagon", "left")
                     return
                 end
 
@@ -724,7 +724,7 @@ function OpenWagonManagementById(selectedWagonId)
                     OpenStableMenu()
 
                 else
-                    SendNotification(nil, Locales['PLAYER_NOT_FOUND'], "error")
+                    SendNotification(nil, Locales['WAGON_NOTIFY_TITLE'], Locales["PLAYER_NOT_FOUND"], "error", 3, "wagon", "left")
                 end
 
             end) 
@@ -732,13 +732,12 @@ function OpenWagonManagementById(selectedWagonId)
         elseif (data.current.value == 'components') then
 
             if not IsStableOpen(StableData) then 
-                SendNotification(nil, Locales['STABLE_IS_CLOSED'], 'error')
+                SendNotification(nil, Locales['WAGON_NOTIFY_TITLE'], Locales["STABLE_IS_CLOSED"], "error", 3, "wagon", "left")
                 return
             end
 
             if Config.WagonEquipments[WagonData.model] == nil then
-                local NotifyData = Locales['WAGON_EQUIPMENTS_DOES_NOT_EXIST']
-                TriggerEvent("tpz_notify:sendNotification", NotifyData.title, NotifyData.message, NotifyData.icon, 'error', NotifyData.duration, NotifyData.align)
+                SendNotification(nil, Locales['WAGON_NOTIFY_TITLE'], Locales["WAGON_EQUIPMENTS_DOES_NOT_EXIST"], "error", 5, "wagon", "left")
                 return
             end
 
