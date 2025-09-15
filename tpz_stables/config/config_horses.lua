@@ -67,60 +67,23 @@ Config.Horses = {
 	
 		},
 	},
-
+	
 	{ 
 
-		Category = 'Thoroughbred',
+		Category = 'Kladruber',
 
-		BackgroundImage = "thoroughbred",
-
-		-- PARAMETERS: ("ENTITY MODEL", "LABEL", "CASH", "GOLD", "STATS", "JOBS", "SELL CASH", "SELL GOLD", "MAXIMUM AGE", "DELETE AGE")
-		-- STATS: [1] SPEED, [2] STAMINA, [3] HEALTH, [4] ACCELERATION, [5] HANDLING
-		Horses = {
-
-			{"a_c_horse_thoroughbred_blackchestnut", "Black Chestnut", 350, 35, { 70, 30, 30, 50, 60 }, {}, 175, 0, 120, 130 }, 
-			{"a_c_horse_thoroughbred_bloodbay", "Blood Bay", 350, 35, { 40, 30, 30, 30, 60 }, {}, 175, 0, 120, 130 }, 
-			{"a_c_horse_thoroughbred_brindle", "Brindle", 350, 35, { 70, 30, 30, 50, 60 }, {}, 175, 0, 120, 130 }, 
-			{"a_c_horse_thoroughbred_dapplegrey", "Dappled Grey", 350, 35, { 40, 30, 30, 30, 60 }, {}, 175, 0, 120, 130 }, 
-			{"a_c_horse_thoroughbred_reversedappleblack", "Reverse Dappled Black", 350, 35, { 70, 30, 30, 50, 60 }, {}, 175, 0, 120, 130 },          
-		},
-	},
-
-	{
-
-		Category = 'Criollo',
-
-		BackgroundImage = "criollo",
+		BackgroundImage = "kladruber",
 
 		-- PARAMETERS: ("ENTITY MODEL", "LABEL", "CASH", "GOLD", "STATS", "JOBS", "SELL CASH", "SELL GOLD", "MAXIMUM AGE", "DELETE AGE")
 		-- STATS: [1] SPEED, [2] STAMINA, [3] HEALTH, [4] ACCELERATION, [5] HANDLING
 		Horses = {
 
-			{"a_c_horse_criollo_baybrindle", "Bay Brindle", 350, 35, { 60, 50, 40, 40, 40 }, {}, 175, 0, 120, 130 }, 
-			{"a_c_horse_criollo_bayframeovero", "Bay Frame Overo", 350, 35, { 70, 60, 50, 50, 40 }, {}, 175, 0, 120, 130 }, 
-			{"a_c_horse_criollo_blueroanovero", "Blue Roan Overo", 350, 35, { 50, 40, 30, 30, 40 }, {}, 175, 0, 120, 130 }, 
-			{"a_c_horse_criollo_dun", "Dun", 350, 35, { 50, 40, 30, 30, 40 }, {}, 175, 0, 120, 130 }, 
-			{"a_c_horse_criollo_marblesabino", "Marble Sabino", 350, 35, { 70, 60, 50, 40, 40}, {}, 175, 0, 120, 130 },
-			{"a_c_horse_criollo_sorrelovero", "Sorrel Overo", 350, 35, { 60, 50, 40, 40, 40 }, {}, 175, 0, 120, 130 },         
-		},
-	},
-
-	{
-
-		Category = 'Norfolk',
-
-		BackgroundImage = "norfolk",
-
-		-- PARAMETERS: ("ENTITY MODEL", "LABEL", "CASH", "GOLD", "STATS", "JOBS", "SELL CASH", "SELL GOLD", "MAXIMUM AGE", "DELETE AGE")
-		-- STATS: [1] SPEED, [2] STAMINA, [3] HEALTH, [4] ACCELERATION, [5] HANDLING
-		Horses = {
-
-			{"a_c_horse_norfolkroadster_spottedtricolor", "Spotted Tricolor", 350, 35, {70, 60, 40, 60, 40 }, {"police", "sheriff", "marshall", "detective", "judecator"}, 175, 0, 120, 130 }, 
-			{"a_c_horse_norfolkroadster_speckledgrey", "Speckled Grey", 350, 35, { 50, 40, 20, 40, 40 }, {"medic"}, 175, 0, 120, 130 }, 
-			{"a_c_horse_norfolkroadster_rosegrey", "Rose Grey", 350, 35, { 60, 50, 30, 50, 40 }, {}, 175, 0, 120, 130 }, 
-			{"a_c_horse_norfolkroadster_piebaldroan", "Piebaldo Roan", 350, 35, { 60, 50, 30, 50, 40 }, {}, 175, 0, 120, 130 }, 
-			{"a_c_horse_norfolkroadster_dappledbuckskin", "Dappled Buckskin", 350, 35, { 70, 60, 40, 60, 40}, {}, 175, 0, 120, 130 },
-			{"a_c_horse_norfolkroadster_black", "Black", 350, 35, { 50, 40, 20, 40, 40 }, {}, 175, 0, 120, 130 },           
+			{"a_c_horse_kladruber_black", "Black", 150, 15, { 20, 50, 50, 30, 40 }, {}, 75, 0, 60, 70 }, 
+			{"a_c_horse_kladruber_cremello", "Cremello", 150, 15, { 30, 60, 60, 40, 40 }, {}, 75, 0, 60, 70 }, 
+			{"a_c_horse_kladruber_dapplerosegrey", "Dappler Rose Grey", 200, 20, { 40, 70, 70, 50, 40 }, {}, 100, 0, 60, 70 }, 
+			{"a_c_horse_kladruber_grey", "Grey", 150, 15, { 30, 60, 60, 40, 40 }, {}, 75, 0, 60, 70 }, 
+			{"a_c_horse_kladruber_silver", "Silver", 150, 15, { 40, 70, 70, 50, 40 }, {}, 75, 0, 60, 70 },
+			{"a_c_horse_kladruber_white", "White", 150, 15, { 20, 50, 50, 30, 40 }, {}, 75, 0, 60, 70 },
 		},
 	},
 
@@ -134,17 +97,131 @@ Config.Horses = {
 		-- STATS: [1] SPEED, [2] STAMINA, [3] HEALTH, [4] ACCELERATION, [5] HANDLING
 		Horses = {
 
-			{"a_c_horse_mustang_blackovero", "Black Overo", 350, 35, { 60, 60, 50, 30, 40 }, {}, 175, 0, 120, 130 }, 
-			{"a_c_horse_mustang_buckskin", "Buckskin", 350, 35, { 60, 60, 50, 30, 40 }, {}, 175, 0, 120, 130 }, 
-			{"a_c_horse_mustang_chestnuttovero", "Chestnut Tovero", 350, 35, { 60, 60, 50, 30, 40 }, {}, 175, 0, 120, 130 }, 
-			{"a_c_horse_mustang_goldendun", "Golden Dun", 350, 35, { 40, 40, 30, 20, 40 }, {}, 175, 0, 120, 130 }, 
-			{"a_c_horse_mustang_grullodun", "Grullo Dun", 350, 35, { 40, 40, 30, 20, 40 }, {}, 175, 0, 120, 130 },
-			{"a_c_horse_mustang_reddunovero", "Red Dun Overo", 350, 35, { 60, 60, 50, 30, 40 }, {}, 175, 0, 120, 130 },
-			{"a_c_horse_mustang_tigerstripedbay", "Tiger Striped Bay", 350, 35, {50, 50, 40, 20, 40 }, {}, 175, 0, 120, 130 },    
-			{"a_c_horse_mustang_wildbay", "Tiger Striped Bay", 350, 35, { 40, 40, 30, 20 }, {}, 175, 0, 120, 130 },             
+			{"a_c_horse_mustang_blackovero", "Black Overo", 120, 35, { 60, 60, 50, 30, 40 }, {}, 60, 0, 120, 130 }, 
+			{"a_c_horse_mustang_buckskin", "Buckskin", 120, 35, { 60, 60, 50, 30, 40 }, {}, 60, 0, 120, 130 }, 
+			{"a_c_horse_mustang_chestnuttovero", "Chestnut Tovero", 120, 35, { 60, 60, 50, 30, 40 }, {}, 60, 0, 120, 130 }, 
+			{"a_c_horse_mustang_goldendun", "Golden Dun", 120, 35, { 40, 40, 30, 20, 40 }, {}, 60, 0, 120, 130 }, 
+			{"a_c_horse_mustang_grullodun", "Grullo Dun", 120, 35, { 40, 40, 30, 20, 40 }, {}, 60, 0, 120, 130 },
+			{"a_c_horse_mustang_reddunovero", "Red Dun Overo", 120, 35, { 60, 60, 50, 30, 40 }, {}, 60, 0, 120, 130 },
+			{"a_c_horse_mustang_tigerstripedbay", "Tiger Striped Bay", 120, 35, {50, 50, 40, 20, 40 }, {}, 60, 0, 120, 130 },    
+			{"a_c_horse_mustang_wildbay", "Tiger Striped Bay", 120, 35, { 40, 40, 30, 20 }, {}, 60, 0, 120, 130 },             
 		},
 	
 	},
+
+	{ 
+
+		Category = 'Thoroughbred',
+
+		BackgroundImage = "thoroughbred",
+
+		-- PARAMETERS: ("ENTITY MODEL", "LABEL", "CASH", "GOLD", "STATS", "JOBS", "SELL CASH", "SELL GOLD", "MAXIMUM AGE", "DELETE AGE")
+		-- STATS: [1] SPEED, [2] STAMINA, [3] HEALTH, [4] ACCELERATION, [5] HANDLING
+		Horses = {
+
+			{"a_c_horse_thoroughbred_blackchestnut", "Black Chestnut", 100, 35, { 70, 30, 30, 50, 60 }, {}, 50, 0, 120, 130 }, 
+			{"a_c_horse_thoroughbred_bloodbay", "Blood Bay", 100, 35, { 40, 30, 30, 30, 60 }, {}, 50, 0, 120, 130 }, 
+			{"a_c_horse_thoroughbred_brindle", "Brindle", 100, 35, { 70, 30, 30, 50, 60 }, {}, 50, 0, 120, 130 }, 
+			{"a_c_horse_thoroughbred_dapplegrey", "Dappled Grey", 100, 35, { 40, 30, 30, 30, 60 }, {}, 50, 0, 120, 130 }, 
+			{"a_c_horse_thoroughbred_reversedappleblack", "Reverse Dappled Black", 100, 35, { 70, 30, 30, 50, 60 }, {}, 50, 0, 120, 130 },          
+		},
+	},
+
+	{
+
+		Category = 'Norfolk',
+
+		BackgroundImage = "norfolk",
+
+		-- PARAMETERS: ("ENTITY MODEL", "LABEL", "CASH", "GOLD", "STATS", "JOBS", "SELL CASH", "SELL GOLD", "MAXIMUM AGE", "DELETE AGE")
+		-- STATS: [1] SPEED, [2] STAMINA, [3] HEALTH, [4] ACCELERATION, [5] HANDLING
+		Horses = {
+
+			{"a_c_horse_norfolkroadster_spottedtricolor", "Spotted Tricolor", 100, 35, {70, 60, 40, 60, 40 }, {"police", "sheriff", "marshall", "detective", "judecator"}, 50, 0, 120, 130 }, 
+			{"a_c_horse_norfolkroadster_speckledgrey", "Speckled Grey", 100, 35, { 50, 40, 20, 40, 40 }, {"medic"}, 50, 0, 120, 130 }, 
+			{"a_c_horse_norfolkroadster_rosegrey", "Rose Grey", 100, 35, { 60, 50, 30, 50, 40 }, {}, 50, 0, 120, 130 }, 
+			{"a_c_horse_norfolkroadster_piebaldroan", "Piebaldo Roan", 100, 35, { 60, 50, 30, 50, 40 }, {}, 50, 0, 120, 130 }, 
+			{"a_c_horse_norfolkroadster_dappledbuckskin", "Dappled Buckskin", 100, 35, { 70, 60, 40, 60, 40}, {}, 50, 0, 120, 130 },
+			{"a_c_horse_norfolkroadster_black", "Black", 100, 35, { 50, 40, 20, 40, 40 }, {}, 50, 0, 120, 130 },           
+		},
+	},
+
+	{ 
+
+	    Category = 'Gypsy Cob',
+
+		BackgroundImage = "gypsycob",
+
+		-- PARAMETERS: ("ENTITY MODEL", "LABEL", "CASH", "GOLD", "STATS", "JOBS", "SELL CASH", "SELL GOLD", "MAXIMUM AGE", "DELETE AGE")
+		-- STATS: [1] SPEED, [2] STAMINA, [3] HEALTH, [4] ACCELERATION, [5] HANDLING
+		Horses = {
+			{"a_c_horse_gypsycob_splashedpiebald", "Splashed Piebald", 100, 20, { 50, 70, 70, 40, 40 }, {}, 50, 0, 90, 100  },
+			{"a_c_horse_gypsycob_splashedbay", "Splashed Bay", 100, 20, { 50, 70, 70, 40, 40 }, {}, 50, 0, 90, 100  },         
+			{"a_c_horse_gypsycob_palominoblagdon", "Palomino Blagdon", 100, 20, { 30, 60, 70, 30, 40 }, {}, 50, 0, 90, 100  },   
+			{"a_c_horse_gypsycob_skewbald", "Skewbald", 100, 20, { 30, 60, 70, 30, 40 }, {}, 50, 0, 90, 100  },                 
+			{"a_c_horse_gypsycob_piebald", "Piebald", 100, 20, { 20, 50, 60, 20, 40 }, {}, 50, 0, 90, 100  },                   
+			{"a_c_horse_gypsycob_whiteblagdon", "WhiteBlagdon", 100, 20, { 20, 50, 60, 20, 40 }, {}, 50, 0, 90, 100  },        
+		},
+
+	},
+
+	{
+
+		Category = 'Breton',
+
+		BackgroundImage = "breton",
+
+		-- PARAMETERS: ("ENTITY MODEL", "LABEL", "CASH", "GOLD", "STATS", "JOBS", "SELL CASH", "SELL GOLD", "MAXIMUM AGE", "DELETE AGE")
+		-- STATS: [1] SPEED, [2] STAMINA, [3] HEALTH, [4] ACCELERATION, [5] HANDLING
+		Horses = {
+
+			{"a_c_horse_breton_sealbrown", "Seal Brown", 100, 20, { 50, 60, 50, 30, 40 }, {}, 50, 0, 90, 100  }, 
+			{"a_c_horse_breton_redroan", "Red Roan", 100, 20, { 40, 50, 40, 20, 40 }, {}, 50, 0, 90, 100  }, 
+			{"a_c_horse_breton_steelgrey", "Steel Grey", 100, 20, { 60, 70, 60, 40, 40 }, {}, 50, 0, 90, 100  }, 
+			{"a_c_horse_breton_grullodun", "Grullo Dun", 100, 20, { 50, 60, 50, 30, 40 }, {}, 50, 0, 90, 100  }, 
+			{"a_c_horse_breton_mealydapplebay", "Mealy Dappled Bay", 100, 20, { 60, 70, 60, 40, 40 }, {}, 50, 0, 90, 100  },
+			{"a_c_horse_breton_sorrel", "Sorrel", 100, 20, { 40, 50, 40, 20, 40 }, {}, 50, 0, 90, 100  },
+	
+		},
+	},
+
+
+	{
+
+		Category = 'Criollo',
+
+		BackgroundImage = "criollo",
+
+		-- PARAMETERS: ("ENTITY MODEL", "LABEL", "CASH", "GOLD", "STATS", "JOBS", "SELL CASH", "SELL GOLD", "MAXIMUM AGE", "DELETE AGE")
+		-- STATS: [1] SPEED, [2] STAMINA, [3] HEALTH, [4] ACCELERATION, [5] HANDLING
+		Horses = {
+
+			{"a_c_horse_criollo_baybrindle", "Bay Brindle", 80, 35, { 60, 50, 40, 40, 40 }, {}, 40, 0, 120, 130 }, 
+			{"a_c_horse_criollo_bayframeovero", "Bay Frame Overo", 80, 35, { 70, 60, 50, 50, 40 }, {}, 40, 0, 120, 130 }, 
+			{"a_c_horse_criollo_blueroanovero", "Blue Roan Overo", 80, 35, { 50, 40, 30, 30, 40 }, {}, 40, 0, 120, 130 }, 
+			{"a_c_horse_criollo_dun", "Dun", 80, 35, { 50, 40, 30, 30, 40 }, {}, 40, 0, 120, 130 }, 
+			{"a_c_horse_criollo_marblesabino", "Marble Sabino", 80, 35, { 70, 60, 50, 40, 40}, {}, 40, 0, 120, 130 },
+			{"a_c_horse_criollo_sorrelovero", "Sorrel Overo", 80, 35, { 60, 50, 40, 40, 40 }, {}, 40, 0, 120, 130 },         
+		},
+	},
+
+
+	{
+
+		Category = 'Andalusian',
+
+		BackgroundImage = "andalusian",
+
+		-- PARAMETERS: ("ENTITY MODEL", "LABEL", "CASH", "GOLD", "STATS", "JOBS", "SELL CASH", "SELL GOLD", "MAXIMUM AGE", "DELETE AGE")
+		-- STATS: [1] SPEED, [2] STAMINA, [3] HEALTH, [4] ACCELERATION, [5] HANDLING
+		Horses = {
+			{"a_c_horse_andalusian_darkbay", "Dark Grey", 70, 15, { 30, 40, 50, 30, 40 }, {}, 35, 0, 60, 70 }, 
+			{"a_c_horse_andalusian_perlino", "Perlino", 70, 15, { 30, 50, 70, 30, 40 }, {}, 35, 0, 60, 70 },        
+			{"a_c_horse_andalusian_rosegray", "Rose Gray", 70, 15, { 30, 50, 70, 30, 40}, {}, 35, 0, 60, 70 },
+		},
+
+	},   
+
 
 	{
 
@@ -156,9 +233,132 @@ Config.Horses = {
 		-- STATS: [1] SPEED, [2] STAMINA, [3] HEALTH, [4] ACCELERATION, [5] HANDLING
 		Horses = {
 
-			{"a_c_horse_nokota_blueroan", "Blue Roan", 250, 20, { 40, 30, 30, 30, 60 }, {}, 125, 0, 90, 100 }, 
-			{"a_c_horse_nokota_reversedappleroan", "Reverse Dappled Roan", 250, 20, { 70, 30, 30, 50, 60 }, {}, 125, 0, 90, 100 }, 
-			{"a_c_horse_nokota_whiteroan", "White Roan", 250, 20, { 40, 30, 30, 30, 60 }, {}, 125, 0, 90, 100 },      
+			{"a_c_horse_nokota_blueroan", "Blue Roan", 60, 20, { 40, 30, 30, 30, 60 }, {}, 30, 0, 90, 100 }, 
+			{"a_c_horse_nokota_reversedappleroan", "Reverse Dappled Roan", 60, 20, { 70, 30, 30, 50, 60 }, {}, 30, 0, 90, 100 }, 
+			{"a_c_horse_nokota_whiteroan", "White Roan", 60, 20, { 40, 30, 30, 30, 60 }, {}, 30, 0, 90, 100 },      
+		},
+	
+	},
+
+	{ 
+
+		Category = 'Appaloosa',
+
+		BackgroundImage = "appaloosa",
+
+		-- PARAMETERS: ("ENTITY MODEL", "LABEL", "CASH", "GOLD", "STATS", "JOBS", "SELL CASH", "SELL GOLD", "MAXIMUM AGE", "DELETE AGE")
+		-- STATS: [1] SPEED, [2] STAMINA, [3] HEALTH, [4] ACCELERATION, [5] HANDLING
+		Horses = {
+			{"a_c_horse_appaloosa_brownleopard", "Brawn Leopard", 50, 20, { 40, 60, 50, 30, 40 }, {}, 25, 0, 90, 100 },     
+			{"a_c_horse_appaloosa_leopard", "Leopard", 50, 20, { 40, 60, 50, 30, 40 }, {}, 25, 0, 90, 100 },                
+			{"a_c_horse_appaloosa_fewspotted_pc", "Few Spotted", 50, 20, { 30, 50, 30, 30, 40 }, {}, 25, 0, 90, 100 },     
+			{"a_c_horse_appaloosa_leopardblanket", "Blanket Leopard", 50, 20, { 30, 40, 30, 30, 40 }, {}, 25, 0, 90, 100 },
+			{"a_c_horse_appaloosa_blanket", "Blanket", 50, 20, { 30, 40, 30, 30, 40 }, {}, 25, 0, 90, 100 },       
+	
+		},
+      
+	}, 
+
+	{
+
+		Category = 'Hungarian',
+
+		BackgroundImage = "hungarian",
+
+		-- PARAMETERS: ("ENTITY MODEL", "LABEL", "CASH", "GOLD", "STATS", "JOBS", "SELL CASH", "SELL GOLD", "MAXIMUM AGE", "DELETE AGE")
+		-- STATS: [1] SPEED, [2] STAMINA, [3] HEALTH, [4] ACCELERATION, [5] HANDLING
+		Horses = {
+
+			{"a_c_horse_hungarianhalfbred_darkdapplegrey","Dark Apple Grey", 50, 15, { 30, 40, 50, 30, 40 }, {}, 25, 0, 60, 70 }, 
+			{"a_c_horse_hungarianhalfbred_flaxenchestnut","Flaxen Chestnut", 50, 15, { 30, 30, 40, 30, 40 }, {}, 25, 0, 60, 70 },
+			{"a_c_horse_hungarianhalfbred_liverchestnut","Liver Chestnut", 50, 15, { 30, 30, 40, 30, 40 }, {}, 25, 0, 60, 70 },  
+			{"a_c_horse_hungarianhalfbred_piebaldtobiano","Piebald Tobiano", 50, 15, { 30, 30, 40, 30, 40 }, {}, 25, 0, 60, 70 },
+		},
+		
+	},
+
+	{
+
+		Category = 'Dutch Warmblood',
+
+		BackgroundImage = "dutchwarmblood",
+
+		-- PARAMETERS: ("ENTITY MODEL", "LABEL", "CASH", "GOLD", "STATS", "JOBS", "SELL CASH", "SELL GOLD", "MAXIMUM AGE", "DELETE AGE")
+		-- STATS: [1] SPEED, [2] STAMINA, [3] HEALTH, [4] ACCELERATION, [5] HANDLING
+		Horses = {
+
+			{"a_c_horse_dutchwarmblood_chocolateroan", "Chocolate Roan", 50, 20, { 40, 60, 50, 30, 40 }, {}, 25, 0, 90, 100 }, 
+			{"a_c_horse_dutchwarmblood_sealbrown", "Seal Brown", 50, 20, { 30, 50, 40, 30, 40 }, {}, 25, 0, 90, 100 },          
+			{"a_c_horse_dutchwarmblood_sootybuckskin", "Sooty Buckskin", 50, 20, { 30, 50, 40, 30, 40 }, {}, 25, 0, 90, 100 }, 
+		},
+	
+	},
+
+	{ 
+
+		Category = 'Ardennes',
+
+		BackgroundImage = "ardennes",
+
+		-- PARAMETERS: ("ENTITY MODEL", "LABEL", "CASH", "GOLD", "STATS", "JOBS", "SELL CASH", "SELL GOLD", "MAXIMUM AGE", "DELETE AGE")
+		-- STATS: [1] SPEED, [2] STAMINA, [3] HEALTH, [4] ACCELERATION, [5] HANDLING
+		Horses = {
+
+			{"a_c_horse_ardennes_strawberryroan", "Strawberry Roan", 70, 15, { 30, 50, 70, 30, 40 },{}, 35, 0, 60, 70 },
+			{"a_c_horse_ardennes_irongreyroan", "Iron Grey Roan", 45, 15, { 30, 50, 70, 30, 40 }, {}, 22, 0, 60, 70 },  
+			{"a_c_horse_ardennes_bayroan", "Bay Roan", 45, 15, { 30, 50, 70, 30, 40 }, {}, 22, 0, 60, 70 },             
+			
+		},
+
+	},
+
+	{ 
+
+	    Category = 'American Paint',
+
+		BackgroundImage = "americanpaint",
+
+		-- PARAMETERS: ("ENTITY MODEL", "LABEL", "CASH", "GOLD", "STATS", "JOBS", "SELL CASH", "SELL GOLD", "MAXIMUM AGE", "DELETE AGE")
+		-- STATS: [1] SPEED, [2] STAMINA, [3] HEALTH, [4] ACCELERATION, [5] HANDLING
+		Horses = {
+			{"a_c_horse_americanpaint_greyovero", "Grey", 60, 20, { 40, 50, 50, 40, 40 }, {}, 30, 0, 90, 100  },               
+			{"a_c_horse_americanpaint_overo", "Overo", 40, 20, { 30, 40, 30, 30, 40 }, {}, 20, 0, 90, 100  },                   
+			{"a_c_horse_americanpaint_splashedwhite", "Splashed White", 40, 20, { 30, 50, 30, 30, 40 }, {}, 20, 0, 90, 100 }, 
+			{"a_c_horse_americanpaint_tobiano", "Tobiano", 40, 20, { 30, 40, 30, 30, 40 }, {}, 20, 0, 90, 100  },              
+		},
+
+	},
+
+	{  
+
+		Category = 'American Standard',
+		
+		BackgroundImage = "americanstandard",
+
+		-- PARAMETERS: ("ENTITY MODEL", "LABEL", "CASH", "GOLD", "STATS", "JOBS", "SELL CASH", "SELL GOLD", "MAXIMUM AGE", "DELETE AGE")
+		-- STATS: [1] SPEED, [2] STAMINA, [3] HEALTH, [4] ACCELERATION, [5] HANDLING
+		Horses = {
+			{"a_c_horse_americanstandardbred_silvertailbuckskin", "Silver Tail Buckskin", 35, 20, { 48, 70, 40, 40, 40 }, {}, 17, 0, 90, 100  }, 
+			{"a_c_horse_americanstandardbred_palominodapple", "Palomino Dapple", 35, 20, { 48, 60, 40, 40, 40 }, {}, 17, 0, 90, 100  },          
+			{"a_c_horse_americanstandardbred_buckskin", "Buckskin", 35, 20, { 45, 55, 40, 35, 40 }, {}, 17, 0, 90, 100  },                       
+			{"a_c_horse_americanstandardbred_black", "Black", 35, 20, { 45, 55, 40, 35, 44 }, {}, 17, 0, 90, 100  },                             
+	
+		},
+	},  
+
+	{
+
+		Category = 'Shire',
+
+		BackgroundImage = "shire",
+
+		-- PARAMETERS: ("ENTITY MODEL", "LABEL", "CASH", "GOLD", "STATS", "JOBS", "SELL CASH", "SELL GOLD", "MAXIMUM AGE", "DELETE AGE")
+		-- STATS: [1] SPEED, [2] STAMINA, [3] HEALTH, [4] ACCELERATION, [5] HANDLING
+		Horses = {
+
+			{"a_c_horse_shire_darkbay", "Dark Bay", 30, 15, { 30, 30, 40, 20, 20 }, {}, 15, 0, 60, 70 }, 
+			{"a_c_horse_shire_lightgrey", "Light Grey", 30, 15, { 30, 30, 40, 20, 20 }, {}, 15, 0, 60, 70 }, 
+			{"a_c_horse_shire_ravenblack", "Raven Black", 30, 15, { 30, 40, 40, 20, 20 }, {}, 15, 0, 60, 70 },          
 		},
 	
 	},
@@ -173,237 +373,16 @@ Config.Horses = {
 		-- STATS: [1] SPEED, [2] STAMINA, [3] HEALTH, [4] ACCELERATION, [5] HANDLING
 		Horses = {
 
-			{"a_c_horse_morgan_bay", "Bay", 250, 20, { 50, 50, 40, 30, 40 }, {}, 125, 0, 90, 100 }, 
-			{"a_c_horse_morgan_bayroan", "Bay Roan", 250, 20, { 50, 50, 40, 30, 40 }, {}, 125, 0, 90, 100 }, 
-			{"a_c_horse_morgan_flaxenchestnut", "Flaxen Chestnut", 250, 20, { 50, 50, 40, 30, 40 }, {}, 125, 0, 90, 100 }, 
-			{"a_c_Horse_morgan_liverchestnut_pc", "Liver Chestnut", 250, 20, { 50, 50, 40, 30, 40 }, {}, 125, 0, 90, 100 }, 
-			{"a_c_horse_morgan_palomino", "Palomino", 250, 20, { 50, 50, 40, 30, 40 }, {}, 125, 0, 90, 100 },           
+			{"a_c_horse_morgan_bay", "Bay", 22, 20, { 50, 50, 40, 30, 40 }, {}, 12, 0, 90, 100 }, 
+			{"a_c_horse_morgan_bayroan", "Bay Roan", 22, 20, { 50, 50, 40, 30, 40 }, {}, 12, 0, 90, 100 }, 
+			{"a_c_horse_morgan_flaxenchestnut", "Flaxen Chestnut", 22, 20, { 50, 50, 40, 30, 40 }, {}, 12, 0, 90, 100 }, 
+			{"a_c_Horse_morgan_liverchestnut_pc", "Liver Chestnut", 22, 20, { 50, 50, 40, 30, 40 }, {}, 12, 0, 90, 100 }, 
+			{"a_c_horse_morgan_palomino", "Palomino", 22, 20, { 50, 50, 40, 30, 40 }, {}, 12, 0, 90, 100 },           
 		},
 	
 	},
 
-	{ 
-
-		Category = 'Appaloosa',
-
-		BackgroundImage = "appaloosa",
-
-		-- PARAMETERS: ("ENTITY MODEL", "LABEL", "CASH", "GOLD", "STATS", "JOBS", "SELL CASH", "SELL GOLD", "MAXIMUM AGE", "DELETE AGE")
-		-- STATS: [1] SPEED, [2] STAMINA, [3] HEALTH, [4] ACCELERATION, [5] HANDLING
-		Horses = {
-			{"a_c_horse_appaloosa_brownleopard", "Brawn Leopard", 250, 20, { 40, 60, 50, 30, 40 }, {}, 125, 0, 90, 100 },     
-			{"a_c_horse_appaloosa_leopard", "Leopard", 250, 20, { 40, 60, 50, 30, 40 }, {}, 125, 0, 90, 100 },                
-			{"a_c_horse_appaloosa_fewspotted_pc", "Few Spotted", 250, 20, { 30, 50, 30, 30, 40 }, {}, 125, 0, 90, 100 },     
-			{"a_c_horse_appaloosa_leopardblanket", "Blanket Leopard", 250, 20, { 30, 40, 30, 30, 40 }, {}, 125, 0, 90, 100 },
-			{"a_c_horse_appaloosa_blanket", "Blanket", 250, 20, { 30, 40, 30, 30, 40 }, {}, 125, 0, 90, 100 },       
 	
-		},
-      
-	}, 
-
-	{ 
-
-	    Category = 'Gypsy Cob',
-
-		BackgroundImage = "gypsycob",
-
-		-- PARAMETERS: ("ENTITY MODEL", "LABEL", "CASH", "GOLD", "STATS", "JOBS", "SELL CASH", "SELL GOLD", "MAXIMUM AGE", "DELETE AGE")
-		-- STATS: [1] SPEED, [2] STAMINA, [3] HEALTH, [4] ACCELERATION, [5] HANDLING
-		Horses = {
-			{"a_c_horse_gypsycob_splashedpiebald", "Splashed Piebald", 250, 20, { 50, 70, 70, 40, 40 }, {}, 125, 0, 90, 100  },
-			{"a_c_horse_gypsycob_splashedbay", "Splashed Bay", 250, 20, { 50, 70, 70, 40, 40 }, {}, 125, 0, 90, 100  },         
-			{"a_c_horse_gypsycob_palominoblagdon", "Palomino Blagdon", 250, 20, { 30, 60, 70, 30, 40 }, {}, 125, 0, 90, 100  },   
-			{"a_c_horse_gypsycob_skewbald", "Skewbald", 250, 20, { 30, 60, 70, 30, 40 }, {}, 125, 0, 90, 100  },                 
-			{"a_c_horse_gypsycob_piebald", "Piebald", 250, 20, { 20, 50, 60, 20, 40 }, {}, 125, 0, 90, 100  },                   
-			{"a_c_horse_gypsycob_whiteblagdon", "WhiteBlagdon", 250, 20, { 20, 50, 60, 20, 40 }, {}, 125, 0, 90, 100  },        
-		},
-
-	},
-
-	
-		
-	{  
-
-		Category = 'American Standard',
-		
-		BackgroundImage = "americanstandard",
-
-		-- PARAMETERS: ("ENTITY MODEL", "LABEL", "CASH", "GOLD", "STATS", "JOBS", "SELL CASH", "SELL GOLD", "MAXIMUM AGE", "DELETE AGE")
-		-- STATS: [1] SPEED, [2] STAMINA, [3] HEALTH, [4] ACCELERATION, [5] HANDLING
-		Horses = {
-			{"a_c_horse_americanstandardbred_silvertailbuckskin", "Silver Tail Buckskin", 250, 20, { 48, 70, 40, 40, 40 }, {}, 125, 0, 90, 100  }, 
-			{"a_c_horse_americanstandardbred_palominodapple", "Palomino Dapple", 250, 20, { 48, 60, 40, 40, 40 }, {}, 125, 0, 90, 100  },          
-			{"a_c_horse_americanstandardbred_buckskin", "Buckskin", 250, 20, { 45, 55, 40, 35, 40 }, {}, 125, 0, 90, 100  },                       
-			{"a_c_horse_americanstandardbred_black", "Black", 250, 20, { 45, 55, 40, 35, 44 }, {}, 125, 0, 90, 100  },                             
-	
-		},
-	},  
-
-	{ 
-
-	    Category = 'American Paint',
-
-		BackgroundImage = "americanpaint",
-
-		-- PARAMETERS: ("ENTITY MODEL", "LABEL", "CASH", "GOLD", "STATS", "JOBS", "SELL CASH", "SELL GOLD", "MAXIMUM AGE", "DELETE AGE")
-		-- STATS: [1] SPEED, [2] STAMINA, [3] HEALTH, [4] ACCELERATION, [5] HANDLING
-		Horses = {
-			{"a_c_horse_americanpaint_greyovero", "Grey", 250, 20, { 40, 50, 50, 40, 40 }, {}, 125, 0, 90, 100  },               
-			{"a_c_horse_americanpaint_overo", "Overo", 250, 20, { 30, 40, 30, 30, 40 }, {}, 125, 0, 90, 100  },                   
-			{"a_c_horse_americanpaint_splashedwhite", "Splashed White", 250, 20, { 30, 50, 30, 30, 40 }, {}, 125, 0, 90, 100 }, 
-			{"a_c_horse_americanpaint_tobiano", "Tobiano", 250, 20, { 30, 40, 30, 30, 40 }, {}, 125, 0, 90, 100  },              
-		},
-
-	},
-
-	{
-
-		Category = 'Dutch Warmblood',
-
-		BackgroundImage = "dutchwarmblood",
-
-		-- PARAMETERS: ("ENTITY MODEL", "LABEL", "CASH", "GOLD", "STATS", "JOBS", "SELL CASH", "SELL GOLD", "MAXIMUM AGE", "DELETE AGE")
-		-- STATS: [1] SPEED, [2] STAMINA, [3] HEALTH, [4] ACCELERATION, [5] HANDLING
-		Horses = {
-
-			{"a_c_horse_dutchwarmblood_chocolateroan", "Chocolate Roan", 250, 20, { 40, 60, 50, 30, 40 }, {}, 125, 0, 90, 100 }, 
-			{"a_c_horse_dutchwarmblood_sealbrown", "Seal Brown", 250, 20, { 30, 50, 40, 30, 40 }, {}, 125, 0, 90, 100 },          
-			{"a_c_horse_dutchwarmblood_sootybuckskin", "Sooty Buckskin", 250, 20, { 30, 50, 40, 30, 40 }, {}, 125, 0, 90, 100 }, 
-		},
-	
-	},
-
-	{
-
-		Category = 'Breton',
-
-		BackgroundImage = "breton",
-
-		-- PARAMETERS: ("ENTITY MODEL", "LABEL", "CASH", "GOLD", "STATS", "JOBS", "SELL CASH", "SELL GOLD", "MAXIMUM AGE", "DELETE AGE")
-		-- STATS: [1] SPEED, [2] STAMINA, [3] HEALTH, [4] ACCELERATION, [5] HANDLING
-		Horses = {
-
-			{"a_c_horse_breton_sealbrown", "Seal Brown", 250, 20, { 50, 60, 50, 30, 40 }, {}, 125, 0, 90, 100  }, 
-			{"a_c_horse_breton_redroan", "Red Roan", 250, 20, { 40, 50, 40, 20, 40 }, {}, 125, 0, 90, 100  }, 
-			{"a_c_horse_breton_steelgrey", "Steel Grey", 250, 20, { 60, 70, 60, 40, 40 }, {}, 125, 0, 90, 100  }, 
-			{"a_c_horse_breton_grullodun", "Grullo Dun", 250, 20, { 50, 60, 50, 30, 40 }, {}, 125, 0, 90, 100  }, 
-			{"a_c_horse_breton_mealydapplebay", "Mealy Dappled Bay", 250, 20, { 60, 70, 60, 40, 40 }, {}, 125, 0, 90, 100  },
-			{"a_c_horse_breton_sorrel", "Sorrel", 250, 20, { 40, 50, 40, 20, 40 }, {}, 125, 0, 90, 100  },
-	
-		},
-	},
-
-	{
-
-		Category = 'Shire',
-
-		BackgroundImage = "shire",
-
-		-- PARAMETERS: ("ENTITY MODEL", "LABEL", "CASH", "GOLD", "STATS", "JOBS", "SELL CASH", "SELL GOLD", "MAXIMUM AGE", "DELETE AGE")
-		-- STATS: [1] SPEED, [2] STAMINA, [3] HEALTH, [4] ACCELERATION, [5] HANDLING
-		Horses = {
-
-			{"a_c_horse_shire_darkbay", "Dark Bay", 150, 15, { 30, 30, 40, 20, 20 }, {}, 75, 0, 60, 70 }, 
-			{"a_c_horse_shire_lightgrey", "Light Grey", 150, 15, { 30, 30, 40, 20, 20 }, {}, 75, 0, 60, 70 }, 
-			{"a_c_horse_shire_ravenblack", "Raven Black", 150, 15, { 30, 40, 40, 20, 20 }, {}, 75, 0, 60, 70 },          
-		},
-	
-	},
-
-	{ 
-
-		Category = 'Kladruber',
-
-		BackgroundImage = "kladruber",
-
-		-- PARAMETERS: ("ENTITY MODEL", "LABEL", "CASH", "GOLD", "STATS", "JOBS", "SELL CASH", "SELL GOLD", "MAXIMUM AGE", "DELETE AGE")
-		-- STATS: [1] SPEED, [2] STAMINA, [3] HEALTH, [4] ACCELERATION, [5] HANDLING
-		Horses = {
-
-			{"a_c_horse_kladruber_black", "Black", 150, 15, { 20, 50, 50, 30, 40 }, {}, 75, 0, 60, 70 }, 
-			{"a_c_horse_kladruber_cremello", "Cremello", 150, 15, { 30, 60, 60, 40, 40 }, {}, 75, 0, 60, 70 }, 
-			{"a_c_horse_kladruber_dapplerosegrey", "Dappler Rose Grey", 150, 15, { 40, 70, 70, 50, 40 }, {}, 75, 0, 60, 70 }, 
-			{"a_c_horse_kladruber_grey", "Grey", 150, 15, { 30, 60, 60, 40, 40 }, {}, 75, 0, 60, 70 }, 
-			{"a_c_horse_kladruber_silver", "Silver", 150, 15, { 40, 70, 70, 50, 40 }, {}, 75, 0, 60, 70 },
-			{"a_c_horse_kladruber_white", "White", 150, 15, { 20, 50, 50, 30, 40 }, {}, 75, 0, 60, 70 },
-		},
-	},
-
-	
-	{ 
-
-		Category = 'Tennessee',
-
-		BackgroundImage = "tennessee",
-
-		-- PARAMETERS: ("ENTITY MODEL", "LABEL", "CASH", "GOLD", "STATS", "JOBS", "SELL CASH", "SELL GOLD", "MAXIMUM AGE", "DELETE AGE")
-		-- STATS: [1] SPEED, [2] STAMINA, [3] HEALTH, [4] ACCELERATION, [5] HANDLING
-		Horses = {
-
-			{"a_c_horse_tennesseewalker_blackrabicano", "Black Rabicano", 150, 15, {20, 30, 30, 20, 40 }, {}, 75, 0, 60, 70 }, 
-			{"a_c_horse_tennesseewalker_chestnut", "Chestnut", 150, 15, { 20, 30, 30, 20, 40 }, {}, 75, 0, 60, 70 }, 
-			{"a_c_horse_tennesseewalker_dapplebay", "Dappled Bay", 150, 15, { 20, 20, 30, 20, 40 }, {}, 75, 0, 60, 70 }, 
-			{"a_c_horse_tennesseewalker_flaxenroan", "Flaxen Roan", 150, 15, { 30, 50, 40, 30, 40 }, {}, 75, 0, 60, 70 }, 
-			{"a_c_horse_tennesseewalker_goldpalomino_pc", "Gold Palomino", 150, 15, { 30, 40, 30, 20, 40 }, {}, 75, 0, 60, 70 },
-			{"a_c_horse_tennesseewalker_mahoganybay", "Mahogany Bay", 150, 15, { 20, 40, 30, 20, 40 }, {}, 75, 0, 60, 70 },
-			{"a_c_horse_tennesseewalker_redroan", "Red Roan", 150, 15, { 20, 30, 30, 20, 40 }, {}, 75, 0, 60, 70 },
-		}, 
-		
-	},
-
-	{
-
-		Category = 'Andalusian',
-
-		BackgroundImage = "andalusian",
-
-		-- PARAMETERS: ("ENTITY MODEL", "LABEL", "CASH", "GOLD", "STATS", "JOBS", "SELL CASH", "SELL GOLD", "MAXIMUM AGE", "DELETE AGE")
-		-- STATS: [1] SPEED, [2] STAMINA, [3] HEALTH, [4] ACCELERATION, [5] HANDLING
-		Horses = {
-			{"a_c_horse_andalusian_darkbay", "Dark Grey", 150, 15, { 30, 40, 50, 30, 40 }, {}, 75, 0, 60, 70 }, 
-			{"a_c_horse_andalusian_perlino", "Perlino", 150, 15, { 30, 50, 70, 30, 40 }, {}, 75, 0, 60, 70 },        
-			{"a_c_horse_andalusian_rosegray", "Rose Gray", 150, 15, { 30, 50, 70, 30, 40}, {}, 75, 0, 60, 70 },
-		},
-
-	},   
-
-
-	{ 
-
-		Category = 'Ardennes',
-
-		BackgroundImage = "ardennes",
-
-		-- PARAMETERS: ("ENTITY MODEL", "LABEL", "CASH", "GOLD", "STATS", "JOBS", "SELL CASH", "SELL GOLD", "MAXIMUM AGE", "DELETE AGE")
-		-- STATS: [1] SPEED, [2] STAMINA, [3] HEALTH, [4] ACCELERATION, [5] HANDLING
-		Horses = {
-
-			{"a_c_horse_ardennes_strawberryroan", "Strawberry Roan", 150, 15, { 30, 50, 70, 30, 40 },{}, 75, 0, 60, 70 },
-			{"a_c_horse_ardennes_irongreyroan", "Iron Grey Roan", 150, 15, { 30, 50, 70, 30, 40 }, {}, 75, 0, 60, 70 },  
-			{"a_c_horse_ardennes_bayroan", "Bay Roan", 150, 15, { 30, 50, 70, 30, 40 }, {}, 75, 0, 60, 70 },             
-			
-		},
-
-	},
-
-	{
-
-		Category = 'Hungarian',
-
-		BackgroundImage = "hungarian",
-
-		-- PARAMETERS: ("ENTITY MODEL", "LABEL", "CASH", "GOLD", "STATS", "JOBS", "SELL CASH", "SELL GOLD", "MAXIMUM AGE", "DELETE AGE")
-		-- STATS: [1] SPEED, [2] STAMINA, [3] HEALTH, [4] ACCELERATION, [5] HANDLING
-		Horses = {
-
-			{"a_c_horse_hungarianhalfbred_darkdapplegrey","Dark Apple Grey", 150, 15, { 30, 40, 50, 30, 40 }, {}, 75, 0, 60, 70 }, 
-			{"a_c_horse_hungarianhalfbred_flaxenchestnut","Flaxen Chestnut", 150, 15, { 30, 30, 40, 30, 40 }, {}, 75, 0, 60, 70 },
-			{"a_c_horse_hungarianhalfbred_liverchestnut","Liver Chestnut", 150, 15, { 30, 30, 40, 30, 40 }, {}, 75, 0, 60, 70 },  
-			{"a_c_horse_hungarianhalfbred_piebaldtobiano","Piebald Tobiano", 150, 15, { 30, 30, 40, 30, 40 }, {}, 75, 0, 60, 70 },
-		},
-		
-	},
-
 	{
 
 		Category = 'Kentucky',
@@ -414,15 +393,14 @@ Config.Horses = {
 		-- STATS: [1] SPEED, [2] STAMINA, [3] HEALTH, [4] ACCELERATION, [5] HANDLING
 		Horses = {
 
-			{"a_c_horse_kentuckysaddle_black", "Black", 100, 15, { 30, 20, 30, 20, 40 }, {}, 50, 0, 60, 70 },                               
-			{"a_c_horse_kentuckysaddle_buttermilkbuckskin_pc", "Butter Milk Buckskin", 100, 15, { 40, 30, 30, 20, 40 }, {}, 50, 0, 60, 70 },
-			{"a_c_horse_kentuckysaddle_chestnutpinto", "Chestnut Pinto", 100, 15, { 30, 20, 30, 20, 40 }, {}, 50, 0, 60, 70 },              
-			{"a_c_horse_kentuckysaddle_grey", "Grey", 100, 15, { 30, 20, 30, 20, 40 }, {}, 50, 0, 60, 70 },                                 
-			{"a_c_horse_kentuckysaddle_silverbay", "Silver Bay", 100, 15, {30, 20, 30, 20, 40 }, {}, 50, 0, 60, 70 },                      
+			{"a_c_horse_kentuckysaddle_black", "Black", 20, 15, { 30, 20, 30, 20, 40 }, {}, 10, 0, 60, 70 },                               
+			{"a_c_horse_kentuckysaddle_buttermilkbuckskin_pc", "Butter Milk Buckskin", 20, 15, { 40, 30, 30, 20, 40 }, {}, 10, 0, 60, 70 },
+			{"a_c_horse_kentuckysaddle_chestnutpinto", "Chestnut Pinto", 20, 15, { 30, 20, 30, 20, 40 }, {}, 10, 0, 60, 70 },              
+			{"a_c_horse_kentuckysaddle_grey", "Grey", 20, 15, { 30, 20, 30, 20, 40 }, {}, 10, 0, 60, 70 },                                 
+			{"a_c_horse_kentuckysaddle_silverbay", "Silver Bay", 20, 15, {30, 20, 30, 20, 40 }, {}, 10, 0, 60, 70 },                      
 		},
 	},
 
-	
 	{ 
 
 		Category = 'Suffolk Punch',
@@ -433,8 +411,8 @@ Config.Horses = {
 		-- STATS: [1] SPEED, [2] STAMINA, [3] HEALTH, [4] ACCELERATION, [5] HANDLING
 		Horses = {
 
-			{"a_c_horse_suffolkpunch_redchestnut", "Red Chestnut", 75, 10, { 30, 40, 30, 20, 20 }, {}, 37.5, 0, 60, 70 }, 
-			{"a_c_horse_suffolkpunch_sorrel", "Sorrel", 75, 10, { 30, 40, 30, 20, 20 }, {}, 37.5, 0, 60, 70 },           
+			{"a_c_horse_suffolkpunch_redchestnut", "Red Chestnut", 20, 10, { 30, 40, 30, 20, 20 }, {}, 10, 0, 60, 70 }, 
+			{"a_c_horse_suffolkpunch_sorrel", "Sorrel", 20, 10, { 30, 40, 30, 20, 20 }, {}, 10, 0, 60, 70 },           
 		},
 	},
 
@@ -448,10 +426,31 @@ Config.Horses = {
 		-- STATS: [1] SPEED, [2] STAMINA, [3] HEALTH, [4] ACCELERATION, [5] HANDLING
 		Horses = {
 
-			{"a_c_horse_belgian_blondchestnut", "Blond Chestnut", 50, 10, { 20, 30, 30, 20, 20 }, {}, 75, 0, 60, 70 },
-			{"a_c_horse_belgian_mealychestnut", "Mealy Chestnut", 50, 10, { 20, 30, 30, 20, 20 }, {}, 75, 0, 60, 70 },
+			{"a_c_horse_belgian_blondchestnut", "Blond Chestnut", 18, 10, { 20, 30, 30, 20, 20 }, {}, 9, 0, 60, 70 },
+			{"a_c_horse_belgian_mealychestnut", "Mealy Chestnut", 18, 10, { 20, 30, 30, 20, 20 }, {}, 9, 0, 60, 70 },
 		},
 
+	},
+	
+	{ 
+
+		Category = 'Tennessee',
+
+		BackgroundImage = "tennessee",
+
+		-- PARAMETERS: ("ENTITY MODEL", "LABEL", "CASH", "GOLD", "STATS", "JOBS", "SELL CASH", "SELL GOLD", "MAXIMUM AGE", "DELETE AGE")
+		-- STATS: [1] SPEED, [2] STAMINA, [3] HEALTH, [4] ACCELERATION, [5] HANDLING
+		Horses = {
+
+			{"a_c_horse_tennesseewalker_blackrabicano", "Black Rabicano", 17, 15, {20, 30, 30, 20, 40 }, {}, 8, 0, 60, 70 }, 
+			{"a_c_horse_tennesseewalker_chestnut", "Chestnut", 17, 15, { 20, 30, 30, 20, 40 }, {}, 8, 0, 60, 70 }, 
+			{"a_c_horse_tennesseewalker_dapplebay", "Dappled Bay", 17, 15, { 20, 20, 30, 20, 40 }, {}, 8, 0, 60, 70 }, 
+			{"a_c_horse_tennesseewalker_flaxenroan", "Flaxen Roan", 17, 15, { 30, 50, 40, 30, 40 }, {}, 8, 0, 60, 70 }, 
+			{"a_c_horse_tennesseewalker_goldpalomino_pc", "Gold Palomino", 17, 15, { 30, 40, 30, 20, 40 }, {}, 8, 0, 60, 70 },
+			{"a_c_horse_tennesseewalker_mahoganybay", "Mahogany Bay", 17, 15, { 20, 40, 30, 20, 40 }, {}, 8, 0, 60, 70 },
+			{"a_c_horse_tennesseewalker_redroan", "Red Roan", 17, 15, { 20, 30, 30, 20, 40 }, {}, 8, 0, 60, 70 },
+		}, 
+		
 	},
 
 
