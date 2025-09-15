@@ -9,6 +9,7 @@ Locales = {
     ['HORSE_NOTIFY_TITLE']                   = "Horses",
     ['WAGON_NOTIFY_TITLE']                   = "Wagons",
     ['REPAIRS_NOTIFY_TITLE']                 = "Repairs",
+    ['TRAINING_NOTIFY_TITLE']                = "Horses Training",
 
     ['HORSE_BRUSH']                   = "Brush",
     ['HORSE_SADDLEBAG']               = "Open Saddlebag",
