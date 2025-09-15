@@ -138,7 +138,7 @@ AddEventHandler('tpz_stables:server:buyHorse', function(locationIndex, categoryI
 		xPlayer.removeAccount(1, cost)
 	end
 
-	SendNotification(_source, Locales['SUCCESSFULLY_BOUGHT_A_HORSE'], "success", 5000 )
+    SendNotification(_source, Locales['HORSE_NOTIFY_TITLE'], Locales["SUCCESSFULLY_BOUGHT_A_HORSE"], "success", 5, "horse", "left")
 
 	TriggerClientEvent("tpz_stables:client:updateAccount", _source, { xPlayer.getAccount(0), xPlayer.getAccount(1) })
 	
@@ -282,7 +282,7 @@ AddEventHandler('tpz_stables:server:sellHorse', function(horseIndex)
 			receivedDescription = "nothing"
 		end
 
-		SendNotification(_source, sellDescription, "success")
+        SendNotification(_source, Locales['HORSE_NOTIFY_TITLE'], sellDescription, "success", 5, "horse", "left")
 
 		-- We reset the selected horse index.
 		if result and result[1] then
@@ -387,8 +387,8 @@ AddEventHandler('tpz_stables:server:transferHorse', function(horseIndex, target)
 	Horses[horseIndex].identifier     = targetIdentifier
 	Horses[horseIndex].charidentifier = targetCharIdentifier
 
-	SendNotification(_source, Locales['HORSE_TRANSFERRED'], "success")
-	SendNotification(target, Locales['HORSE_TRANSFERRED_TARGET'], "success")
+    SendNotification(_source, Locales['HORSE_NOTIFY_TITLE'], Locales["HORSE_TRANSFERRED"], "success", 5, "horse", "left")
+    SendNotification(target, Locales['HORSE_NOTIFY_TITLE'], Locales["HORSE_TRANSFERRED_TARGET"], "success", 5, "horse", "left")
 
 	TriggerClientEvent("tpz_stables:client:updateHorse", _source, { horseIndex = horseIndex, action = 'TRANSFERRED', data = { targetIdentifier, targetCharIdentifier } } )
 	TriggerClientEvent("tpz_stables:client:updateHorse", target, { horseIndex = horseIndex, action = 'TRANSFERRED', data = { targetIdentifier, targetCharIdentifier } } )
