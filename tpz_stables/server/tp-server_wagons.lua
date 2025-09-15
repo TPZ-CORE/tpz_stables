@@ -139,7 +139,7 @@ AddEventHandler('tpz_stables:server:buyWagon', function(locationIndex, categoryI
 	end
 
 	if money < cost then
-		SendNotification(_source, notEnoughDisplay, "error", 3000)
+        SendNotification(_source, Locales['WAGON_NOTIFY_TITLE'], notEnoughDisplay, "error", 3, "wagon", "left")
 		return
 	end
 
@@ -198,7 +198,7 @@ AddEventHandler('tpz_stables:server:buyWagon', function(locationIndex, categoryI
 
 			local WagonModelData = GetWagonModelData(WagonData[1])
 
-			SendNotification(_source, Locales['SUCCESSFULLY_BOUGHT_A_WAGON'], "success", 5000 )
+            SendNotification(_source, Locales['WAGON_NOTIFY_TITLE'], Locales["SUCCESSFULLY_BOUGHT_A_WAGON"], "success", 5, "wagon", "left")
 
 			if WagonModelData[5] > 0 then -- IF WAGON STORAGE CAPACITY IS > 0 WE REGISTER A NEW CONTAINER STORAGE.
 				TriggerEvent("tpz_inventory:registerContainerInventory", "wagon_" .. result[1].id, WagonModelData[5], true)
@@ -336,20 +336,20 @@ AddEventHandler('tpz_stables:server:transferWagon', function(wagonIndex, target)
     local targetSteamName = GetPlayerName(target)
 
 	if target == _source then
-		SendNotification(_source, Locales['CANNOT_TRANSFER_TO_SELF'], "error")
+        SendNotification(_source, Locales['WAGON_NOTIFY_TITLE'], Locales["CANNOT_TRANSFER_TO_SELF"], "error", 3, "wagon", "left")
 		return
 	end
 
     if targetSteamName == nil then
-      SendNotification(_source, Locales['NOT_ONLINE'], "error")
-      return
+        SendNotification(_source, Locales['WAGON_NOTIFY_TITLE'], Locales["NOT_ONLINE"], "error", 3, "wagon", "left")
+        return
     end
 
     local tPlayer = TPZ.GetPlayer(target)
 
     if not tPlayer.loaded() then
-      SendNotification(_source, Locales['PLAYER_IS_ON_SESSION'], "error")
-      return
+        SendNotification(_source, Locales['WAGON_NOTIFY_TITLE'], Locales["PLAYER_IS_ON_SESSION"], "error", 3, "wagon", "left")
+        return
     end
 
     local targetIdentifier     = tPlayer.getIdentifier() 
@@ -361,8 +361,8 @@ AddEventHandler('tpz_stables:server:transferWagon', function(wagonIndex, target)
 	Wagons[wagonIndex].identifier     = targetIdentifier
 	Wagons[wagonIndex].charidentifier = targetCharIdentifier
 
-	SendNotification(_source, Locales['WAGON_TRANSFERRED'], "success")
-	SendNotification(target, Locales['WAGON_TRANSFERRED_TARGET'], "success")
+    SendNotification(_source, Locales['WAGON_NOTIFY_TITLE'], Locales["WAGON_TRANSFERRED"], "success", 5, "wagon", "left")
+    SendNotification(target, Locales['WAGON_NOTIFY_TITLE'], Locales["WAGON_TRANSFERRED_TARGET"], "success", 5, "wagon", "left")
 
 	TriggerClientEvent("tpz_stables:client:updateWagon", _source, { wagonIndex = wagonIndex, action = 'TRANSFERRED', data = { targetIdentifier, targetCharIdentifier } } )
 	TriggerClientEvent("tpz_stables:client:updateWagon", target, {  wagonIndex = wagonIndex, action = 'TRANSFERRED', data = { targetIdentifier, targetCharIdentifier } } )
@@ -425,8 +425,7 @@ AddEventHandler('tpz_stables:server:sellWagon', function(wagonIndex)
 			receivedDescription = "nothing"
 		end
 	
-		SendNotification(_source, sellDescription, "success")
-	
+        SendNotification(_source, Locales['WAGON_NOTIFY_TITLE'], sellDescription, "success", 5, "wagon", "left")
 		
 		-- We reset the selected wagon index.
 		if result and result[1] then
