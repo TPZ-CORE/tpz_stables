@@ -27,9 +27,6 @@ Config.SavingDurationDelay = 15 -- The time in minutes (15 as default).
 
 Config.Year = 1890
 
--- Set to Config.EnableOutfits = false to disable opening a wardrobe.
-Config.EnableOutfits = "tpz_clothing:openWardrobe"
-
 -- Set to false if you don't want the horses to be lassoed.
 Config.CanLassoHorses = true
 
