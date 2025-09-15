@@ -359,7 +359,7 @@ AddEventHandler("tpz_stables:client:whistle_wagon", function(existingCoords)
     local PlayerData = GetPlayerData()
 
     if WhistleCooldown > 0 then
-		SendNotification(nil, Locales['WAIT_FOR_CALLING'], "error")
+		SendNotification(nil, Locales['WAGON_NOTIFY_TITLE'], Locales["WAIT_FOR_CALLING"], "error", 3, "wagon", "left")
 		return
 	end
     
@@ -375,14 +375,14 @@ AddEventHandler("tpz_stables:client:whistle_wagon", function(existingCoords)
         local isSwimmingUnderWater = Citizen.InvokeNative(0xC024869A53992F34, playerPed)
 
         if isSwimming or isSwimmingUnderWater then
-            SendNotification(nil, Locales['CALL_WAGON_SWIMMING'], "error")
+            SendNotification(nil, Locales['WAGON_NOTIFY_TITLE'], Locales["CALL_WAGON_SWIMMING"], "error", 3, "wagon", "left")
             return
         end
 
         local nearestStableIndex = GetNearestStableLocation()
 
         if not nearestStableIndex then
-            SendNotification(nil, Locales['CALL_NOT_NEARBY_STABLE_WAGON'], "error")
+            SendNotification(nil, Locales['WAGON_NOTIFY_TITLE'], Locales["CALL_NOT_NEARBY_STABLE_WAGON"], "error", 3, "wagon", "left")
             return
         end
 
@@ -395,8 +395,7 @@ AddEventHandler("tpz_stables:client:whistle_wagon", function(existingCoords)
         local nearVehicles = GetNearestVehicles(vector3(coords.x, coords.y, coords.z), 10.0, nil)
 
         if TPZ.GetTableLength(nearVehicles) > 0 then
-            local NotifyData = Locales['CANNOT_SPAWN_WAGON_NEARBY_WAGONS']
-            TriggerEvent("tpz_notify:sendNotification", NotifyData.title, NotifyData.message, NotifyData.icon, 'error', NotifyData.duration, NotifyData.align)
+            SendNotification(nil, Locales['WAGON_NOTIFY_TITLE'], Locales["CANNOT_SPAWN_WAGON_NEARBY_WAGONS"], "error",5, "wagon", "left")
             return
         end
 
@@ -454,7 +453,7 @@ AddEventHandler("tpz_stables:client:whistle_wagon", function(existingCoords)
         TriggerEvent("tpz_stables:client:wagon_distance_tasks")
 
 	else
-        SendNotification(nil, Locales['WAGON_NOT_OWNED'], "error")
+        SendNotification(nil, Locales['WAGON_NOTIFY_TITLE'], Locales["WAGON_NOT_OWNED"], "error", 3, "wagon", "left")
     end
 end)
 
@@ -646,10 +645,10 @@ AddEventHandler("tpz_stables:client:wagon_action_prompts", function()
                             exports.tpz_inventory:getInventoryAPI().openInventoryContainerById(tonumber(WagonData.container), Config.Storages.Wagons.InventoryStorageHeader, false, false)
         
                         else
-                            SendNotification(nil, Locales['NOT_PERMITTED_ACCESS_WAGON_STORAGE'], "error")
+                            SendNotification(nil, Locales['WAGON_NOTIFY_TITLE'], Locales["NOT_PERMITTED_ACCESS_WAGON_STORAGE"], "error", 5, "wagon", "left")
                         end
                     else
-                        SendNotification(nil, Locales['NO_WAGON_STORAGE_AVAILABLE'], "error")
+                        SendNotification(nil, Locales['WAGON_NOTIFY_TITLE'], Locales["NO_WAGON_STORAGE_AVAILABLE"], "error", 5, "wagon", "left")
                     end
 
                     Wait(2000)
@@ -659,8 +658,7 @@ AddEventHandler("tpz_stables:client:wagon_action_prompts", function()
 
                     if tonumber(PlayerData.CharIdentifier) == tonumber(WagonData.charidentifier) then
                         TriggerEvent(Config.WagonWardrobeOutfits.ClientEvent)
-                    else
-                        SendNotification(nil, Locales['NOT_PERMITTED_ACCESS_WARDROBE'], "error")
+    
                     end
 
                     Wait(2000)
