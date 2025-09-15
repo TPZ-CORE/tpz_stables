@@ -191,8 +191,7 @@ AddEventHandler("tpz_stables:client:horse_training_thread", function()
                     local HorseData  = PlayerData.Horses[PlayerData.SelectedHorseIndex]
                     TriggerServerEvent('tpz_stables:server:saveHorseTrainingExperience', PlayerData.SelectedHorseIndex, HorseData.training_experience, HorseData.training_stage_index, HorseData.training_stage_type)
 
-                    local NotifyData = Locales['TRAINING_CANCELLED']
-                    TriggerEvent("tpz_notify:sendNotification", NotifyData.title, NotifyData.message, NotifyData.icon, 'error', NotifyData.duration, NotifyData.align)
+                    SendNotification(_source, Locales['TRAINING_NOTIFY_TITLE'], Locales['TRAININING_CANCELLED'], "error", 5, "horse", "left")
 
                 end
 
@@ -405,18 +404,16 @@ AddEventHandler("tpz_stables:client:horse_trainers_training_task", function()
                                         TriggerServerEvent('tpz_stables:server:saveHorseTrainingExperience', PlayerData.SelectedHorseIndex, HorseData.training_experience, HorseData.training_stage_index, HorseData.training_stage_type)
                                     end
                                     
-                                    local NotifyData = IsTrainingHorse and Locales['TRAINING_STARTED'] or Locales['TRAINING_STOPPED']
-                                    TriggerEvent("tpz_notify:sendNotification", NotifyData.title, NotifyData.message, NotifyData.icon, 'success', NotifyData.duration, NotifyData.align)
+                                    local notify = IsTrainingHorse and Locales['TRAINING_STARTED'] or Locales['TRAINING_STOPPED']
+                                    SendNotification(_source, Locales['TRAINING_NOTIFY_TITLE'], notify, "success", 5, "horse", "left")
 
                                 else
-                                    local NotifyData = Locales['TRAININING_ALREADY_TRAINED']
-                                    TriggerEvent("tpz_notify:sendNotification", NotifyData.title, NotifyData.message, NotifyData.icon, 'error', NotifyData.duration, NotifyData.align)
+                                    SendNotification(_source, Locales['TRAINING_NOTIFY_TITLE'], Locales['TRAININING_ALREADY_TRAINED'], "error", 3, "horse", "left")
                                 end
 
                             else
 
-                                local NotifyData = Locales['TRAINING_NO_HORSE']
-                                TriggerEvent("tpz_notify:sendNotification", NotifyData.title, NotifyData.message, NotifyData.icon, 'error', NotifyData.duration, NotifyData.align)
+                                SendNotification(_source, Locales['TRAINING_NOTIFY_TITLE'], Locales['TRAININING_NO_HORSE'], "error", 3, "horse", "left")
 
                             end
 
