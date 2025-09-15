@@ -139,7 +139,7 @@ AddEventHandler('tpz_stables:server:buyWagon', function(locationIndex, categoryI
 	end
 
 	if money < cost then
-        SendNotification(_source, Locales['WAGON_NOTIFY_TITLE'], notEnoughDisplay, "error", 3, "wagon", "left")
+        TriggerClientEvent("tpz_core:sendBottomTipNotification", _source, notEnoughDisplay)
 		return
 	end
 
@@ -336,19 +336,19 @@ AddEventHandler('tpz_stables:server:transferWagon', function(wagonIndex, target)
     local targetSteamName = GetPlayerName(target)
 
 	if target == _source then
-        SendNotification(_source, Locales['WAGON_NOTIFY_TITLE'], Locales["CANNOT_TRANSFER_TO_SELF"], "error", 3, "wagon", "left")
+        TriggerClientEvent("tpz_core:sendBottomTipNotification", _source, Locales["CANNOT_TRANSFER_TO_SELF"])
 		return
 	end
 
     if targetSteamName == nil then
-        SendNotification(_source, Locales['WAGON_NOTIFY_TITLE'], Locales["NOT_ONLINE"], "error", 3, "wagon", "left")
+        TriggerClientEvent("tpz_core:sendBottomTipNotification", _source, Locales["NOT_ONLINE"])
         return
     end
 
     local tPlayer = TPZ.GetPlayer(target)
 
     if not tPlayer.loaded() then
-        SendNotification(_source, Locales['WAGON_NOTIFY_TITLE'], Locales["PLAYER_IS_ON_SESSION"], "error", 3, "wagon", "left")
+        TriggerClientEvent("tpz_core:sendBottomTipNotification", _source, Locales["PLAYER_IS_ON_SESSION"])
         return
     end
 
