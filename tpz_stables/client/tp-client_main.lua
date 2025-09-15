@@ -115,6 +115,11 @@ AddEventHandler("tpz_core:isPlayerReady", function()
 
     TriggerServerEvent('tpz_stables:server:requestPlayerData')
     TriggerEvent("tpz_stables:client:horse_trainers_training_task")
+
+    if Config.Taming.Enabled then
+        TriggerEvent("tpz_stables:client:start_taming_tasks")
+    end
+
 end)
 
 -- Gets the player job when devmode set to true.
@@ -135,6 +140,10 @@ if Config.DevMode then
 
         TriggerServerEvent('tpz_stables:server:requestPlayerData')
         TriggerEvent("tpz_stables:client:horse_trainers_training_task")
+    
+        if Config.Taming.Enabled then
+            TriggerEvent("tpz_stables:client:start_taming_tasks")
+        end
     end)
     
 end
@@ -145,6 +154,11 @@ AddEventHandler("tpz_core:getPlayerJob", function(data)
     PlayerData.Job = data.job
 
     TriggerEvent("tpz_stables:client:horse_trainers_training_task")
+
+    if Config.Taming.Enabled then
+        TriggerEvent("tpz_stables:client:start_taming_tasks")
+    end
+
 end)
 
 ---------------------------------------------------------------
