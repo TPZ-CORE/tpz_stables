@@ -83,9 +83,9 @@ RegisterCommand(Config.Commands["ADD_HORSE"].Command, function(source, args, raw
       return
     end
 
-    SendNotification(_source, Locales['SUCCESSFULLY_GAVE_TARGET_A_HORSE'], "success", 3000 )
-    SendNotification(target, Locales["TARGET_RECEIVED_HORSE"], "success", 5000)
-
+    SendNotification(_source, Locales['HORSE_NOTIFY_TITLE'], Locales['SUCCESSFULLY_GAVE_TARGET_A_HORSE'], "success", 5, "horse", "left")
+    SendNotification(target, Locales['HORSE_NOTIFY_TITLE'], Locales['TARGET_RECEIVED_HORSE'], "success", 5, "horse", "left")
+    
     local date      = os.date('%d').. '/' ..os.date('%m').. '/' .. Config.Year .. " " .. os.date('%H') .. ":" .. os.date('%M') .. ":" .. os.date("%S") .. math.random(1,9)
     local randomAge = math.random(Config.Ageing.StartAdultAge.min, Config.Ageing.StartAdultAge.max)
     randomAge       = math.floor(randomAge * 1440)
@@ -291,9 +291,9 @@ RegisterCommand(Config.Commands["ADD_WAGON"].Command, function(source, args, raw
   
         local WagonModelData = GetWagonModelData(model)
 
-        SendNotification(_source, Locales['SUCCESSFULLY_GAVE_TARGET_A_WAGON'], "success", 3000 )
-        SendNotification(target, Locales["TARGET_RECEIVED_WAGON"], "success", 5000)
-  
+        SendNotification(_source, Locales['WAGON_NOTIFY_TITLE'], Locales['SUCCESSFULLY_GAVE_TARGET_A_WAGON'], "success", 5, "wagon", "left")
+        SendNotification(target, Locales['WAGON_NOTIFY_TITLE'], Locales['TARGET_RECEIVED_WAGON'], "success", 5, "wagon", "left")
+    
         if WagonModelData[5] > 0 then -- IF WAGON STORAGE CAPACITY IS > 0 WE REGISTER A NEW CONTAINER STORAGE.
           TriggerEvent("tpz_inventory:registerContainerInventory", "wagon_" .. result[1].id, WagonModelData[5], true)
   
