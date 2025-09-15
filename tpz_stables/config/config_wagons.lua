@@ -24,7 +24,7 @@ Config.SaveWagonTime = 60 -- Time in seconds. (1 minute by default)
 Config.WagonActionDistance = 2.5
 
 Config.WagonStorageSearching = {
-	Key = 0xE30CD707, -- DO NOT USE [F] OR [E]
+	Key = 0x760A9C6F, -- DO NOT USE [F] OR [E]
 	PromptDisplay = 'Open Storage', 
 }
 
@@ -44,7 +44,7 @@ Config.StoreWagonPrompt = {
 
 Config.WagonRepairs = {
 
-	Key = 0x760A9C6F, -- DO NOT USE [F] OR [E] OR ANY KEY THAT IS ALREADY USED FOR STORING, WARDROBE OR STORAGE ACCESS.
+	Key = 0xE30CD707, -- DO NOT USE [F] OR [E] OR ANY KEY THAT IS ALREADY USED FOR STORING, WARDROBE OR STORAGE ACCESS.
 	PromptDisplay = 'Repair Wagon', 
 
 	Jobs = { 'carpenter' },
@@ -101,13 +101,13 @@ Config.Wagons = {
 		-- PARAMETERS: ("ENTITY MODEL", "LABEL", "CASH", "GOLD", "STASH / STORAGE TOTAL WEIGHT", "JOBS", "SELL CASH", "SELL GOLD" )
 		Wagons = {
 			{"cart01", "Cart 1", 50, 15, 25, {}, 0, 0 },
-			{"cart02", "Cart 2", 50, 15, 25, {}, 0, 0 },
-			{"cart03", "Cart 3", 50, 15, 25, {}, 0, 0 },
-			{"cart04", "Cart 4", 100, 20, 50, {}, 0, 0 },
-			{"cart05", "Cart 5", 50, 15, 25, {}, 0, 0 },
-			{"cart06", "Cart 6", 200, 25, 100, {}, 0, 0 },
-			{"cart07", "Cart 7", 50, 15, 25, {}, 0, 0 },
-			{"cart08", "Cart 8", 50, 15, 25, {}, 0, 0 },      
+			{"cart02", "Cart 2", 30, 15, 25, {}, 0, 0 },
+			{"cart03", "Cart 3", 60, 15, 25, {}, 0, 0 },
+			{"cart04", "Cart 4", 90, 20, 50, {}, 0, 0 },
+			{"cart05", "Cart 5", 55, 15, 25, {}, 0, 0 },
+			{"cart06", "Cart 6", 125, 25, 100, {}, 0, 0 },
+			{"cart07", "Cart 7", 60, 15, 25, {}, 0, 0 },
+			{"cart08", "Cart 8", 60, 15, 25, {}, 0, 0 },      
 		},
 	},
 
@@ -118,11 +118,11 @@ Config.Wagons = {
 
 		-- PARAMETERS: ("ENTITY MODEL", "LABEL", "CASH", "GOLD", "STASH / STORAGE TOTAL WEIGHT", "JOBS", "SELL CASH", "SELL GOLD" )
 		Wagons = {
-			{"coach2", "Coach 1", 50, 15, 25, {}, 0, 0 },
-			{"coach3", "Coach 2", 50, 15, 10, {}, 0, 0 },
-			{"coach4", "Coach 3", 50, 15, 10, {}, 0, 0 },
-			{"coach5", "Coach 4", 50, 15, 10, {}, 0, 0 },
-			{"coach6", "Coach 6", 50, 15, 25, {}, 0, 0 },    
+			{"coach2", "Coach 1", 500, 60, 300, {}, 0, 0 },
+			{"coach3", "Coach 2", 300, 40, 200, {}, 0, 0 },
+			{"coach4", "Coach 3", 300, 40, 200, {}, 0, 0 },
+			{"coach5", "Coach 4", 300, 40, 200, {}, 0, 0 },
+			{"coach6", "Coach 6", 280, 35, 150, {}, 0, 0 },    
 		},
 	},
 
@@ -133,14 +133,30 @@ Config.Wagons = {
 
 		-- PARAMETERS: ("ENTITY MODEL", "LABEL", "CASH", "GOLD", "STASH / STORAGE TOTAL WEIGHT", "JOBS", "SELL CASH", "SELL GOLD" )
 		Wagons = {
-			{"stagecoach001x", "Stagecoach 1", 50, 15, 25, {}, 0, 0 },
-			{"stagecoach002x", "Stagecoach 2", 50, 15, 25, {}, 0, 0 },
-			{"stagecoach004_2x", "Stagecoach 4", 50, 15, 25, {}, 0, 0 },
-			{"stagecoach004x", "Stagecoach 5", 50, 15, 25, {}, 0, 0 },
-			{"stagecoach006x", "Stagecoach 7",  50, 15, 25, {}, 0, 0 },    
+			{"stagecoach001x", "Stagecoach 1", 275, 35, 150, {}, 0, 0 },
+			{"stagecoach002x", "Stagecoach 2", 275, 35, 150, {}, 0, 0 },
+			{"stagecoach004_2x", "Stagecoach 4", 275, 35, 150, {}, 0, 0 },
+			{"stagecoach004x", "Stagecoach 5", 275, 35, 150, {}, 0, 0 },
+			{"stagecoach006x", "Stagecoach 7",  275, 35, 150, {}, 0, 0 },    
 		},
 	},
 
+	{
+
+	    Category = 'Wagons',
+		BackgroundImage = "wagons",
+
+		-- PARAMETERS: ("ENTITY MODEL", "LABEL", "CASH", "GOLD", "STASH / STORAGE TOTAL WEIGHT", "JOBS", "SELL CASH", "SELL GOLD" )
+		Wagons = {
+			{"chuckwagon000X", "Chuck Wagon 1", 160, 35, 150, {}, 0, 0 },
+			{"chuckwagon002X", "Chuck Wagon 2", 160, 35, 150, {}, 0, 0 },
+			{"wagon02x", "Wagon 1", 150, 35, 150, {}, 0, 0 },  
+			{"wagon03x", "Wagon 2", 115, 35, 150, {}, 0, 0 },  
+			{"wagon05x", "Wagon 4", 150, 35, 150, {}, 0, 0 },  
+		},
+	},
+
+	
 	{
 
 	    Category = 'Buggy',
@@ -156,33 +172,18 @@ Config.Wagons = {
 
 	{
 
-	    Category = 'Wagons',
-		BackgroundImage = "wagons",
-
-		-- PARAMETERS: ("ENTITY MODEL", "LABEL", "CASH", "GOLD", "STASH / STORAGE TOTAL WEIGHT", "JOBS", "SELL CASH", "SELL GOLD" )
-		Wagons = {
-			{"chuckwagon000X", "Chuck Wagon 1", 300, 35, 150, {}, 0, 0 },
-			{"chuckwagon002X", "Chuck Wagon 2", 300, 35, 150, {}, 0, 0 },
-			{"wagon02x", "Wagon 1", 300, 35, 150, {}, 0, 0 },  
-			{"wagon03x", "Wagon 2", 300, 35, 150, {}, 0, 0 },  
-			{"wagon05x", "Wagon 4", 300, 35, 150, {}, 0, 0 },  
-		},
-	},
-
-	{
-
 	    Category = 'Utility',
 		BackgroundImage = "other",
 
 		-- PARAMETERS: ("ENTITY MODEL", "LABEL", "CASH", "GOLD", "STASH / STORAGE TOTAL WEIGHT", "JOBS", "SELL CASH", "SELL GOLD" )
 		Wagons = {
 
-			{"huntercart01", "Hunter Cart", 100, 15, 50, {}, 0, 0 },  
-			{"coal_wagon", "Coal Wagon", 100, 15, 50, { "miner"}, 0, 0 },  
-			{"logwagon", "Log Wagon", 100, 15, 50, { "lumberjack" }, 0, 0 },  
-			{"supplywagon", "Supply Wagon", 150, 20, 200, {}, 0, 0 },  
+			{"huntercart01", "Hunter Cart", 175, 35, 150, {}, 0, 0 },  
+			{"coal_wagon", "Coal Wagon", 130, 35, 150, { "miner"}, 0, 0 },  
+			{"logwagon", "Log Wagon", 130, 35, 150, { "lumberjack" }, 0, 0 },  
+			{"supplywagon", "Supply Wagon", 300, 40, 200, {}, 0, 0 },  
 
-			{"WAGONDOC01X", "Doctor Wagon", 10, 35, 0, { "doctor", "medic" }, 0, 0 }, 
+			{"WAGONDOC01X", "Doctor Wagon", 100, 35, 150, { "doctor", "medic" }, 0, 0 }, 
 
 			{"bountywagon01x", "Bounty Wagon", 10000, 10000, 0, { "police", "detective", "sheriff", "marshal" }, 0, 0 },
 			{"ArmySupplyWagon", "Army Supply Wagon", 10000, 10000, 0, { "police", "detective", "sheriff", "marshal" }, 0, 0  },
