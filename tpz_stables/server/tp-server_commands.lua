@@ -34,7 +34,7 @@ RegisterCommand(Config.Commands["ADD_HORSE"].Command, function(source, args, raw
     local target, model, sex = args[1], args[2], args[3]
 
     if target == nil or target == '' or tonumber(target) == nil or model == nil or model == '' or sex == nil or tonumber(sex) == nil then
-      SendNotification(_source,  "~e~ERROR: Use Correct Sintaxis", "error")
+      TriggerClientEvent("tpz_core:sendBottomTipNotification", _source,  "~e~ERROR: Use Correct Sintaxis", "error")
       return
     end
 
@@ -43,28 +43,28 @@ RegisterCommand(Config.Commands["ADD_HORSE"].Command, function(source, args, raw
     local targetSteamName = GetPlayerName(target)
 
     if targetSteamName == nil then
-      SendNotification(_source, Locales['NOT_ONLINE'], "error")
+      TriggerClientEvent("tpz_core:sendBottomTipNotification", _source, Locales['NOT_ONLINE'], "error")
       return
     end
 
     local tPlayer = TPZ.GetPlayer(target)
 
     if not tPlayer.loaded() then
-      SendNotification(_source, Locales['PLAYER_IS_ON_SESSION'], "error")
+      TriggerClientEvent("tpz_core:sendBottomTipNotification", _source, Locales['PLAYER_IS_ON_SESSION'], "error")
       return
     end
 
     sex = tonumber(sex)
 
     if sex < 0 or sex > 1 then
-      SendNotification(_source, Locales["INVALID_HORSE_SEX_INPUT"], "error")
+      TriggerClientEvent("tpz_core:sendBottomTipNotification", _source, Locales["INVALID_HORSE_SEX_INPUT"], "error")
       return
     end
 
     local HorseData = GetHorseModelData(string.lower(model))
 
     if not HorseData then
-      SendNotification(_source, Locales["INVALID_HORSE_DOES_NOT_EXIST"], "error")
+      TriggerClientEvent("tpz_core:sendBottomTipNotification", _source, Locales["INVALID_HORSE_DOES_NOT_EXIST"], "error")
       return
     end
 
@@ -79,7 +79,7 @@ RegisterCommand(Config.Commands["ADD_HORSE"].Command, function(source, args, raw
     local maxHorsesLimit      = GetPlayerMaximumHorsesLimit(targetIdentifier, targetGroup, targetJob)
 
     if count >= maxHorsesLimit then
-      SendNotification(_source, Locales['TARGET_REACHED_HORSES_LIMIT'], "error", 3000 )
+      TriggerClientEvent("tpz_core:sendBottomTipNotification", _source, Locales['TARGET_REACHED_HORSES_LIMIT'], "error", 3000 )
       return
     end
 
@@ -181,7 +181,7 @@ RegisterCommand(Config.Commands["ADD_HORSE"].Command, function(source, args, raw
     end)
 
   else
-    SendNotification(_source, Locales['NOT_PERMITTED'], "error")
+    TriggerClientEvent("tpz_core:sendBottomTipNotification", _source, Locales['NOT_PERMITTED'], "error")
   end
 
 end, false)
@@ -212,7 +212,7 @@ RegisterCommand(Config.Commands["ADD_WAGON"].Command, function(source, args, raw
     local target, model = args[1], args[2]
 
     if target == nil or target == '' or tonumber(target) == nil or model == nil or model == '' then
-      SendNotification(_source,  "~e~ERROR: Use Correct Sintaxis", "error")
+      TriggerClientEvent("tpz_core:sendBottomTipNotification", _source,  "~e~ERROR: Use Correct Sintaxis", "error")
       return
     end
 
@@ -221,21 +221,21 @@ RegisterCommand(Config.Commands["ADD_WAGON"].Command, function(source, args, raw
     local targetSteamName = GetPlayerName(target)
 
     if targetSteamName == nil then
-      SendNotification(_source, Locales['NOT_ONLINE'], "error")
+      TriggerClientEvent("tpz_core:sendBottomTipNotification", _source, Locales['NOT_ONLINE'], "error")
       return
     end
 
     local tPlayer = TPZ.GetPlayer(target)
 
     if not tPlayer.loaded() then
-      SendNotification(_source, Locales['PLAYER_IS_ON_SESSION'], "error")
+      TriggerClientEvent("tpz_core:sendBottomTipNotification", _source, Locales['PLAYER_IS_ON_SESSION'], "error")
       return
     end
 
     local WagonData = GetWagonModelData(string.lower(model))
 
     if not WagonData then
-      SendNotification(_source, Locales["INVALID_WAGON_DOES_NOT_EXIST"], "error")
+      TriggerClientEvent("tpz_core:sendBottomTipNotification", _source, Locales["INVALID_WAGON_DOES_NOT_EXIST"], "error")
       return
     end
 
@@ -335,7 +335,7 @@ RegisterCommand(Config.Commands["ADD_WAGON"].Command, function(source, args, raw
     end)
 
   else
-    SendNotification(_source, Locales['NOT_PERMITTED'], "error")
+    TriggerClientEvent("tpz_core:sendBottomTipNotification", _source, Locales['NOT_PERMITTED'], "error")
   end
 
 end, false)
