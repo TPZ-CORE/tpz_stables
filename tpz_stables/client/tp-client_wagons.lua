@@ -605,19 +605,15 @@ AddEventHandler("tpz_stables:client:wagon_action_prompts", function()
 
                     UiPromptSetVisible(GetStoreWagonPrompt(), 1) 
 
-                    if Config.StoreWagonPrompt.Enabled then -- check for wagon 
+                    if DoesEntityExist(PlayerData.SpawnedWagonEntity) then
+                        local nearestStableIndex = GetNearestStableLocation()
+                        local horse = Citizen.InvokeNative(0xA8BA0BAE0173457B, PlayerData.SpawnedWagonEntity, 0) -- GetPedInDraftHarness
+                        local brokenWheels = GetWagonBrokenWheels(PlayerData.SpawnedWagonEntity)
 
-                        if DoesEntityExist(PlayerData.SpawnedWagonEntity) then
-                            
-                            local horse = Citizen.InvokeNative(0xA8BA0BAE0173457B, PlayerData.SpawnedWagonEntity, 0) -- GetPedInDraftHarness
-                            local brokenWheels = GetWagonBrokenWheels(PlayerData.SpawnedWagonEntity)
-
-                            if not DoesEntityExist(horse) or #brokenWheels >= 2 then
-
-                                UiPromptSetEnabled(GetStoreWagonPrompt(), 1)
-                            end
-
+                        if not DoesEntityExist(horse) or #brokenWheels >= 2 or nearestStableIndex then
+                            UiPromptSetEnabled(GetStoreWagonPrompt(), 1)
                         end
+
                     end
 
                     if HasRequiredRepairJob(PlayerData.Job) then 
