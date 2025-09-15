@@ -1186,7 +1186,7 @@ function OpenHorsesManagement()
             menu.close()
             OpenHorseManagementById(ownedHorsesList[data.current.value].id)
         else
-            SendNotification(nil, Locales['NOT_PERMITTED_TO_MANAGE_HORSE'], "error")
+            SendNotification(nil, Locales['HORSE_NOTIFY_TITLE'], Locales["NOT_PERMITTED_TO_MANAGE_HORSE"], "error", 5, "horse", "left")
         end
 
     end,
@@ -1409,7 +1409,7 @@ function OpenHorseManagementById(selectedHorseId)
             PlayerData.SelectedHorseIndex = selectedHorseId
             TriggerServerEvent("tpz_stables:server:updateHorse", selectedHorseId, 'SET_DEFAULT', { })
 
-            SendNotification(nil, Locales['HORSE_SET_AS_DEFAULT'], 'success')
+            SendNotification(nil, Locales['HORSE_NOTIFY_TITLE'], Locales["HORSE_SET_AS_DEFAULT"], "success", 3, "horse", "left")
 
         elseif (data.current.value == 'rename') then
 
@@ -1432,7 +1432,7 @@ function OpenHorseManagementById(selectedHorseId)
                         SetPedPromptName(PlayerData.SpawnedHorseEntity, cb)
                     end
 
-                    SendNotification(nil, Locales['RENAMED_HORSE'], 'success')
+                    SendNotification(nil, Locales['HORSE_NOTIFY_TITLE'], Locales["RENAMED_HORSE"], "success", 3, "horse", "left")
 
                     menu.close()
                     OpenHorseManagementById(selectedHorseId)
@@ -1489,7 +1489,7 @@ function OpenHorseManagementById(selectedHorseId)
                 local inputId = tonumber(cb)
 
                 if inputId == nil and inputId <= 0 then
-                    SendNotification(Locales['INVALID_INPUT'], "error")
+                    SendNotification(nil, Locales['HORSE_NOTIFY_TITLE'], Locales["INVALID_INPUT"], "error", 3, "horse", "left")
                     return
                 end
 
@@ -1514,7 +1514,7 @@ function OpenHorseManagementById(selectedHorseId)
                     OpenStableMenu()
 
                 else
-                    SendNotification(nil, Locales['PLAYER_NOT_FOUND'], "error")
+                    SendNotification(nil, Locales['HORSE_NOTIFY_TITLE'], Locales["PLAYER_NOT_FOUND"], "error", 3, "horse", "left")
                 end
 
             end) 
@@ -1557,7 +1557,7 @@ function OpenHorseManagementById(selectedHorseId)
         elseif (data.current.value == 'components') then
 
             if not IsStableOpen(StableData) then 
-                SendNotification(nil, Locales['STABLE_IS_CLOSED'], 'error')
+                SendNotification(nil, Locales['HORSE_NOTIFY_TITLE'], Locales["STABLE_IS_CLOSED"], "error", 3, "horse", "left")
                 return
             end
             
@@ -1869,7 +1869,7 @@ function OpenStableMenu(locationIndex)
         if (data.current.value == 'BUY_HORSES' or data.current.value == 'BUY_WAGONS') then 
 
             if not IsStableOpen(StableData) then 
-                SendNotification(nil, Locales['STABLE_IS_CLOSED'], 'error')
+                SendNotification(nil, Locales['HORSE_NOTIFY_TITLE'], Locales["STABLE_IS_CLOSED"], "error", 3, "horse", "left")
                 return
             end
 
@@ -1885,7 +1885,7 @@ function OpenStableMenu(locationIndex)
             local count          = currentHorses.count
 
             if count <= 0 then
-                SendNotification(nil, Locales['NO_HORSES_AVAILABLE'], "error")
+                SendNotification(nil, Locales['HORSE_NOTIFY_TITLE'], Locales["NO_HORSES_AVAILABLE"], "error", 3, "horse", "left")
                 return
             end
 
@@ -1899,7 +1899,7 @@ function OpenStableMenu(locationIndex)
             local count          = currentHorses.count
 
             if count <= 0 then
-                SendNotification(nil, Locales['NO_WAGONS_AVAILABLE'], "error")
+                SendNotification(nil, Locales['WAGON_NOTIFY_TITLE'], Locales["NO_WAGONS_AVAILABLE"], "error", 3, "wagon", "left")
                 return
             end
 
