@@ -142,6 +142,10 @@ AddEventHandler('tpz_stables:client:start_taming_tasks', function(cb)
     local PlayerData  = GetPlayerData()
     local canDoTaming = false
 
+    while not Loaded do
+        Wait(500)
+    end
+
     if HasThreadStarted then
         return
     end
@@ -172,23 +176,19 @@ AddEventHandler('tpz_stables:client:start_taming_tasks', function(cb)
         while true do
             Wait(Config.Taming.CheckEvery * 1000)
      
-            if Loaded then
-      
-                local coords = GetEntityCoords(PlayerPedId())
+            local coords = GetEntityCoords(PlayerPedId())
     
-                for index, horse in pairs(TamingHorses) do
+            for index, horse in pairs(TamingHorses) do
      
-                    local horseSpawnCoords = vector3(horse.coords.x, horse.coords.y, horse.coords.z)
-                    local distance         = #(coords - horseSpawnCoords)
+                local horseSpawnCoords = vector3(horse.coords.x, horse.coords.y, horse.coords.z)
+                local distance         = #(coords - horseSpawnCoords)
         
-                    -- We check if player is on a taming area nearby and the area has no cooldown.
-                    if distance <= Config.Taming.SpawnDistance and horse.cooldown == 0 then
-                        TriggerServerEvent("tpz_stables:server:updateTamingHorse", horse.id, 'REGISTER_SPAWNED')
-                        Wait(2000)
-                    end
-
+                -- We check if player is on a taming area nearby and the area has no cooldown.
+                if distance <= Config.Taming.SpawnDistance and horse.cooldown == 0 then
+                    TriggerServerEvent("tpz_stables:server:updateTamingHorse", horse.id, 'REGISTER_SPAWNED')
+                    Wait(2000)
                 end
-    
+
             end
     
         end
@@ -204,7 +204,7 @@ AddEventHandler('tpz_stables:client:start_taming_tasks', function(cb)
             local player     = PlayerPedId()
             local PlayerData = GetPlayerData()
 
-            if not Loaded or IsPedSwimming(player) or IsPedSwimmingUnderWater(player) or IsPedInAnyVehicle(player, false) or PlayerData.IsBusy then 
+            if IsPedSwimming(player) or IsPedSwimmingUnderWater(player) or IsPedInAnyVehicle(player, false) or PlayerData.IsBusy then 
                 sleep = 2500
                 goto END
             end
