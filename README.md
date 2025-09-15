@@ -20,7 +20,7 @@ We provide you all the following features:
 
 __Horses:__
 
-1. Horse Training — When a horse is not trained, the statistics of this horse will be lower - until this horse gets trained. (Supports Jobs Only)
+1. **Horse Training** — When a horse is not trained, the statistics of this horse will be lower - until this horse gets trained. (Supports Jobs Only)
 2. Horse Taming — When a horse is tamed, this horse can be sold to the stable or become yours (Supports Jobs / Not).
 3. Horse Bags, Brushing & Feeding actions. 
 4. Horse Outfit Components — The outfits of the horses spawn properly with a rendering system, all components are local-sided. 
