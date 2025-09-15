@@ -162,6 +162,10 @@ Config.Taming = {
 
 	Enabled = true,
 
+    -- To disable the required jobs, set @RequiredJobs to false. 
+    -- Example: Jobs = {"wapiti", "wapitishaman", "comanche", "valhorsetrainer", "horsetrainer", "anneshorsetrainer", 'blackhorsetrainer', 'strhorsetrainer', 'sdhorsetrainer', 'thieveshorsetrainer'},
+    Jobs = false,
+
 	-- Spawn horse models for taming on the selected coords.
 	-- For the taming, difficulty, stages, tpz_skillcheck is required.
 	-- @param difficulties : easy, normal, hard
