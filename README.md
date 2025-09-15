@@ -24,7 +24,9 @@ __Horses:__
 2. Horse Taming — Supports Jobs / Not. 
 3. Horse Bags, Brushing & Feeding actions. 
 4. Horse Outfit Components — The outfits of the horses spawn properly with a rendering system, all components are local-sided. 
-5. Aging System — An aging system for the horses which prevents a horse to live forever but having a real-time aging. 
+5. Horse Shoes — When a horse is wearing horse shoes, there will NOT be any stamina consumption.
+6. Horse Reviving — A horse trainer can revive with an injection horses who are unconscious. 
+7. Aging System — An aging system for the horses which prevents a horse to live forever but having a real-time aging. 
 
 __Wagons:__
 
