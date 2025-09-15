@@ -5,8 +5,9 @@ Config.CallWagonCommand = 'callwagon'
 Config.CallWagonKey = { Enabled = true, Key = 0xF3830D8E } -- J key by default.
 
 -- How close should a player be to the nearest stable for calling a wagon?
+-- This is also for storing the wagons.
 -- (!) If player is too far from a stable, we should not allow wagon calling.
-Config.CallWagonNearStableDistance = 70.0
+Config.CallWagonNearStableDistance = 100.0
 
 Config.CallWagonCooldown = 5 -- time in seconds
 
