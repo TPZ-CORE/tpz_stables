@@ -34,13 +34,12 @@ Config.WagonWardrobeOutfits = {
 	ClientEvent = "tpz_clothing:client:openWardrobeOutfits", -- the event to trigger client side for opening wardrobes.
 }
 
--- The specified prompt is displayed when the wagon is destroyed or is undrivable (if enabled)..
+-- The specified prompt is displayed when the wagon is destroyed or is undrivable (if enabled).
+-- It is also displayed when the wagon is nearby a stable for storing.
 Config.StoreWagonPrompt = { 
-	Enabled = true, 
 	Key = 0x4AF4D473, -- DO NOT USE [F] OR [E] OR ANY KEY THAT IS ALREADY USED FOR WARDROBE OR STORAGE ACCESS.
 	PromptDisplay = 'Store Wagon', 
 }
-
 
 Config.WagonRepairs = {
 
