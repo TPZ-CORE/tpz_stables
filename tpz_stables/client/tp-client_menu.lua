@@ -574,7 +574,7 @@ function OpenWagonManagementById(selectedWagonId)
 
     local elements   = {
         { label = Locales['WAGON_SET_DEFAULT_TITLE'],      value = 'default',    desc = description },
-        { label = Locales['WAGON_COMPONENTS_TITLE'],       value = 'components', desc = description },
+        --{ label = Locales['WAGON_COMPONENTS_TITLE'],       value = 'components', desc = description },
         { label = Locales['WAGON_RENAME_TITLE'],           value = 'rename',     desc = description },
         { label = Locales['WAGON_TRANSFER_TITLE'],         value = 'transfer',   desc = description },
         { label = Locales['WAGON_SELL_TITLE'],             value = 'sell',       desc = description },
@@ -2049,4 +2049,5 @@ AddEventHandler("tpz_stables:client:menu_tasks", function()
     end)
 
 end)
+
 
