@@ -20,16 +20,16 @@ We provide you all the following features:
 
 __Horses:__
 
-1. Horse Training
-2. Horse Taming. 
+1. Horse Training — Supports Jobs Only. 
+2. Horse Taming — Supports Jobs / Not. 
 3. Horse Bags, Brushing & Feeding actions. 
-4. Horse Outfit Components. 
+4. Horse Outfit Components — The outfits of the horses spawn properly with a rendering system, all components are local-sided. 
 
 __Wagons:__
 
 1. Wagon Wheel Repairs — The required jobs will be able to repair the destroyed wagon wheels. Once the wagon is stored, the system checks which wheels are broken or not, in order to spawn the wagon the next time with the correct destroyed wheels. 
 2. Wagon Storage, Wardrobe, Store and Repair actions. 
-3. Wagon Outfit Components. 
+3. Wagon Outfit Components — The outfits of the wagons spawn properly with a rendering system, all components are local-sided. 
 
 
 
