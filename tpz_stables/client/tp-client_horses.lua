@@ -364,7 +364,7 @@ function SpawnHorseEntity()
 		SetEntityCanBeDamaged(entity, true)
         Citizen.InvokeNative(0x697157CED63F18D4, entity, 10000)
 
-        SendNotification(nil, Locales['HORSE_UNCONSIOUS'], "error")
+        SendNotification(nil, Locales['HORSE_NOTIFY_TITLE'], Locales["HORSE_UNCONSIOUS"], "error", 3, "horse", "left")
 
     else
 
@@ -608,20 +608,24 @@ AddEventHandler("tpz_stables:client:whistle", function()
     local Horses     = PlayerData.Horses
 
     if WhistleCooldown > 0 then
-		SendNotification(nil, Locales['WAIT_FOR_CALLING'], "error")
+
+		SendNotification(nil, Locales['HORSE_NOTIFY_TITLE'], Locales["WAIT_FOR_CALLING"], "error", 3, "horse", "left")
+
 		return
 	end
 
     if PlayerData.IsLoaded and PlayerData.SelectedHorseIndex ~= 0 then
 
         if PlayerData.Horses[PlayerData.SelectedHorseIndex] == nil then
-            SendNotification(nil, Locales['HORSE_NOT_OWNED'], "error")
+            SendNotification(nil, Locales['HORSE_NOTIFY_TITLE'], Locales["HORSE_NOT_OWNED"], "error", 3, "horse", "left")
+
             return
         end
 
         local currentTownHash = Citizen.InvokeNative(0x43AD8FC02B429D33, coords, 1)
         if not IsLocationPermitted(currentTownHash) then
-            SendNotification(nil, Locales['CALL_TOWN_IS_RESTRICTED'], "error")
+            SendNotification(nil, Locales['HORSE_NOTIFY_TITLE'], Locales["CALL_TOWN_IS_RESTRICTED"], "error", 3, "horse", "left")
+
             return
         end
 
@@ -629,7 +633,7 @@ AddEventHandler("tpz_stables:client:whistle", function()
         local isSwimmingUnderWater = Citizen.InvokeNative(0xC024869A53992F34, playerPed)
 
         if isSwimming or isSwimmingUnderWater then
-            SendNotification(nil, Locales['CALL_SWIMMING'], "error")
+            SendNotification(nil, Locales['HORSE_NOTIFY_TITLE'], Locales["CALL_SWIMMING"], "error", 3, "horse", "left")
             return
         end
 
@@ -638,7 +642,7 @@ AddEventHandler("tpz_stables:client:whistle", function()
             local isNearbyStableLocation = IsNearbyStableLocation(coords)
 
             if not isNearbyStableLocation then
-                SendNotification(nil, Locales['CALL_NOT_NEARBY_STABLE'], "error")
+                SendNotification(nil, Locales['HORSE_NOTIFY_TITLE'], Locales["CALL_NOT_NEARBY_STABLE"], "error", 3, "horse", "left")
                 return
             end
 
@@ -653,7 +657,7 @@ AddEventHandler("tpz_stables:client:whistle", function()
         local isAgedDead = getRealAge >= ModelData[9]
 
         if isAgedDead then
-            SendNotification(nil, Locales['HORSE_DEAD_FROM_AGEING'], "error")
+            SendNotification(nil, Locales['HORSE_NOTIFY_TITLE'], Locales["HORSE_DEAD_FROM_AGEING"], "error", 3, "horse", "left")
             return
         end
 
@@ -676,7 +680,7 @@ AddEventHandler("tpz_stables:client:whistle", function()
         end
         
 	else
-        SendNotification(nil, Locales['HORSE_NOT_OWNED'], "error")
+        SendNotification(nil, Locales['HORSE_NOTIFY_TITLE'], Locales["HORSE_NOT_OWNED"], "error", 3, "horse", "left")
     end
 
 end)
@@ -694,12 +698,12 @@ AddEventHandler('tpz_stables:client:onFeedItemUse', function(item)
     local playerPed  = PlayerPedId()
 
     if not IsPedOnMount(playerPed) then
-        SendNotification(nil, Locales['HORSE_FEED_ON_MOUNT'], "error")
+        SendNotification(nil, Locales['HORSE_NOTIFY_TITLE'], Locales["HORSE_FEED_ON_MOUNT"], "error", 3, "horse", "left")
         return
     end
 
     if not PlayerData.SpawnedHorseEntity then
-        SendNotification(nil, Locales['HORSE_FEED_NOT_OWNED'], "error")
+        SendNotification(nil, Locales['HORSE_NOTIFY_TITLE'], Locales["HORSE_FEED_NOT_OWNED"], "error", 3, "horse", "left")
         return
     end
 
@@ -732,7 +736,7 @@ AddEventHandler('tpz_stables:client:onFeedItemUse', function(item)
         end
 
     else
-        SendNotification(nil, Locales['HORSE_FEED_NOT_OWNED'], "error")
+        SendNotification(nil, Locales['HORSE_NOTIFY_TITLE'], Locales["HORSE_FEED_NOT_OWNED"], "error", 3, "horse", "left")
     end
 
 end)
@@ -746,7 +750,7 @@ AddEventHandler('tpz_stables:client:revive_item_use', function()
     local closestEntity = GetClosestEntity(Config.HorseDeath.Reviving.Radius)
 
     if closestEntity == nil then
-        SendNotification(nil, Locales['NO_DEAD_HORSE_NEARBY'], "error")
+        SendNotification(nil, Locales['HORSE_NOTIFY_TITLE'], Locales["NO_DEAD_HORSE_NEARBY"], "error", 3, "horse", "left")
         return
     end
 
@@ -762,7 +766,7 @@ AddEventHandler('tpz_stables:client:revive_item_use', function()
     end
 
     if getHorse == 0 then
-        SendNotification(nil, Locales['NO_HORSE_DEAD_OTHER_ENTITY'], "error")
+        SendNotification(nil, Locales['HORSE_NOTIFY_TITLE'], Locales["NO_HORSE_DEAD_OTHER_ENTITY"], "error", 3, "horse", "left")
         return
     end
 
@@ -771,12 +775,12 @@ AddEventHandler('tpz_stables:client:revive_item_use', function()
     local isAgedDead = getRealAge >= ModelData[9]
 
     if isAgedDead then
-        SendNotification(nil, Locales['HORSE_DEAD_FROM_AGEING'], "error")
+        SendNotification(nil, Locales['HORSE_NOTIFY_TITLE'], Locales["HORSE_DEAD_FROM_AGEING"], "error", 3, "horse", "left")
         return
     end
 
     if not IsEntityDead(closestEntity) then
-        SendNotification(nil, Locales['HORSE_NOT_DEAD'], "error")
+        SendNotification(nil, Locales['HORSE_NOTIFY_TITLE'], Locales["HORSE_NOT_DEAD"], "error", 3, "horse", "left")
         return
     end
 
@@ -964,7 +968,7 @@ Citizen.CreateThread(function()
 
                                 exports.tpz_inventory:getInventoryAPI().openInventoryContainerById(tonumber(HorseData.container), Config.Storages.Horses.InventoryStorageHeader)
                             else
-                                SendNotification(nil, Locales['NOT_PERMITTED_ACCESS_BAG'], "error")
+                                SendNotification(nil, Locales['HORSE_NOTIFY_TITLE'], Locales["NOT_PERMITTED_ACCESS_BAG"], "error", 3, "horse", "left")
                             end
 
                         end
