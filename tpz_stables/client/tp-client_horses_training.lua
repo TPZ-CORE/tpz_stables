@@ -191,7 +191,7 @@ AddEventHandler("tpz_stables:client:horse_training_thread", function()
                     local HorseData  = PlayerData.Horses[PlayerData.SelectedHorseIndex]
                     TriggerServerEvent('tpz_stables:server:saveHorseTrainingExperience', PlayerData.SelectedHorseIndex, HorseData.training_experience, HorseData.training_stage_index, HorseData.training_stage_type)
 
-                    SendNotification(_source, Locales['TRAINING_NOTIFY_TITLE'], Locales['TRAININING_CANCELLED'], "error", 5, "horse", "left")
+                    SendNotification(nil, Locales['TRAINING_NOTIFY_TITLE'], Locales['TRAININING_CANCELLED'], "error", 5, "horse", "left")
 
                 end
 
@@ -405,15 +405,15 @@ AddEventHandler("tpz_stables:client:horse_trainers_training_task", function()
                                     end
                                     
                                     local notify = IsTrainingHorse and Locales['TRAINING_STARTED'] or Locales['TRAINING_STOPPED']
-                                    SendNotification(_source, Locales['TRAINING_NOTIFY_TITLE'], notify, "success", 5, "horse", "left")
+                                    SendNotification(nil, Locales['TRAINING_NOTIFY_TITLE'], notify, "success", 5, "horse", "left")
 
                                 else
-                                    SendNotification(_source, Locales['TRAINING_NOTIFY_TITLE'], Locales['TRAININING_ALREADY_TRAINED'], "error", 3, "horse", "left")
+                                    SendNotification(nil, Locales['TRAINING_NOTIFY_TITLE'], Locales['TRAININING_ALREADY_TRAINED'], "error", 3, "horse", "left")
                                 end
 
                             else
 
-                                SendNotification(_source, Locales['TRAINING_NOTIFY_TITLE'], Locales['TRAININING_NO_HORSE'], "error", 3, "horse", "left")
+                                SendNotification(nil, Locales['TRAINING_NOTIFY_TITLE'], Locales['TRAININING_NO_HORSE'], "error", 3, "horse", "left")
 
                             end
 
