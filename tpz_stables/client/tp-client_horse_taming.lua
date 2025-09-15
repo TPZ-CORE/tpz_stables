@@ -276,8 +276,7 @@ AddEventHandler('tpz_stables:client:start_taming_tasks', function(cb)
                                     Wait(5000)
                                     TriggerServerEvent("tpz_stables:server:updateTamingHorse", horse.id, 'FAILED_TAMING' )
     
-                                    local NotifyData = Locales['TAMING_FAILED']
-                                    TriggerEvent("tpz_notify:sendNotification", NotifyData.title, NotifyData.message, NotifyData.icon, 'error', NotifyData.duration, NotifyData.align)
+                                    SendNotification(nil, Locales['TAMING_NOTIFY_TITLE'], Locales['TAMING_FAILED'], "error", 5, "horse", "left")
                                     break
                                 end
     
@@ -287,8 +286,7 @@ AddEventHandler('tpz_stables:client:start_taming_tasks', function(cb)
                                 if success then
                                     Citizen.InvokeNative(0xAEB97D84CDF3C00B, entity, false) -- -wild horse for taming.
     
-                                    local NotifyData = Locales['TAMING_SUCCESS']
-                                    TriggerEvent("tpz_notify:sendNotification", NotifyData.title, NotifyData.message, NotifyData.icon, 'success', NotifyData.duration, NotifyData.align)
+                                    SendNotification(nil, Locales['TAMING_NOTIFY_TITLE'], Locales['TAMING_SUCCESS'], "success", 5, "horse", "left")
                                 end
     
                                 RIDING_TAMED_HORSE_ID = 0
