@@ -9,6 +9,7 @@ local RepairWagonPrompt
 local WagonPromptList = GetRandomIntInRange(0, 0xffffff)
 
 local TamingStorePrompt
+local TamingStoreSetOwned
 local TamingStorePromptList = GetRandomIntInRange(0, 0xffffff)
 --[[-------------------------------------------------------
  Base Events
@@ -128,20 +129,32 @@ end
 
 RegisterTamingStableActionPrompt = function()
 
-    TamingStorePrompt = UiPromptRegisterBegin()
-    UiPromptSetControlAction(TamingStorePrompt, 0x760A9C6F)
-    UiPromptSetText(TamingStorePrompt, CreateVarString(10, 'LITERAL_STRING', 'Sell Tamed Horse'))
-    UiPromptSetEnabled(TamingStorePrompt, true)
-    UiPromptSetVisible(TamingStorePrompt, true) -- storage true for all.
-    UiPromptSetStandardMode(TamingStorePrompt, true)
-    PromptSetTransportMode(TamingStorePrompt, 2)
-    UiPromptSetGroup(TamingStorePrompt, TamingStorePromptList, 0)
-    UiPromptRegisterEnd(TamingStorePrompt)
+    TamingStorePrompt = PromptRegisterBegin()
+    PromptSetControlAction(TamingStorePrompt, Config.Keys[Config.TamingPromptActions['SELL'].Key])
+    PromptSetText(TamingStorePrompt, CreateVarString(10, 'LITERAL_STRING', Config.TamingPromptActions['SELL'].Label))
+    PromptSetEnabled(TamingStorePrompt, 1)
+    PromptSetVisible(TamingStorePrompt, 1)
+    PromptSetStandardMode(TamingStorePrompt, 1)
+    PromptSetHoldMode(TamingStorePrompt, Config.TamingPromptActions['SELL'].HoldMode)
+    PromptSetGroup(TamingStorePrompt, TamingStorePromptList)
+    Citizen.InvokeNative(0xC5F428EE08FA7F2C, TamingStorePrompt, true)
+    PromptRegisterEnd(TamingStorePrompt)
+
+    TamingStoreSetOwned = PromptRegisterBegin()
+    PromptSetControlAction(TamingStoreSetOwned, Config.Keys[Config.TamingPromptActions['SET_OWNED'].Key])
+    PromptSetText(TamingStoreSetOwned, CreateVarString(10, 'LITERAL_STRING', Config.TamingPromptActions['SET_OWNED'].Label))
+    PromptSetEnabled(TamingStoreSetOwned, 1)
+    PromptSetVisible(TamingStoreSetOwned, 1)
+    PromptSetStandardMode(TamingStoreSetOwned, 1)
+    PromptSetHoldMode(TamingStoreSetOwned, Config.TamingPromptActions['SET_OWNED'].HoldMode)
+    PromptSetGroup(TamingStoreSetOwned, TamingStorePromptList)
+    Citizen.InvokeNative(0xC5F428EE08FA7F2C, TamingStoreSetOwned, true)
+    PromptRegisterEnd(TamingStoreSetOwned)
 
 end
 
 GetTamingStorePromptData = function ()
-    return TamingStorePrompt, TamingStorePromptList
+    return TamingStorePrompt, TamingStoreSetOwned, TamingStorePromptList
 end
 
 
