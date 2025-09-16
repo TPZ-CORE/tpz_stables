@@ -334,16 +334,71 @@ Citizen.CreateThread(function()
                 end
 
             else 
-                sleep = 0
 
-                local promptGroup, promptList = GetTamingStorePromptData()
+                if (distance <= stableConfig.ActionDistance) then
 
-                local label = CreateVarString(10, 'LITERAL_STRING', stableConfig.Name)
-                PromptSetActiveGroupThisFrame(promptList, label)
+                    sleep = 0
 
-                if Citizen.InvokeNative(0xC92AC953F0A982AE, promptList) then  -- PromptHasStandardModeCompleted
+                    local sellGroup, storeGroup, promptList = GetTamingStorePromptData()
     
-                    print('yes')
+                    local label = CreateVarString(10, 'LITERAL_STRING', stableConfig.Name)
+                    PromptSetActiveGroupThisFrame(promptList, label)
+    
+                    if PromptHasHoldModeCompleted(sellGroup) then
+    
+                        local tamedHorseId = GetMountedTamedHorseId(1)
+
+                        if tamedHorseId ~= 0 then
+                            local entityHorse = GetMount(player)
+
+                            TaskDismountAnimal(player, 0, 0, 0, 0, entityHorse)
+
+                            Wait(1500)
+  
+                            local hasControl = RequestEntityControl(entityHorse)
+
+                            if hasControl then
+                                RemoveEntityProperly(entityHorse)
+                            end
+
+                            TriggerServerEvent('tpz_stables:server:sell_tamed_horse', tamedHorseId)
+
+                        else
+                            SendNotification(nil, Locales['TAMING_NOTIFY_TITLE'], Locales['HORSE_IS_NOT_TAMED_SELL'], "error", 5, "horse", "left")
+                        end
+
+                        Wait(2000)
+
+                    end
+
+                    
+                    if PromptHasHoldModeCompleted(storeGroup) then
+
+                        local tamedHorseId = GetMountedTamedHorseId(1)
+
+                        if tamedHorseId ~= 0 then
+
+                            local entityHorse = GetMount(player)
+
+                            TaskDismountAnimal(player, 0, 0, 0, 0, entityHorse)
+
+                            Wait(1500)
+  
+                            local hasControl = RequestEntityControl(entityHorse)
+
+                            if hasControl then
+                                RemoveEntityProperly(entityHorse)
+                            end
+
+                            TriggerServerEvent('tpz_stables:server:tamed_horse_ownership', tamedHorseId)
+
+                        else
+                            SendNotification(nil, Locales['TAMING_NOTIFY_TITLE'], Locales['HORSE_IS_NOT_TAMED_SET_OWNED'], "error", 5, "horse", "left")
+                        end
+
+                        Wait(2000)
+
+                    end
 
                 end
 
