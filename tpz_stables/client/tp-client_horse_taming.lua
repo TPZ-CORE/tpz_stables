@@ -10,13 +10,12 @@ local TAMING_COUNTDOWN = Config.Taming.StartTamingCountdown
 local hasThreadActive = false
 
 -----------------------------------------------------------
---[[ Local Functions ]]--
+--[[ Functions ]]--
 -----------------------------------------------------------
 
-local GetMountedTamedHorseId = function()
+GetMountedTamedHorseId = function(isTamed)
     local PlayerData  = GetPlayerData()
     local playerPed   = PlayerPedId()
-    local id          = 0
     local entityHorse = GetMount(playerPed)
     local rider       = GetRiderOfMount(entityHorse, true)
 
@@ -24,13 +23,12 @@ local GetMountedTamedHorseId = function()
 
         for index, horse in pairs(TamingHorses) do
 
-            if horse.entity ~= 0 and horse.tamed == 0 then
+            if horse.entity ~= 0 and horse.tamed == isTamed then
 
                 local entity = NetworkGetEntityFromNetworkId(horse.entity)
-
-                if entity == entityHorse then
-                    id = horse.id
-                    break
+                
+                if tostring(entity) == tostring(entityHorse) then
+                    return horse.id
                 end
 
             end
@@ -40,7 +38,7 @@ local GetMountedTamedHorseId = function()
         
     end
 
-    return id 
+    return 0 
     
 end
 
@@ -212,9 +210,9 @@ AddEventHandler('tpz_stables:client:start_taming_tasks', function(cb)
 
             if IsPedOnMount(player) then
 
-                if GetMountedTamedHorseId() ~= 0 then
+                if GetMountedTamedHorseId(0) ~= 0 then
                     
-                    RIDING_TAMED_HORSE_ID = GetMountedTamedHorseId()
+                    RIDING_TAMED_HORSE_ID = GetMountedTamedHorseId(0)
 
                     local horse = TamingHorses[RIDING_TAMED_HORSE_ID]
                     local entity = NetworkGetEntityFromNetworkId(horse.entity)
@@ -286,7 +284,7 @@ AddEventHandler('tpz_stables:client:start_taming_tasks', function(cb)
                                 if success then
                                     Citizen.InvokeNative(0xAEB97D84CDF3C00B, entity, false) -- -wild horse for taming.
     
-                                    SendNotification(nil, Locales['TAMING_NOTIFY_TITLE'], Locales['TAMING_SUCCESS'], "success", 5, "horse", "left")
+                                    SendNotification(nil, Locales['TAMING_NOTIFY_TITLE'], Locales['TAMING_SUCCESS'], "success", 10, "horse", "left")
                                 end
     
                                 RIDING_TAMED_HORSE_ID = 0
