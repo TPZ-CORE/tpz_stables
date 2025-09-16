@@ -642,7 +642,7 @@ function OpenWagonManagementById(selectedWagonId)
 
                     PlayerData.Wagons[selectedWagonId].name = cb
 
-                    SendNotification(nil, Locales['WAGON_NOTIFY_TITLE'], Locales[RENAMED_WAGON"], "success", 3, "wagon", "left")
+                    SendNotification(nil, Locales['WAGON_NOTIFY_TITLE'], Locales["RENAMED_WAGON"], "success", 3, "wagon", "left")
 
                     menu.close()
                     OpenWagonManagementById(selectedWagonId)
@@ -2049,5 +2049,6 @@ AddEventHandler("tpz_stables:client:menu_tasks", function()
     end)
 
 end)
+
 
 
