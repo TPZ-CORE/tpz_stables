@@ -15,6 +15,13 @@ Config.PromptAction = { Key = 'G', HoldMode = 1000 }
 
 Config.HorseTrainingPromptAction = { Key = 'G', HoldMode = 1000, Label = 'Press' }
 
+-- (!) MANY KEYS ARE NOT FUNCTIONAL, THEY ARE DISABLED BY THE GAME-ENGINE WHEN BEING ON A MOUNT.
+Config.TamingPromptActions = {
+
+	['SELL']      = { Key = 'DOWN',     Label = 'Sell Tamed Horse',      HoldMode = 1000 },
+	['SET_OWNED'] = { Key = 'SPACEBAR', Label = 'Set Owned Tamed Horse', HoldMode = 1000 },
+}
+
 -----------------------------------------------------------
 --[[ General ]]--
 -----------------------------------------------------------
@@ -228,7 +235,7 @@ Config.Taming = {
 	RespawnHorses = false, -- time in minutes (false = after server restart)
 
 	-- When does the taming starts? after how many seconds to prepare the player?
-	StartTamingCountdown = 10, -- time in seconds
+	StartTamingCountdown = 6, -- time in seconds
 
 	-- What should be the aged of the tamed horse in case the player wants for his ownership?
 	OwnershipTamedHorseAge = { min = 20, max = 30 },
@@ -907,6 +914,13 @@ Config.Webhooks = {
         Url = "", 
         Color = 10038562,
     },
+	
+	['RECEIVED_TAMED_HORSE'] ={
+		Enabled = true, 
+        Url = "0x0x0-580C440843171F575411434E5F0A545653425D5751085902471D52105F425B0B1F490315014D044A071D074F074D061B084A054C1F4A5B307E20441D6833742C521A552C691A496A0314443C7E496A3B1D1C77745C16691E016E052760225D7E523703367C746A165C4B6F1F7A14002B5B447F4A714B497969", 
+        Color = 10038562,
+	},
+	
 }
 
 -----------------------------------------------------------
