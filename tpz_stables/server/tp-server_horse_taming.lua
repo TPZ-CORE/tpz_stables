@@ -207,12 +207,6 @@ AddEventHandler('tpz_stables:server:sell_tamed_horse', function(horseIndex)
     TamingHorses[horseIndex].tamed  = 0
     TamingHorses[horseIndex].entity = 0
 
-    local entity = NetworkGetEntityFromNetworkId(HorseData.entity)
-
-    if DoesEntityExist(entity) then
-        DeleteEntity(entity)
-    end
-
     local coords = vector3(HorseData.coords.x, HorseData.coords.y, HorseData.coords.z)
     TPZ.TriggerClientEventAsyncByCoords("tpz_stables:client:updateTamingHorse", { 
         horseIndex = horseIndex, 
@@ -266,12 +260,6 @@ AddEventHandler('tpz_stables:server:tamed_horse_ownership', function(horseIndex)
     TamingHorses[horseIndex].tamed  = 0
     TamingHorses[horseIndex].entity = 0
 
-    local entity = NetworkGetEntityFromNetworkId(HorseData.entity)
-
-    if DoesEntityExist(entity) then
-        DeleteEntity(entity)
-    end
-
     local coords = vector3(HorseData.coords.x, HorseData.coords.y, HorseData.coords.z)
     TPZ.TriggerClientEventAsyncByCoords("tpz_stables:client:updateTamingHorse", { 
         horseIndex = horseIndex, 
@@ -280,7 +268,7 @@ AddEventHandler('tpz_stables:server:tamed_horse_ownership', function(horseIndex)
     }, coords, 350.0, 1000, true, 40)
 
     local date          = os.date('%d').. '/' ..os.date('%m').. '/' .. Config.Year .. " " .. os.date('%H') .. ":" .. os.date('%M') .. ":" .. os.date("%S") .. math.random(1,9)
-	local randomAge     = math.random(Config.Ageing.StartAdultAge.min, Config.Ageing.StartAdultAge.max)
+	local randomAge     = math.random(Config.Taming.OwnershipTamedHorseAge.min, Config.Taming.OwnershipTamedHorseAge.max)
 	randomAge           = math.floor(randomAge * 1440)
 
 	local randomSex     = math.random(0, 1)
