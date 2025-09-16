@@ -66,7 +66,7 @@ Locales = {
     ['NOT_ENOUGH_TO_BUY_HORSE']       = "~e~You don't have enough dollars.",
     ['NOT_ENOUGH_TO_BUY_HORSE_GOLD']  = "~e~You don't have enough gold.",
     ['SUCCESSFULLY_BOUGHT_A_HORSE']   = "Congratulations, you have successfully bought new horse.",
-    ['SUCCESSFULLY_RECEIVED_TAMED_HORSE'] = "Congratulations, you are now having a new horse.",
+    ['SUCCESSFULLY_RECEIVED_TAMED_HORSE'] = "Congratulations, the tamed horse now belongs to your ownership.",
     ['SUCCESSFULLY_GAVE_TARGET_A_HORSE'] = "You added a new horse to the target's ownership.",
     ["TARGET_RECEIVED_HORSE"]          = "You have received a new horse, check it out!",
 
@@ -166,6 +166,8 @@ Locales = {
     ['TAMING_STARTS_TITLE']                = "TAMING STARTS IN",
     ['TAMING_STARTS_DESCRIPTION']          = "%s seconds",
     ['ONLY_TAMED_HORSES']                  = "~e~The specified horse is not a tamed one.",
+    ['HORSE_IS_NOT_TAMED_SELL']            = "The specified horse you trying to sell is not tamed.",
+    ['HORSE_IS_NOT_TAMED_SET_OWNED']       = "The specified horse you trying to have in your ownership, is not tamed.",
 
     ['WAGON_MANAGEMENT_CATEGORY']          = "Category:",
     ['WAGON_MANAGEMENT_MODEL_NAME']        = "Model Name:",
@@ -191,9 +193,10 @@ Locales = {
     ['WAGON_EQUIPMENTS_TITLE']             = "Wagon Equipments List",
     ['WAGON_SET_DEFAULT_TITLE']            = "Set Default",
     ['WAGON_SET_AS_DEFAULT']               = "The specified wagon has been set as default.",
-    
+    ['CALL_WAGON_ALREADY_SPAWNED']         = "You cant do that while you have already a wagon spawned.",
     ['NO_HAMMER_TO_REPAIR']                = "You don't have any hammer on your inventory contents to repair the wagon.",
     ['NO_MATERIALS_TO_REPAIR']             = "To repair the wagon wheels, you need:\n%s",
+    
 
     ['DOLLARS']                            = "dollars",
     
