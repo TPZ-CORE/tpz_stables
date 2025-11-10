@@ -330,6 +330,14 @@ Config.Locations = {
 		Name = 'Stable Of Valentine',
 
 		Coords = { x = -368.513, y = 787.2302, z = 116.1}, -- THE LOCATION FOR OPENING THE MENU TO BUY OR SELL HORSES AND WAGONS.
+		
+		Marker = { -- CIRCULAR MARKER DISPLAY.
+		    Enabled = true,
+
+			Distance = 10.0,
+			RGBA = {r = 255, g = 255, b = 255, a = 55},
+		},
+
 		ActionDistance = 2.5,
 
 		MainCameraCoords = { x = -367.542, y = 787.6141, z = 117.16, rotx = 0.0, roty = 0.0, rotz = 338.438446, fov = 45.0}, -- THE MAIN CAMERA BEFORE SELECTING ANY OF THE MENU OPTIONS.
@@ -404,6 +412,14 @@ Config.Locations = {
 		Name = 'Stable Of Blackwater',
 
 		Coords = { x = -872.421, y = -1366.77, z = 43.530 }, -- THE LOCATION FOR OPENING THE MENU TO BUY OR SELL HORSES AND WAGONS.
+
+		Marker = { -- CIRCULAR MARKER DISPLAY.
+		    Enabled = true,
+
+			Distance = 10.0,
+			RGBA = {r = 255, g = 255, b = 255, a = 55},
+		},
+
 		ActionDistance = 3.0,
 
 		MainCameraCoords = { x = -877.864, y = -1366.36, z = 43.528, rotx = 0.0, roty = 0.0, rotz = 209.6557, fov = 45.0}, -- THE MAIN CAMERA BEFORE SELECTING ANY OF THE MENU OPTIONS.
@@ -476,6 +492,14 @@ Config.Locations = {
 		Name = 'Stable Of Rhodes',
 
 		Coords = { x = 1431.004, y = -1295.71, z = 77.82 }, -- THE LOCATION FOR OPENING THE MENU TO BUY OR SELL HORSES AND WAGONS.
+		
+		Marker = { -- CIRCULAR MARKER DISPLAY.
+		    Enabled = true,
+
+			Distance = 10.0,
+			RGBA = {r = 255, g = 255, b = 255, a = 55},
+		},
+		
 		ActionDistance = 3.0,
 
 		MainCameraCoords = { x = 1432.956, y = -1292.09, z = 78.821, rotx = 0.0, roty = 0.0, rotz = 35.0342, fov = 45.0}, -- THE MAIN CAMERA BEFORE SELECTING ANY OF THE MENU OPTIONS.
@@ -525,6 +549,14 @@ Config.Locations = {
 		Name = 'Stable Of Vanhorn',
 
 		Coords = { x = 2968.190, y = 796.2608, z = 51.40 }, -- THE LOCATION FOR OPENING THE MENU TO BUY OR SELL HORSES AND WAGONS.
+		
+		Marker = { -- CIRCULAR MARKER DISPLAY.
+		    Enabled = true,
+
+			Distance = 10.0,
+			RGBA = {r = 255, g = 255, b = 255, a = 55},
+		},
+		
 		ActionDistance = 2.0,
 
 		MainCameraCoords = { x = 2970.566, y = 796.7901, z = 52.402, rotx = 0.0, roty = 0.0, rotz = 161.2318572, fov = 45.0}, -- THE MAIN CAMERA BEFORE SELECTING ANY OF THE MENU OPTIONS.
@@ -599,6 +631,14 @@ Config.Locations = {
 		Name = 'Stable Of Saint Denis',
 
 		Coords = { x = 2502.488, y = -1458.83, z = 46.312 }, -- THE LOCATION FOR OPENING THE MENU TO BUY OR SELL HORSES AND WAGONS.
+		
+		Marker = { -- CIRCULAR MARKER DISPLAY.
+		    Enabled = true,
+
+			Distance = 10.0,
+			RGBA = {r = 255, g = 255, b = 255, a = 55},
+		},
+		
 		ActionDistance = 3.5,
 
 		MainCameraCoords = { x = 2508.978, y = -1460.32, z = 47.316, rotx = -15.0, roty = 0.0, rotz = 308.476135, fov = 45.0}, -- THE MAIN CAMERA BEFORE SELECTING ANY OF THE MENU OPTIONS.
@@ -648,6 +688,14 @@ Config.Locations = {
 		Name = 'Stable Of Strawberry',
 
 		Coords = { x = -1820.42, y = -561.534, z = 156.05 }, -- THE LOCATION FOR OPENING THE MENU TO BUY OR SELL HORSES AND WAGONS.
+		
+		Marker = { -- CIRCULAR MARKER DISPLAY.
+		    Enabled = true,
+
+			Distance = 10.0,
+			RGBA = {r = 255, g = 255, b = 255, a = 55},
+		},
+		
 		ActionDistance = 2.0,
 
 		MainCameraCoords = {x = -1816.79, y = -564.914, z = 157.06, rotx = 0.0, roty = 0.0, rotz = 5.83352, fov = 45.0}, -- THE MAIN CAMERA BEFORE SELECTING ANY OF THE MENU OPTIONS.
@@ -718,6 +766,14 @@ Config.Locations = {
 		Name = 'Stable Of Tumbleweed',
 
 		Coords = { x = -5519.10, y = -3044.47, z = -2.387, h = 273.2991 }, -- THE LOCATION FOR OPENING THE MENU TO BUY OR SELL HORSES AND WAGONS.
+		
+		Marker = { -- CIRCULAR MARKER DISPLAY.
+		    Enabled = true,
+
+			Distance = 10.0,
+			RGBA = {r = 255, g = 255, b = 255, a = 55},
+		},
+		
 		ActionDistance = 2.5,
 
 		MainCameraCoords = { x = -5517.88, y = -3043.13, z = -1.387, rotx = 0.0, roty = 0.0, rotz = 321.91110, fov = 45.0}, -- THE MAIN CAMERA BEFORE SELECTING ANY OF THE MENU OPTIONS.
@@ -792,6 +848,14 @@ Config.Locations = {
 		Name = 'Stable Of Thieves Landing',
 		
 		Coords = { x = -1414.83, y = -2199.96, z = 43.402, h = 63.906455 }, -- THE LOCATION FOR OPENING THE MENU TO BUY OR SELL HORSES AND WAGONS.
+		
+		Marker = { -- CIRCULAR MARKER DISPLAY.
+		    Enabled = true,
+
+			Distance = 10.0,
+			RGBA = {r = 255, g = 255, b = 255, a = 55},
+		},
+		
 		ActionDistance = 2.0,
 
 		MainCameraCoords = { x = -1417.15, y = -2199.69, z = 44.389, rotx = 0.0, roty = 0.0, rotz = 1.09940, fov = 45.0}, -- THE MAIN CAMERA BEFORE SELECTING ANY OF THE MENU OPTIONS.
