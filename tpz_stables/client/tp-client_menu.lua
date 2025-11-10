@@ -1840,7 +1840,9 @@ function OpenStableMenu(locationIndex)
     local elements = {}
 
     for action, category in pairs (StableData.MenuCategories) do 
-        table.insert(elements, { label = category.Title, value = category.Action, desc = category.Description })
+        if category.Enabled then
+            table.insert(elements, { label = category.Title, value = category.Action, desc = category.Description })
+        end
     end
 
     local subtext = string.format(Locales['CURRENT_ACCOUNT'], PlayerData.Cash, PlayerData.Gold)
@@ -2049,6 +2051,7 @@ AddEventHandler("tpz_stables:client:menu_tasks", function()
     end)
 
 end)
+
 
 
 
