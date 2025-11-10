@@ -292,6 +292,13 @@ Citizen.CreateThread(function()
             end
 
             if not IsPedOnMount(player) then
+				
+                if stableConfig.Marker.Enabled and distance <= stableConfig.Marker.Distance then
+                    sleep = 0
+
+                    local RGBA = stableConfig.Marker.RGBA
+                    Citizen.InvokeNative(0x2A32FAA57B937173, 0x94FDAE17, stableConfig.Coords.x, stableConfig.Coords.y, stableConfig.Coords.z - 1.2, 0.0, 0.0, 0.0, 0, 0.0, 0.0, 3.0, 3.0, 0.7, RGBA.r, RGBA.g, RGBA.b, RGBA.a, false, true, 2, false, false, false, false)
+                end
 
                 if (distance <= stableConfig.ActionDistance) then
                     sleep = 0
@@ -410,3 +417,4 @@ Citizen.CreateThread(function()
         Wait(sleep)
     end
 end)
+
