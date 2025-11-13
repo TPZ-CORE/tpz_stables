@@ -44,8 +44,13 @@ end
 
 -- We reset the source and delete a wagon if spawned when player is dropped (disconnected).
 AddEventHandler('playerDropped', function (reason)
-	local _source        = source
-	local xPlayer        = TPZ.GetPlayer(_source)
+	local _source  = source
+	local xPlayer  = TPZ.GetPlayer(_source)
+
+	if not xPlayer.loaded() then 
+		return 
+	end
+		
 	local charIdentifier = xPlayer.getCharacterIdentifier()
 
 	local Wagons         = GetWagons()
