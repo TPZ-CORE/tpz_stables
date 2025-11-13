@@ -46,6 +46,11 @@ end
 AddEventHandler('playerDropped', function (reason)
 	local _source        = source
 	local xPlayer        = TPZ.GetPlayer(_source)
+
+	if not xPlayer.loaded() then 
+		return 
+	end
+		
 	local charIdentifier = xPlayer.getCharacterIdentifier()
 
 	local Horses         = GetHorses()
