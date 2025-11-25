@@ -119,8 +119,14 @@ end)
 
 RegisterServerEvent('tpz_stables:server:buyWagon')
 AddEventHandler('tpz_stables:server:buyWagon', function(locationIndex, categoryIndex, modelIndex, account)
-	local _source        = source
-	local xPlayer        = TPZ.GetPlayer(_source)
+	local _source = source
+	local xPlayer = TPZ.GetPlayer(_source)
+	
+    if xPlayer.hasLostConnection() then 
+        print(string.format('A player with the steam name as: %s and online id: %s, attempted to buy a wagon while his connection is lost.', GetPlayerName(_source), _source))
+        return 
+    end
+		
 	local identifier     = xPlayer.getIdentifier()
 	local charIdentifier = xPlayer.getCharacterIdentifier()
 	local group          = xPlayer.getGroup()
