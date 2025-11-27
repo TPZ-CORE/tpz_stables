@@ -2005,7 +2005,7 @@ AddEventHandler("tpz_stables:client:menu_tasks", function()
 
     Citizen.CreateThread(function()
 
-        while true do
+        while GetPlayerData().IsOnMenu do
     
             Wait(0)
 
@@ -2014,18 +2014,6 @@ AddEventHandler("tpz_stables:client:menu_tasks", function()
 
             local PlayerData   = GetPlayerData()
             local playerId     = PlayerId()
-
-            if not PlayerData.IsOnMenu then
-
-                for _, player in ipairs(GetActivePlayers()) do -- INVISIBILITY.
-                    local ped = GetPlayerPed(player)
-                    if DoesEntityExist(ped) then
-                        SetEntityVisible(ped, true, true) -- Make them invisible
-                    end
-                end
-
-                break
-            end
 
             DisplayRadar(false) -- forcing no radar.
 
@@ -2039,18 +2027,12 @@ AddEventHandler("tpz_stables:client:menu_tasks", function()
                 TPZInv.closeInventory()
             end
 
-            for _, player in ipairs(GetActivePlayers()) do -- INVISIBILITY.
-                local ped = GetPlayerPed(player)
-                if DoesEntityExist(ped) then
-                    SetEntityVisible(ped, false, false) -- Make them invisible
-                end
-            end
-
         end
     
     end)
 
 end)
+
 
 
 
