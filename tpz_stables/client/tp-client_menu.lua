@@ -1,3 +1,6 @@
+
+local TPZ = exports.tpz_core:getCoreAPI()
+
 local MenuData = {}
 TriggerEvent("tpz_menu_base:getData", function(call) MenuData = call end)
 
@@ -80,6 +83,158 @@ end
 ---------------------------------------------------------------
 --[[ Functions ]]--
 ---------------------------------------------------------------
+
+-- STOW HUNTING CART
+
+function OpenStowMenu(wagonIndex)
+    MenuData.CloseAll()
+
+    TaskStandStill(PlayerPedId(), -1)
+
+    local PlayerData = GetPlayerData()
+    local WagonData  = PlayerData.Wagons[wagonIndex]
+
+    local elements   = {}
+    local length     = TPZ.GetTableLength(WagonData.stow)
+
+    PlayerData.IsBusy = true
+    
+    if length > 0 then
+
+        for _, item in pairs (WagonData.stow) do 
+
+            local rightText = ''
+
+            if item.quality ~= nil and item.quality >= 0 then
+            
+                for i = 0, 3 do
+                    if item.quality == -1 then
+                        -- All gray
+                        rightText = rightText .. "<span style='color: gray;'> ☆</span>"
+                    else
+                        if i <= item.quality then
+                            rightText = rightText .. "<span style='color: gold;'> ☆</span>"
+                        else
+                            rightText = rightText .. "<span style='color: gray;'> ☆</span>"
+                        end
+                    end
+                end
+
+            else 
+                rightText = 'N/A'
+            end
+
+            local cb1   = string.format("<div style='opacity: 1.0; float:left; text-align: left; width: 10vw; font-size: 0.8vw; ' >%s</div>", Config.StowableModels[item.model].label)
+            local label = cb1 .. "<div style='color: %s; opacity: 0.7; float:right; text-align: right; margin-right: 0.5vw; font-size: 0.8vw;' >" .. rightText .. "</div>"
+    
+            table.insert(elements, { label = label, value = item.date, item_data = item, desc = "" })
+
+        end
+
+    end
+
+    if length <= 0 then
+        desc = string.format("<div style='color: #8B0000;' >%s</div>", Locales['NOT_AVAILABLE_STOW_RESULTS'])
+    end
+
+    table.insert(elements, { value = "exit", label = Locales['MENU_EXIT'], desc = desc})
+
+    MenuData.Open('default', GetCurrentResourceName(), 'stow_cart',
+
+    {
+        title    = Locales['STOW_MENU_TITLE'],
+        subtext  = "",
+        align    = "left",
+        elements = elements,
+        lastmenu = "notMenu"
+    },
+
+    function(data, menu)
+        if (data.current == "backup" or data.current.value == "exit") then 
+            menu.close()
+            PlayerData.IsBusy = false
+            TaskStandStill(PlayerPedId(), 1)
+            return
+        end
+
+        local data      = data.current.item_data
+        local playerPed = PlayerPedId()
+
+        local carriedEntity = GetFirstEntityPedIsCarrying(playerPed)
+        local carriedModel  = GetEntityModel(carriedEntity)
+
+        if carriedModel ~= 0 then 
+            SendNotification(nil, Locales['WAGON_NOTIFY_TITLE'], Locales["CANNOT_TAKE_OUT_STOW"], "error", 4, "wagon", "right")
+            return 
+        end
+
+        menu.close()
+        TaskStandStill(playerPed, 1)
+
+        local coords = GetEntityCoords(playerPed)
+        local cargo  = 0
+        
+        LoadHashModel(data.model)
+
+        local wagon = NetworkGetEntityFromNetworkId(WagonData.entity)
+        FreezeEntityPosition(wagon, true)
+      
+        if IsModelAPed(data.model) then
+
+            cargo = CreatePed(data.model, coords.x, coords.y, coords.z + 0.3, 0, true, true)
+            Citizen.InvokeNative(0x283978A15512B2FE, cargo, true)
+            SetEntityCollision(cargo, false, true)
+            SetEntityHealth(cargo, 0, playerPed)
+            SetPedQuality(cargo, data.quality)
+            SetPedDamageCleanliness(cargo, data.damage)
+
+            if data.skinned then
+                SetTimeout(1000, function()
+                    Citizen.InvokeNative(0x6BCF5F3D8FFE988D, cargo, true) --SetEntityFullyLooted
+                    ApplyCarcasMetaTag(cargo, data.metatag)
+                end)
+
+            else
+                Citizen.InvokeNative(0x1902C4CFCC5BE57C, cargo, data.outfit)
+                Citizen.InvokeNative(0xAAB86462966168CE, cargo, true)                           -- UNKNOWN "Fixes outfit"- always paired with _UPDATE_PED_VARIATION
+                Citizen.InvokeNative(0xCC8CA3E88256E58F, cargo, false, true, true, true, false) -- _UPDATE_PED_VARIATION
+            end
+        else
+            cargo = CreateObject(data.model, coords.x, coords.y, coords.z, true, true, true, 0, 0)
+            Citizen.InvokeNative(0x78B4567E18B54480, cargo)                                                                        -- MakeObjectCarriable
+            Citizen.InvokeNative(0xF0B4F759F35CC7F5, cargo, Citizen.InvokeNative(0x34F008A7E48C496B, cargo, 0), cache.ped, 7, 512) -- TaskCarriable
+            Citizen.InvokeNative(0x399657ED871B3A6C, cargo, data.peltquality)                                                      -- SetEntityCarcassType https://pastebin.com/C1WvQjCy
+        end
+
+        Citizen.InvokeNative(0x18FF3110CF47115D, cargo, 21, true) --SetEntityCarryingFlag
+        TaskPickupCarriableEntity(playerPed, cargo)
+        SetEntityVisible(cargo, false)
+        FreezeEntityPosition(cargo, true)
+
+        if IsModelAPed(data.model) then
+            SetEntityCollision(cargo, true, true)
+        end
+
+        TaskStatus(`SCRIPT_TASK_PICKUP_CARRIABLE_ENTITY`)
+
+        FreezeEntityPosition(cargo, false)
+        SetEntityVisible(cargo, true)
+        Citizen.InvokeNative(0x18FF3110CF47115D, cargo, 21, false) --SetEntityCarryingFlag
+
+        TriggerServerEvent('tpz_stables:server:removeWagonStowItem', WagonData.id, data.date)
+        PlayerData.IsBusy = false
+      
+    end,
+
+    function(data, menu)
+        menu.close()
+        PlayerData.IsBusy = false
+        TaskStandStill(PlayerPedId(), 1)
+    end)
+
+
+
+end
 
 -- BUY WAGONS -------------------------------------------------
 
@@ -574,7 +729,7 @@ function OpenWagonManagementById(selectedWagonId)
 
     local elements   = {
         { label = Locales['WAGON_SET_DEFAULT_TITLE'],      value = 'default',    desc = description },
-        --{ label = Locales['WAGON_COMPONENTS_TITLE'],       value = 'components', desc = description },
+        { label = Locales['WAGON_COMPONENTS_TITLE'],       value = 'components', desc = description },
         { label = Locales['WAGON_RENAME_TITLE'],           value = 'rename',     desc = description },
         { label = Locales['WAGON_TRANSFER_TITLE'],         value = 'transfer',   desc = description },
         { label = Locales['WAGON_SELL_TITLE'],             value = 'sell',       desc = description },
@@ -2032,8 +2187,4 @@ AddEventHandler("tpz_stables:client:menu_tasks", function()
     end)
 
 end)
-
-
-
-
 
