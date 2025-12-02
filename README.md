@@ -60,3 +60,7 @@ __Wagons:__
 <img width="2449" height="1197" alt="image" src="https://github.com/user-attachments/assets/649eb8c1-1e2b-4950-9f83-e306ddf83f6f" />
 <img width="1844" height="1191" alt="image" src="https://github.com/user-attachments/assets/cfd29c9a-3a3e-4c4a-9cb4-ffc9f062c5af" />
 <img width="1616" height="989" alt="image2" src="https://github.com/user-attachments/assets/4978325f-d55b-49ea-93e9-21a5a01daae0" />
+
+## Credits
+
+Credits to @masnana providing https://github.com/masnana/mas_huntingwagon/tree/main a hunting cart script which helped TPZ-CORE to implement it to the stables system.
