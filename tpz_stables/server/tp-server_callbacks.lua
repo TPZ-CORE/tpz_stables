@@ -185,3 +185,21 @@ exports.tpz_core:getCoreAPI().addNewCallBack("tpz_stables:callbacks:canRepairWhe
     return cb(hasRequiredMaterials)
 
 end)
+
+exports.tpz_core:getCoreAPI().addNewCallBack("tpz_stables:callbacks:canCarryStowItems", function(source, cb, data)
+    local wagonIndex = tonumber(data.wagonIndex)
+	local Wagons     = GetWagons()
+
+	if Wagons[wagonIndex] == nil then
+		return cb(false)
+	end
+
+	if Wagons[wagonIndex].stow == nil then 
+		Wagons[wagonIndex].stow = {}
+	end
+
+	local current_stow_count = TPZ.GetTableLength(Wagons[wagonIndex].stow) + 1
+	local max_stow           = Config.MaxHuntingWagonCargo
+
+	return cb ( current_stow_count < max_stow )
+end)
