@@ -5,6 +5,8 @@ local IsNearbyWagon   = 0
 
 local AttachedHammer  = nil
 
+local STOW_ACTION_TYPE = nil
+
 -----------------------------------------------------------
 --[[ Local Functions ]]--
 -----------------------------------------------------------
@@ -91,6 +93,44 @@ local function OnAttachedHammer()
  
 end
 
+local function GetCarcassMetaTag(entity)
+    local metatag = {}
+    local numComponents = GetNumComponentsInPed(entity)
+    for i = 0, numComponents - 1, 1 do
+        local drawable, albedo, normal, material = GetMetaPedAssetGuids(entity, i)
+        local palette, tint0, tint1, tint2 = GetMetaPedAssetTint(entity, i)
+        metatag[i] = {
+            drawable = drawable,
+            albedo = albedo,
+            normal = normal,
+            material = material,
+            palette = palette,
+            tint0 = tint0,
+            tint1 = tint1,
+            tint2 = tint2
+        }
+        -- print(i, drawable, albedo, normal, material, palette, tint0, tint1, tint2)
+    end
+    return metatag
+end
+
+local function GetPedMetaOutfitHash(ped)
+    return Citizen.InvokeNative(0x30569F348D126A5A, ped, Citizen.ResultAsInteger())
+end
+
+local function IsEntityFullyLooted(entity)
+    return Citizen.InvokeNative(0x8DE41E9902E85756, entity)
+end
+
+local function GetPedDamageCleanliness(ped)
+    return Citizen.InvokeNative(0x88EFFED5FE8B0B4A, ped, Citizen.ResultAsInteger())
+end
+
+local function GetPedQuality(ped)
+    return Citizen.InvokeNative(0x7BCC6087D130312A, ped)
+
+    -- enum ePedQuality { PQ_INVALID = -1, PQ_LOW, PQ_MEDIUM, PQ_HIGH, PQ_MAX }; -1 - 3
+end
 
 -----------------------------------------------------------
 --[[ Functions ]]--
@@ -217,6 +257,33 @@ function RemoveOwnedWagonVehicleProperly(dontSave)
 
 end
 
+function ApplyCarcasMetaTag(entity, metatag)
+    if #metatag < 1 then return end
+    -- TriggerEvent('table', metatag)
+    for i = 0, #metatag, 1 do
+        local data = metatag[i]
+        SetMetaPedTag(entity, data.drawable, data.albedo, data.normal, data.material, data.palette, data.tint0, data.tint1, data.tint2)
+        -- print(i, data.drawable, data.albedo, data.normal, data.material, data.palette, data.tint0, data.tint1, data.tint2)
+    end
+    UpdatePedVariation(entity)
+end
+
+function CalculateTarpHeight(totalItem)
+    if not totalItem then return 0.0 end
+    local num = totalItem / Config.MaxHuntingWagonCargo
+    local rounded_num = math.floor(num * 100 + 0.5) / 100
+    return rounded_num
+end
+
+function TaskStatus(task)
+    local count = 0
+    repeat
+        count += 1
+        Wait(0)
+    until (GetScriptTaskStatus(PlayerPedId(), task, true) == 8) or count > 100
+end
+
+
 -----------------------------------------------------------
 --[[ Base Events ]]--
 -----------------------------------------------------------
@@ -265,6 +332,7 @@ AddEventHandler('tpz_stables:client:updateWagon', function(cb)
             type           = data[4],
             bought_account = data[5],
             container      = data[6],
+            stow           = {},
             date           = data[7],
             loaded_components  = false,
         }
@@ -316,6 +384,64 @@ AddEventHandler('tpz_stables:client:updateWagon', function(cb)
         PlayerData.Wagons[wagonIndex].loaded_components = false
         PlayerData.Wagons[wagonIndex].loaded_prompts    = false
 
+        local entity = NetworkGetEntityFromNetworkId(PlayerData.Wagons[wagonIndex].entity)
+    
+        if DoesEntityExist(entity) then
+            
+            Wait(750)
+            local stow_results = TPZ.GetTableLength(PlayerData.Wagons[wagonIndex].stow)
+            height = CalculateTarpHeight( stow_results)
+            SetBatchTarpHeight(entity, height, false)
+        end
+
+    elseif action == 'INSERT_STOW_ITEM' then 
+
+        table.insert(PlayerData.Wagons[wagonIndex].stow, data)
+
+        if PlayerData.Wagons[wagonIndex].entity ~= 0 then 
+
+            local entity = NetworkGetEntityFromNetworkId(PlayerData.Wagons[wagonIndex].entity)
+    
+            if DoesEntityExist(entity) then
+                
+                local stow_results = TPZ.GetTableLength(PlayerData.Wagons[wagonIndex].stow)
+                height = CalculateTarpHeight( stow_results)
+    
+                SetBatchTarpHeight(entity, height, false)
+            end
+
+        end
+        
+    elseif action == 'DELETE_STOW_ITEM' then 
+
+        for _, item in pairs (PlayerData.Wagons[wagonIndex].stow) do 
+
+            if tostring(item.date) == tostring(data.date) then 
+    
+                if tostring(item.date) == (data.date) then 
+                    table.remove(PlayerData.Wagons[wagonIndex].stow, _)
+
+                    break
+                end
+    
+            end
+    
+        end
+
+        if PlayerData.Wagons[wagonIndex].entity ~= 0 then 
+
+            local entity = NetworkGetEntityFromNetworkId(PlayerData.Wagons[wagonIndex].entity)
+    
+            if DoesEntityExist(entity) then
+                
+                local stow_results = TPZ.GetTableLength(PlayerData.Wagons[wagonIndex].stow)
+                height = CalculateTarpHeight( stow_results)
+
+                SetBatchTarpHeight(entity, height, false)
+            end
+
+        end
+
     elseif action == 'UPDATE_COMPONENTS' then
 
         PlayerData.Wagons[wagonIndex].components = data[1]
@@ -352,6 +478,10 @@ AddEventHandler('tpz_stables:client:updateWagon', function(cb)
 
 end)
 
+Citizen.CreateThread(function()
+    TriggerServerEvent("tpz_stables:server:a", 1, 'NETWORK_ID', { 1 })
+end)
+
 -- @param existingCoords is for repairs.
 RegisterNetEvent("tpz_stables:client:whistle_wagon")
 AddEventHandler("tpz_stables:client:whistle_wagon", function(existingCoords)
@@ -367,7 +497,7 @@ AddEventHandler("tpz_stables:client:whistle_wagon", function(existingCoords)
 
         -- When spawning, we check if player has already an owned wagon spawned to remove.
         if PlayerData.SpawnedWagonEntity then
-----------------------------------------
+            SendNotification(nil, Locales['WAGON_NOTIFY_TITLE'], Locales["CALL_WAGON_ALREADY_SPAWNED"], "error", 5, "wagon", "left")
             return
         end
 
@@ -410,8 +540,17 @@ AddEventHandler("tpz_stables:client:whistle_wagon", function(existingCoords)
 
         local vehicle = CreateVehicle(GetHashKey(WagonData.model), coords.x, coords.y, coords.z, coords.h, true, false)
         SetVehicleOnGroundProperly(vehicle)
-        SetModelAsNoLongerNeeded(GetHashKey(WagonData.model))
 
+        if WagonData.model == 'huntercart01' then 
+
+            local tarpPropSet = `PG_MP005_HUNTINGWAGONTARP01`
+            local lightPropSet = `PG_VEH_CART06_LANTERNS01`
+
+            Citizen.InvokeNative(0x75F90E4051CC084C, vehicle, tarpPropSet)  -- AddAdditionalPropSetForVehicle
+            Citizen.InvokeNative(0xC0F0417A90402742, vehicle, lightPropSet) -- AddLightPropSetToVehicle
+        end
+
+        SetModelAsNoLongerNeeded(GetHashKey(WagonData.model))
         SetEntityFadeIn(vehicle)
 
         Citizen.InvokeNative(0x79811282A9D1AE56, vehicle)
@@ -449,6 +588,7 @@ AddEventHandler("tpz_stables:client:whistle_wagon", function(existingCoords)
 
         PlayerData.SpawnedWagonIndex  = PlayerData.SelectedWagonIndex
         PlayerData.SpawnedWagonEntity = vehicle
+        PlayerData.SpawnedWagonModel  = WagonData.model
  
         TriggerEvent("tpz_stables:client:wagon_distance_tasks")
 
@@ -502,7 +642,7 @@ Citizen.CreateThread(function()
     
     while true do
 
-        local sleep = 2500
+        local sleep = 1500
 
         if not IsPlayerNotBusy() then
             goto END
@@ -518,15 +658,14 @@ Citizen.CreateThread(function()
             for index, wagon in pairs (PlayerData.Wagons) do 
 
                 if tonumber(wagon.entity) ~= 0 then 
-    
+
                     local entity = NetworkGetEntityFromNetworkId(wagon.entity)
     
                     if DoesEntityExist(entity) then
     
                         local distance = #(coords - GetEntityCoords(entity))
-    
                         if distance <= Config.WagonActionDistance then
-                            
+
                             IsNearbyWagon = wagon.id
 
                             UiPromptSetEnabled(GetWardrobeWagonPrompt(), 0) -- we hide the wardrobe prompt.
@@ -537,6 +676,9 @@ Citizen.CreateThread(function()
 
                             UiPromptSetEnabled(GetWagonRepairPrompt(), 0)
                             UiPromptSetVisible(GetWagonRepairPrompt(), 0) 
+
+                            UiPromptSetEnabled(GetStowWagonPrompt(), 0) 
+                            UiPromptSetVisible(GetStowWagonPrompt(), 0)
 
                             TriggerEvent("tpz_stables:client:wagon_action_prompts")
                         end
@@ -584,7 +726,7 @@ AddEventHandler("tpz_stables:client:wagon_action_prompts", function()
 
         while IsNearbyWagon ~= 0 do
     
-            Wait(5)
+            Wait(1)
 
             local PlayerData = GetPlayerData()
             local WagonData  = PlayerData.Wagons[IsNearbyWagon]
@@ -593,14 +735,38 @@ AddEventHandler("tpz_stables:client:wagon_action_prompts", function()
                 IsNearbyWagon = 0
                 break 
             end
-
+            
             if WagonData then
 
-                PromptSetActiveGroupThisFrame(GetWagonPromptsList(), CreateVarString(10, 'LITERAL_STRING', WagonData.name))
-    
+                local promptText = WagonData.name
+
+                if WagonData.model == 'huntercart01' and tonumber(PlayerData.CharIdentifier) == tonumber(WagonData.charidentifier) then 
+                    local stow_results = TPZ.GetTableLength(WagonData.stow)
+                    promptText = WagonData.name .. " | " .. string.format(Locales['STOW_CAPACITY'], stow_results, Config.MaxHuntingWagonCargo)
+                end
+
+                PromptSetActiveGroupThisFrame(GetWagonPromptsList(), CreateVarString(10, 'LITERAL_STRING', promptText))
+
                 if tonumber(PlayerData.CharIdentifier) == tonumber(WagonData.charidentifier) and not isWagonOwner then
                     UiPromptSetEnabled(GetWardrobeWagonPrompt(), 1)
                     UiPromptSetVisible(GetWardrobeWagonPrompt(), 1) 
+
+                    if WagonData.model == 'huntercart01' then 
+                        
+                        UiPromptSetEnabled(GetStowWagonPrompt(), 1)
+                        UiPromptSetVisible(GetStowWagonPrompt(), 1) 
+
+                        local carriedEntity = Citizen.InvokeNative(0xD806CD2A4F2C2996, PlayerPedId())
+
+                        if carriedEntity and (not IsPedHuman(carriedEntity) or not IsEntityAPed(carriedEntity)) then
+                            UiPromptSetText(GetStowWagonPrompt(), CreateVarString(10, 'LITERAL_STRING', Config.HuntingWagonPrompts.PromptDisplay))
+                            STOW_ACTION_TYPE = 'STOW'
+                        else
+                            UiPromptSetText(GetStowWagonPrompt(), CreateVarString(10, 'LITERAL_STRING', Config.HuntingWagonPrompts.TakeOutPromptDisplay))
+                            STOW_ACTION_TYPE = 'TAKE_OUT'
+                        end
+
+                    end
 
                     UiPromptSetVisible(GetStoreWagonPrompt(), 1) 
 
@@ -674,6 +840,74 @@ AddEventHandler("tpz_stables:client:wagon_action_prompts", function()
                     Wait(2000)
     
                 end
+
+                if Citizen.InvokeNative(0xC92AC953F0A982AE, GetStowWagonPrompt()) then  -- PromptHasStandardModeCompleted
+
+                    if tonumber(PlayerData.CharIdentifier) == tonumber(WagonData.charidentifier) then
+                        
+                        if STOW_ACTION_TYPE == 'STOW' then 
+
+                            local carriedEntity = GetFirstEntityPedIsCarrying(PlayerPedId())
+                            local carriedModel  = GetEntityModel(carriedEntity)
+
+                            if not Config.StowableModels[carriedModel] then
+                                SendNotification(nil, Locales['WAGON_NOTIFY_TITLE'], Locales["CANNOT_STOW_THIS"], "error", 4, "wagon", "left")
+                                
+                            else 
+
+                                local canCarry = exports.tpz_core:ClientRpcCall().Callback.TriggerAwait("tpz_stables:callbacks:canCarryStowItems", { wagonIndex = WagonData.id } )
+
+                                if canCarry then
+                                    local playerPedId = PlayerPedId()
+                                    local wagon = NetworkGetEntityFromNetworkId(WagonData.entity)
+    
+                                    local isPelt = Config.StowableModels[carriedModel].isPelt == 1 and true or false
+                                    local height = 0
+                                    local offset = GetOffsetFromEntityInWorldCoords(wagon, 0.0, -2.7, 0.0)
+                                 
+                                    TaskTurnPedToFaceEntity(playerPedId, wagon, 100)
+                                    TaskStatus(`SCRIPT_TASK_TURN_PED_TO_FACE_ENTITY`)
+    
+                                    local data = {
+                                        model = carriedModel,
+                                    }
+    
+                                    if isPelt then
+                                        data.peltquality = GetCarriableFromEntity(carriedEntity)
+                                    else
+                                        data.metatag = GetCarcassMetaTag(carriedEntity)
+                                        data.outfit = GetPedMetaOutfitHash(carriedEntity)
+                                        data.skinned = IsEntityFullyLooted(carriedEntity) and 1 or 0
+                                        data.damage = GetPedDamageCleanliness(carriedEntity) and 1 or 0
+                                        data.quality = GetPedQuality(carriedEntity) and 1 or 0
+                                    end
+    
+                                    TaskGoStraightToCoord(playerPedId, offset.x, offset.y, offset.z, 3.0, 1000, GetEntityHeading(wagon), 0)
+                                    TaskStatus(`SCRIPT_TASK_GO_STRAIGHT_TO_COORD`)
+                                    TaskPlaceCarriedEntityAtCoord(playerPedId, carriedEntity, GetEntityCoords(wagon), 1.0, 5)
+                                    TaskStatus(`SCRIPT_TASK_PLACE_CARRIED_ENTITY_AT_COORD`)
+    
+                                    Wait(750)
+                                    DeleteEntity(carriedEntity)
+                                    TriggerServerEvent('tpz_stables:server:removeWagonStowItem', WagonData.id)
+
+                                else
+                                    SendNotification(nil, Locales['WAGON_NOTIFY_TITLE'], Locales["CANNOT_CARRY_MORE_STOW_ITEMS"], "error", 4, "wagon", "left")
+                                end
+                            end
+
+                        else 
+
+                            OpenStowMenu(WagonData.id)
+
+                        end
+
+                    end
+
+                    Wait(2000)
+    
+                end
+
 
                 if Citizen.InvokeNative(0xC92AC953F0A982AE, GetWagonRepairPrompt()) then  -- PromptHasStandardModeCompleted
                     
