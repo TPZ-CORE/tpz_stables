@@ -44,13 +44,13 @@ end
 
 -- We reset the source and delete a wagon if spawned when player is dropped (disconnected).
 AddEventHandler('playerDropped', function (reason)
-	local _source  = source
-	local xPlayer  = TPZ.GetPlayer(_source)
+	local _source        = source
+	local xPlayer        = TPZ.GetPlayer(_source)
 
 	if not xPlayer.loaded() then 
 		return 
 	end
-		
+	
 	local charIdentifier = xPlayer.getCharacterIdentifier()
 
 	local Wagons         = GetWagons()
@@ -114,7 +114,7 @@ AddEventHandler('tpz_stables:server:saveWagon', function(wagonIndex, wheelsJson)
 		['wheels'] = json.encode( Wagons[wagonIndex].wheels ),
 		['stow']   = json.encode( Wagons[wagonIndex].stow ),
 	})
-		
+
 end)
 
 
@@ -127,7 +127,7 @@ AddEventHandler('tpz_stables:server:buyWagon', function(locationIndex, categoryI
         print(string.format('A player with the steam name as: %s and online id: %s, attempted to buy a wagon while his connection is lost.', GetPlayerName(_source), _source))
         return 
     end
-		
+
 	local identifier     = xPlayer.getIdentifier()
 	local charIdentifier = xPlayer.getCharacterIdentifier()
 	local group          = xPlayer.getGroup()
