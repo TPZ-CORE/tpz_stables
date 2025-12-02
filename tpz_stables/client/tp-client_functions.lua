@@ -204,7 +204,7 @@ RegisterWagonActionPrompts = function()
     UiPromptSetStandardMode(RepairWagonPrompt, true)
     UiPromptSetGroup(RepairWagonPrompt, WagonPromptList, 0)
     UiPromptRegisterEnd(RepairWagonPrompt)
-	
+
     local StowData = Config.HuntingWagonPrompts
 
     StowWagonPrompt = UiPromptRegisterBegin()
@@ -226,6 +226,10 @@ function GetWardrobeWagonPrompt()
     return WardrobeWagonPrompt
 end
 
+function GetStowWagonPrompt()
+    return StowWagonPrompt
+end
+
 function GetStoreWagonPrompt()
     return StoreWagonPrompt
 end
@@ -236,10 +240,6 @@ end
 
 function GetWagonPromptsList()
     return WagonPromptList
-end
-
-function GetStowWagonPrompt()
-    return StowWagonPrompt
 end
 
 
@@ -311,6 +311,14 @@ end
 LoadModel = function(inputModel)
     local model = GetHashKey(inputModel)
  
+    RequestModel(model)
+ 
+    while not HasModelLoaded(model) do RequestModel(model)
+        Citizen.Wait(10)
+    end
+end
+
+LoadHashModel = function(model)
     RequestModel(model)
  
     while not HasModelLoaded(model) do RequestModel(model)
@@ -426,4 +434,3 @@ GetNearestVehicles = function(coords, radius, allowlistedVehicleEntity)
 
 	return closestVehicles
 end
-
