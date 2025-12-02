@@ -503,7 +503,7 @@ AddEventHandler('tpz_stables:server:addWagonStowItem', function(wagonIndex, data
 		Wagons[wagonIndex].stow = {}
 	end
 
-	data.date = os.date()
+	data.date = os.time()
 	data.date = tostring(data.date)
 
 	table.insert(Wagons[wagonIndex].stow, data)
