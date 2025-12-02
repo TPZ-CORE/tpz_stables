@@ -86,6 +86,13 @@ Config.WagonRepairs = {
 }
 
 
+-- The specified feature for stow and take out is only for the huntercart01 model.
+Config.HuntingWagonPrompts = { 
+	Key = 0xE30CD707, -- R
+	PromptDisplay = 'Stow', 
+	TakeOutPromptDisplay = 'Take Out', 
+}
+
 -- (!) THE GOLD PRICES ARE NOT CORRECT FOR BUYING OR SELLING, THOSE ARE JUST EXAMPLES.
 -- ALWAYS MODIFY THE PRICES BASED ON YOUR SERVER PREFERENCES AND MAKE SURE THE SELLING CASH AND GOLD ARE MODIFIED AFTER JOBS PARAMETER.
 
