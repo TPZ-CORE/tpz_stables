@@ -25,7 +25,8 @@ local LoadOwnedHorses = function()
 
 				Horses[res.id].stats      = json.decode(res.stats)
 				Horses[res.id].components = json.decode(res.components)
-
+				Wagons[res.id].stow       = json.decode(res.stow)
+					
 				if res.training_experience > 0 and Config.Trainers.HorseTraining.MaxLevelUpExperience <= res.training_experience then
 					Horses[res.id].training_experience = -1
 				end
@@ -355,10 +356,11 @@ Citizen.CreateThread(function()
 						['name']                = wagon.name,
 						['components']          = json.encode(wagon.components),
 						['wheels']              = json.encode(wagon.wheels),
+						['stow']                = json.encode(wagon.stow),
 						['container']           = wagon.container
 					}
 			
-					exports.ghmattimysql:execute("UPDATE `wagons` SET `identifier` = @identifier, `charidentifier` = @charidentifier, `name` = @name, `components` = @components, `wheels` = @wheels, `container` = @container WHERE id = @id", Parameters)
+					exports.ghmattimysql:execute("UPDATE `wagons` SET `identifier` = @identifier, `charidentifier` = @charidentifier, `name` = @name, `components` = @components, `wheels` = @wheels, `stow` = @stow, `container` = @container WHERE id = @id", Parameters)
 
                 end
     
