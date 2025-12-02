@@ -197,6 +197,8 @@ Locales = {
     ['NO_HAMMER_TO_REPAIR']                = "You don't have any hammer on your inventory contents to repair the wagon.",
     ['NO_MATERIALS_TO_REPAIR']             = "To repair the wagon wheels, you need:\n%s",
     ['CANNOT_CARRY_MORE_STOW_ITEMS']       = "The wagon cannot carry more stow animals or pelts.",
+    ['STOW_CAPACITY']                      = "Stow Capacity: %s / %s",
+    ['CANNOT_STOW_THIS']                   = "You can't stow the specified pelt or animal.",
 
     ['DOLLARS']                            = "dollars",
     
