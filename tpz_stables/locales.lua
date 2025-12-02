@@ -199,6 +199,7 @@ Locales = {
     ['CANNOT_CARRY_MORE_STOW_ITEMS']       = "The wagon cannot carry more stow animals or pelts.",
     ['STOW_CAPACITY']                      = "Stow Capacity: %s / %s",
     ['CANNOT_STOW_THIS']                   = "You can't stow the specified pelt or animal.",
+    ['CANNOT_TAKE_OUT_STOW']               = "You can't take out this animal or pelt while carrying already something.",
 
     ['DOLLARS']                            = "dollars",
 
