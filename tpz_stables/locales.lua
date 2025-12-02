@@ -201,6 +201,10 @@ Locales = {
     ['CANNOT_STOW_THIS']                   = "You can't stow the specified pelt or animal.",
 
     ['DOLLARS']                            = "dollars",
+
+    ['STOW_MENU_TITLE']                    = "Stow Contents",
+    ['MENU_EXIT']                          = "Exit",
+    ['NOT_AVAILABLE_STOW_RESULTS']         = "Not available stow animals or pelts.",
     
     -- [1] IS ALWAYS CASH, [2] IS ALWAYS GOLD! FOR HORSES OR WAGONS THAT CONTAIN DOLLARS AND GOLD
     ['INPUT_BUY_CURRENCIES']          = { 'DOLLARS', 'GOLD' },
