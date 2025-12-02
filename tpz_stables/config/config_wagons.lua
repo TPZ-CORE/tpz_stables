@@ -44,7 +44,7 @@ Config.StoreWagonPrompt = {
 
 Config.WagonRepairs = {
 
-	Key = 0xE30CD707, -- DO NOT USE [F] OR [E] OR ANY KEY THAT IS ALREADY USED FOR STORING, WARDROBE OR STORAGE ACCESS.
+	Key = 0x05CA7C52, -- DO NOT USE [F] OR [E] OR ANY KEY THAT IS ALREADY USED FOR STORING, WARDROBE OR STORAGE ACCESS.
 	PromptDisplay = 'Repair Wagon', 
 
 	Jobs = { 'carpenter' },
