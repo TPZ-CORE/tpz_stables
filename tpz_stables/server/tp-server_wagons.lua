@@ -109,11 +109,12 @@ AddEventHandler('tpz_stables:server:saveWagon', function(wagonIndex, wheelsJson)
 
 	Wagons[wagonIndex].wheels = wheelStates
 
-	exports.ghmattimysql:execute("UPDATE `wagons` SET `wheels` = @wheels WHERE `id` = @id ", { 
+	exports.ghmattimysql:execute("UPDATE `wagons` SET `wheels` = @wheels, `stow` = @stow WHERE `id` = @id ", { 
 		['id']     = wagonIndex, 
 		['wheels'] = json.encode( Wagons[wagonIndex].wheels ),
+		['stow']   = json.encode( Wagons[wagonIndex].stow ),
 	})
-
+		
 end)
 
 
@@ -485,6 +486,63 @@ AddEventHandler('tpz_stables:server:sellWagon', function(wagonIndex)
 		end
 
 	end)
+
+
+end)
+
+
+RegisterServerEvent('tpz_stables:server:addWagonStowItem')
+AddEventHandler('tpz_stables:server:addWagonStowItem', function(wagonIndex, data)
+	local _source = source
+	local Wagons  = GetWagons()
+	if Wagons[wagonIndex] == nil then
+		return
+	end
+
+	if Wagons[wagonIndex].stow == nil then 
+		Wagons[wagonIndex].stow = {}
+	end
+
+	data.date = os.date()
+	data.date = tostring(data.date)
+
+	table.insert(Wagons[wagonIndex].stow, data)
+
+	local ped = GetPlayerPed(_source)
+	local playerCoords = GetEntityCoords(ped)
+
+	local coords = vector3(playerCoords.x, playerCoords.y, playerCoords.z)
+	TPZ.TriggerClientEventAsyncByCoords("tpz_stables:client:updateWagon", { wagonIndex = tonumber(wagonIndex), action = "INSERT_STOW_ITEM", data = data }, coords, 200.0, 500, true, 40)
+end)
+
+
+RegisterServerEvent('tpz_stables:server:removeWagonStowItem')
+AddEventHandler('tpz_stables:server:removeWagonStowItem', function(wagonIndex, date)
+	local _source = source
+	local Wagons  = GetWagons()
+
+	if Wagons[wagonIndex] == nil then
+		return
+	end
+
+	local item_data = {}
+
+	for _, item in pairs (Wagons[wagonIndex].stow) do 
+
+		if tostring(item.date) == tostring(date) then 
+
+			if tostring(item.date) == (date) then 
+
+				item_data = item
+				table.remove(Wagons[wagonIndex].stow, _)
+				break
+			end
+
+		end
+
+	end
+
+	TriggerClientEvent('tpz_stables:client:updateWagon', _source, { wagonIndex = wagonIndex, action = 'DELETE_STOW_ITEM', data = { date = date } })
 
 
 end)
