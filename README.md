@@ -63,4 +63,4 @@ __Wagons:__
 
 ## Credits
 
-Credits to @masnana providing https://github.com/masnana/mas_huntingwagon/tree/main a hunting cart script which helped TPZ-CORE to implement it to the stables system.
+Credits to @masnana providing https://github.com/masnana/mas_huntingwagon an animal hunting wagon script which helped TPZ-CORE to implement it to the stables system.
