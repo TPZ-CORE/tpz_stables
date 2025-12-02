@@ -196,7 +196,7 @@ Locales = {
     ['CALL_WAGON_ALREADY_SPAWNED']         = "You cant do that while you have already a wagon spawned.",
     ['NO_HAMMER_TO_REPAIR']                = "You don't have any hammer on your inventory contents to repair the wagon.",
     ['NO_MATERIALS_TO_REPAIR']             = "To repair the wagon wheels, you need:\n%s",
-    
+    ['CANNOT_CARRY_MORE_STOW_ITEMS']       = "The wagon cannot carry more stow animals or pelts.",
 
     ['DOLLARS']                            = "dollars",
     
@@ -213,4 +213,5 @@ Locales = {
     ['TAMING_SUCCESS'] = "The horse has been successfully tamed! Go to the nearest stable to sell or get the horse into your ownership.",
     ['CANNOT_SPAWN_WAGON_NEARBY_WAGONS'] = "You cannot spawn the wagon, there is already a vehicle blocking the spawning position.",
     ['WAGON_EQUIPMENTS_DOES_NOT_EXIST'] = "The specified model does not seem to have any equipments available such as: colors, liveries, props or lights.",
+    
 }
