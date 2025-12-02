@@ -5,6 +5,7 @@ local SearchWagonPrompt
 local WardrobeWagonPrompt
 local StoreWagonPrompt
 local RepairWagonPrompt
+local StowWagonPrompt
 
 local WagonPromptList = GetRandomIntInRange(0, 0xffffff)
 
@@ -203,6 +204,18 @@ RegisterWagonActionPrompts = function()
     UiPromptSetStandardMode(RepairWagonPrompt, true)
     UiPromptSetGroup(RepairWagonPrompt, WagonPromptList, 0)
     UiPromptRegisterEnd(RepairWagonPrompt)
+	
+    local StowData = Config.HuntingWagonPrompts
+
+    StowWagonPrompt = UiPromptRegisterBegin()
+    UiPromptSetControlAction(StowWagonPrompt, StowData.Key)
+    UiPromptSetText(StowWagonPrompt, CreateVarString(10, 'LITERAL_STRING', StowData.PromptDisplay))
+    UiPromptSetEnabled(StowWagonPrompt, false)
+    UiPromptSetVisible(StowWagonPrompt, false) -- only for owner.
+    UiPromptSetStandardMode(StowWagonPrompt, true)
+    UiPromptSetGroup(StowWagonPrompt, WagonPromptList, 0)
+    UiPromptRegisterEnd(StowWagonPrompt)
+
 end
 
 function GetSearchWagonPrompt()
@@ -223,6 +236,10 @@ end
 
 function GetWagonPromptsList()
     return WagonPromptList
+end
+
+function GetStowWagonPrompt()
+    return StowWagonPrompt
 end
 
 
@@ -409,3 +426,4 @@ GetNearestVehicles = function(coords, radius, allowlistedVehicleEntity)
 
 	return closestVehicles
 end
+
