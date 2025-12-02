@@ -10,6 +10,8 @@ CREATE TABLE IF NOT EXISTS `wagons` (
   `type` varchar(50) NOT NULL,
   `container` int(11) DEFAULT 0,
   `bought_account` int(11) DEFAULT -1,
+  `stow` longtext DEFAULT '[]',
   `date` varchar(50) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
