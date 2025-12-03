@@ -942,7 +942,8 @@ Citizen.CreateThread(function()
                         local isSecondaryInventoryActive = exports.tpz_inventory:getInventoryAPI().isSecondaryInventoryActive()
 
                         if distance <= 1.5 and not PlayerData.IsBusy and not isSecondaryInventoryActive then
-                            PromptSetEnabled(HorsePrompts[entity]['SADDLEBAG'], 1)
+                            local saddlebagState = HorseData.components['BAG'] 
+                            PromptSetEnabled(HorsePrompts[entity]['SADDLEBAG'], saddlebagState)
                             PromptSetEnabled(HorsePrompts[entity]['BRUSH'], 1)
                         else
                             PromptSetEnabled(HorsePrompts[entity]['SADDLEBAG'], 0)
@@ -1149,3 +1150,4 @@ AddEventHandler("tpz_stables:client:whistle_horse_cooldown", function()
     end)
 
 end)
+
