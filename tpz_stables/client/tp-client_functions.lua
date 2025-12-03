@@ -90,7 +90,7 @@ function AddHorsePrompts(entity)
     PromptSetControlAction(saddlebagPrompt, 0x0D55A0F0)
     str = CreateVarString(10, 'LITERAL_STRING', str2)
     PromptSetText(saddlebagPrompt, str)
-    PromptSetEnabled(saddlebagPrompt, 1)
+    PromptSetEnabled(saddlebagPrompt, 0)
     PromptSetVisible(saddlebagPrompt, 1)
     PromptSetStandardMode(saddlebagPrompt, 1)
     PromptSetGroup(saddlebagPrompt, group)
@@ -434,3 +434,4 @@ GetNearestVehicles = function(coords, radius, allowlistedVehicleEntity)
 
 	return closestVehicles
 end
+
