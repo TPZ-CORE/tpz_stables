@@ -216,7 +216,7 @@ AddEventHandler('tpz_stables:server:sell_tamed_horse', function(horseIndex)
 
     if Config.Webhooks['SOLD_TAMED_HORSE'].Enabled then
 
-        local _w, _c      = Config.Webhooks['SOLD_TAMED_HORSE'].Url, Config.Webhooks['SOLD_TAMED_HORSE'].Color
+        local _w, _c      = TPZ.GetWebhookUrl("tpz_stables", "SOLD_TAMED_HORSE"), Config.Webhooks['SOLD_TAMED_HORSE'].Color
         local title       = "🐎`Player Sold Tamed Horse`"
         local description = string.format('A user with the steam name (`%s`), identifier (`%s`) and character identifier (`%s`) has sold a tamed horse.\n\n**Horse Model:** `%s (%s)`.\n\n **Received:** `%s`.',
         steamName, identifier, charIdentifier, HorseData.model, ModelData[2], receiveMoney .. ' ' .. Locales['DOLLARS'])
@@ -348,7 +348,7 @@ AddEventHandler('tpz_stables:server:tamed_horse_ownership', function(horseIndex)
 
 			if Config.Webhooks['RECEIVED_TAMED_HORSE'].Enabled then
 
-				local _w, _c      = Config.Webhooks['RECEIVED_TAMED_HORSE'].Url, Config.Webhooks['RECEIVED_TAMED_HORSE'].Color
+				local _w, _c      = TPZ.GetWebhookUrl("tpz_stables", "RECEIVED_TAMED_HORSE"), Config.Webhooks['RECEIVED_TAMED_HORSE'].Color
 
 				local title       = "🐎`Player Received Tamed Horse`"
 				local description = string.format('A user with the steam name (`%s`), identifier (`%s`) and character identifier (`%s`) has received a new tamed horse.\n\n**Horse Model:** `%s, %s - %s `.',
@@ -451,3 +451,4 @@ if Config.Taming.Enabled then
     end)
 
 end
+
