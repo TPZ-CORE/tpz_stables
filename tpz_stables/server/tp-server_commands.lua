@@ -167,7 +167,7 @@ RegisterCommand(Config.Commands["ADD_HORSE"].Command, function(source, args, raw
           local charIdentifier = xPlayer.getCharacterIdentifier()
           local steamName      = GetPlayerName(_source)
 
-          local _w, _c  = Config.Webhooks['COMMANDS'].Url, Config.Webhooks['COMMANDS'].Color
+          local _w, _c  = TPZ.GetWebhookUrl("tpz_stables", "COMMANDS"), Config.Webhooks['COMMANDS'].Color
           local title   = string.format("📋` /%s %s %s %s`", Config.Commands["ADD_HORSE"].Command, target, model, sex)
           local description = string.format("A user with the steam name (`%s`), identifier (`%s`) and character identifier (`%s`), executed the mentioned command and added (gave) a horse on a players ownership." ..
           "\n\nThe target player steam name (`%s`), identifier (`%s`) and character identifier (`%s`).\n\nThe horse that was given was: `%s - %s`",
@@ -321,7 +321,7 @@ RegisterCommand(Config.Commands["ADD_WAGON"].Command, function(source, args, raw
           local charIdentifier = xPlayer.getCharacterIdentifier()
           local steamName      = GetPlayerName(_source)
 
-          local _w, _c  = Config.Webhooks['COMMANDS'].Url, Config.Webhooks['COMMANDS'].Color
+          local _w, _c  = TPZ.GetWebhookUrl("tpz_stables", "COMMANDS"), Config.Webhooks['COMMANDS'].Color
           local title   = string.format("📋` /%s %s %s`", Config.Commands["ADD_WAGON"].Command, target, model)
           local description = string.format("A user with the steam name (`%s`), identifier (`%s`) and character identifier (`%s`), executed the mentioned command and added (gave) a wagon on a players ownership." ..
           "\n\nThe target player steam name (`%s`), identifier (`%s`) and character identifier (`%s`).\n\nThe wagon that was given was: `%s - %s`",
