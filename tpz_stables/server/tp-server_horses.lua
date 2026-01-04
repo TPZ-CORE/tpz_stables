@@ -235,7 +235,7 @@ AddEventHandler('tpz_stables:server:buyHorse', function(locationIndex, categoryI
 				local ModelData = GetHorseModelData(HorseData[1])
 
 				local category    = Config.Horses[categoryIndex].Category
-				local _w, _c      = Config.Webhooks['BOUGHT'].Url, Config.Webhooks['BOUGHT'].Color
+				local _w, _c      = TPZ.GetWebhookUrl("tpz_stables", "BOUGHT"), Config.Webhooks['BOUGHT'].Color
 
 				local title       = "🐎`Player Bought Horse`"
 				local description = string.format('A user with the steam name (`%s`), identifier (`%s`) and character identifier (`%s`) has bought a new horse.\n\n**Horse Model:** `%s, %s - %s `.\n\n **Paid:** `%s`.',
@@ -333,7 +333,7 @@ AddEventHandler('tpz_stables:server:sellHorse', function(horseIndex)
 
 			local category = GetHorseModelCategory(HorseData.model)
 
-			local _w, _c      = Config.Webhooks['SOLD'].Url, Config.Webhooks['SOLD'].Color
+			local _w, _c      = TPZ.GetWebhookUrl("tpz_stables", "SOLD"), Config.Webhooks['SOLD'].Color
 			local title       = "🐎`Player Sold Horse`"
 			local description = string.format('A user with the steam name (`%s`), identifier (`%s`) and character identifier (`%s`) has sold a horse.\n\n**Horse Model:** `%s, %s - %s `.\n\n **Received:** `%s`.',
 		    steamName, identifier, charIdentifier, HorseData.model, category, ModelData[2], receivedDescription)
@@ -408,7 +408,7 @@ AddEventHandler('tpz_stables:server:transferHorse', function(horseIndex, target)
 
 		local category = GetHorseModelCategory(HorseData.model)
 
-		local _w, _c      = Config.Webhooks['TRANSFERRED'].Url, Config.Webhooks['TRANSFERRED'].Color
+		local _w, _c      = TPZ.GetWebhookUrl("tpz_stables", "TRANSFERRED"), Config.Webhooks['TRANSFERRED'].Color
 		local title       = "🐎`Player Transferred Horse`"
 		local description = string.format('A user with the steam name (`%s`), identifier (`%s`) and character identifier (`%s`) has transferred a horse.\n\n**Horse Model:** `%s, %s - %s `.\n\n**Target Identifier:** `%s`\n\n**Target Character Identifier:** `%s`.',
 		steamName, identifier, charIdentifier, HorseData.model, category, ModelData[2], targetIdentifier, targetCharIdentifier)
