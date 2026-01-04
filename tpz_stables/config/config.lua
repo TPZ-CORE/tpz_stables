@@ -947,41 +947,37 @@ Config.Commands = {
 --[[ Discord Webhooking ]]--
 ---------------------------------------------------------------
 
+-- (!) Checkout tpz_core/server/discord/webhooks.lua to modify the webhook urls.
+
 Config.Webhooks = {
 
     ["COMMANDS"] = { -- Related only to Config.Commands for giving horses or wagons. 
         Enabled = false, 
-        Url = "", 
         Color = 10038562,
     },
 
     ["BOUGHT"] = { -- Buying horses or wagons from the stables. 
         Enabled = false, 
-        Url = "", 
         Color = 10038562,
     },
 
 	['SOLD'] = { -- Selling horses or wagons from the stables.
 		Enabled = false, 
-        Url = "", 
         Color = 10038562,
 	},
 
 	['SOLD_TAMED_HORSE'] = { -- Selling horses or wagons from the stables.
 	    Enabled = false, 
-        Url = "", 
 		Color = 10038562,
 	},
 
     ["TRANSFERRED"] = { -- When transferred a horse or a wagon to another player. 
         Enabled = false, 
-        Url = "", 
         Color = 10038562,
     },
 	
 	['RECEIVED_TAMED_HORSE'] ={
 		Enabled = false, 
-        Url = "", 
         Color = 10038562,
 	},
 	
