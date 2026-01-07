@@ -1047,7 +1047,7 @@ AddEventHandler("tpz_stables:client:horse_actions", function()
 
                     prevPos = pos
 
-                    local isPedRunning = IsPedRunning(horse) or IsPedSprinting(horse)
+                    local isPedRunning = IsPedSprinting(horse)
 
                     if isPedRunning ~= false then
 
@@ -1150,4 +1150,5 @@ AddEventHandler("tpz_stables:client:whistle_horse_cooldown", function()
     end)
 
 end)
+
 
