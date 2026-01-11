@@ -95,7 +95,7 @@ function OpenStowMenu(wagonIndex)
     local WagonData  = PlayerData.Wagons[wagonIndex]
 
     local elements   = {}
-    local length     = TPZ.GetTableLength(WagonData.stow)
+    local length     = WagonData.stow == nil and 0 or TPZ.GetTableLength(WagonData.stow)
 
     PlayerData.IsBusy = true
     
@@ -2187,4 +2187,5 @@ AddEventHandler("tpz_stables:client:menu_tasks", function()
     end)
 
 end)
+
 
