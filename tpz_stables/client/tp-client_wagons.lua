@@ -744,7 +744,7 @@ AddEventHandler("tpz_stables:client:wagon_action_prompts", function()
                 end
 
                 if WagonData.model == 'huntercart01' and tonumber(PlayerData.CharIdentifier) == tonumber(WagonData.charidentifier) then 
-                    local stow_results = TPZ.GetTableLength(WagonData.stow)
+                    local stow_results = WagonData.stow == nil and 0 or TPZ.GetTableLength(WagonData.stow)
                     promptText = WagonData.name .. " | " .. string.format(Locales['STOW_CAPACITY'], stow_results, Config.MaxHuntingWagonCargo)
                 end
 
@@ -1061,3 +1061,4 @@ AddEventHandler("tpz_stables:client:wagon_distance_tasks", function()
     
  
 end)
+
