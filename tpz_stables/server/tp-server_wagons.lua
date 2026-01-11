@@ -109,6 +109,10 @@ AddEventHandler('tpz_stables:server:saveWagon', function(wagonIndex, wheelsJson)
 
 	Wagons[wagonIndex].wheels = wheelStates
 
+	if Wagons[wagonIndex].stow == nil then 
+		Wagons[wagonIndex].stow = {}
+	end
+		
 	exports.ghmattimysql:execute("UPDATE `wagons` SET `wheels` = @wheels, `stow` = @stow WHERE `id` = @id ", { 
 		['id']     = wagonIndex, 
 		['wheels'] = json.encode( Wagons[wagonIndex].wheels ),
