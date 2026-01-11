@@ -559,7 +559,6 @@ AddEventHandler("tpz_stables:client:whistle_wagon", function(existingCoords)
         Citizen.InvokeNative(0x55CCAAE4F28C67A0, vehicle, 1000)
 
         local network = NetworkGetNetworkIdFromEntity(vehicle)
-
         TriggerServerEvent("tpz_stables:server:updateWagon", PlayerData.SelectedWagonIndex, 'NETWORK_ID', { network })
 
         local wagon_blip = Citizen.InvokeNative(0x23f74c2fda6e7c61, 631964804, vehicle)
@@ -738,7 +737,11 @@ AddEventHandler("tpz_stables:client:wagon_action_prompts", function()
             
             if WagonData then
 
-                local promptText = WagonData.name
+                local promptText = WagonData.name == nil and "" or WagonData.name
+
+                if WagonData.name == nil then 
+                    WagonData.name = ""
+                end
 
                 if WagonData.model == 'huntercart01' and tonumber(PlayerData.CharIdentifier) == tonumber(WagonData.charidentifier) then 
                     local stow_results = TPZ.GetTableLength(WagonData.stow)
@@ -751,24 +754,10 @@ AddEventHandler("tpz_stables:client:wagon_action_prompts", function()
                     UiPromptSetEnabled(GetWardrobeWagonPrompt(), 1)
                     UiPromptSetVisible(GetWardrobeWagonPrompt(), 1) 
 
-                    if WagonData.model == 'huntercart01' then 
-                        
-                        UiPromptSetEnabled(GetStowWagonPrompt(), 1)
-                        UiPromptSetVisible(GetStowWagonPrompt(), 1) 
-
-                        local carriedEntity = Citizen.InvokeNative(0xD806CD2A4F2C2996, PlayerPedId())
-
-                        if carriedEntity and (not IsPedHuman(carriedEntity) or not IsEntityAPed(carriedEntity)) then
-                            UiPromptSetText(GetStowWagonPrompt(), CreateVarString(10, 'LITERAL_STRING', Config.HuntingWagonPrompts.PromptDisplay))
-                            STOW_ACTION_TYPE = 'STOW'
-                        else
-                            UiPromptSetText(GetStowWagonPrompt(), CreateVarString(10, 'LITERAL_STRING', Config.HuntingWagonPrompts.TakeOutPromptDisplay))
-                            STOW_ACTION_TYPE = 'TAKE_OUT'
-                        end
-
-                    end
-
                     UiPromptSetVisible(GetStoreWagonPrompt(), 1) 
+
+                    UiPromptSetEnabled(GetSearchWagonPrompt(), 1)
+                    UiPromptSetVisible(GetSearchWagonPrompt(), 1) 
 
                     if DoesEntityExist(PlayerData.SpawnedWagonEntity) then
                         local nearestStableIndex = GetNearestStableLocation()
@@ -799,6 +788,38 @@ AddEventHandler("tpz_stables:client:wagon_action_prompts", function()
 
                     isWagonOwner = true
                 end
+
+                if WagonData.model == 'huntercart01' then 
+                        
+                    UiPromptSetEnabled(GetStowWagonPrompt(), 1)
+                    UiPromptSetVisible(GetStowWagonPrompt(), 1) 
+
+                    local carriedEntity = Citizen.InvokeNative(0xD806CD2A4F2C2996, PlayerPedId())
+
+                    if carriedEntity and (not IsPedHuman(carriedEntity) or not IsEntityAPed(carriedEntity)) then
+                        UiPromptSetText(GetStowWagonPrompt(), CreateVarString(10, 'LITERAL_STRING', Config.HuntingWagonPrompts.PromptDisplay))
+                        STOW_ACTION_TYPE = 'STOW'
+
+                        UiPromptSetEnabled(GetWardrobeWagonPrompt(), 0)
+                        UiPromptSetVisible(GetWardrobeWagonPrompt(), 0) 
+
+                        UiPromptSetEnabled(GetStoreWagonPrompt(), 0)
+                        UiPromptSetVisible(GetStoreWagonPrompt(), 0) 
+
+                        UiPromptSetEnabled(GetWagonRepairPrompt(), 0)
+                        UiPromptSetVisible(GetWagonRepairPrompt(), 0) 
+
+                        UiPromptSetEnabled(GetSearchWagonPrompt(), 0)
+                        UiPromptSetVisible(GetSearchWagonPrompt(), 0) 
+                        
+
+                    else
+                        UiPromptSetText(GetStowWagonPrompt(), CreateVarString(10, 'LITERAL_STRING', Config.HuntingWagonPrompts.TakeOutPromptDisplay))
+                        STOW_ACTION_TYPE = 'TAKE_OUT'
+                    end
+
+                end
+
     
                 if Citizen.InvokeNative(0xC92AC953F0A982AE, GetSearchWagonPrompt()) then  -- PromptHasStandardModeCompleted
     
