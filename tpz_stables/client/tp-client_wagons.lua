@@ -548,6 +548,10 @@ AddEventHandler("tpz_stables:client:whistle_wagon", function(existingCoords)
 
             Citizen.InvokeNative(0x75F90E4051CC084C, vehicle, tarpPropSet)  -- AddAdditionalPropSetForVehicle
             Citizen.InvokeNative(0xC0F0417A90402742, vehicle, lightPropSet) -- AddLightPropSetToVehicle
+
+            if WagonData.stow == nil then 
+                WagonData.stow = {}
+            end
         end
 
         SetModelAsNoLongerNeeded(GetHashKey(WagonData.model))
@@ -1061,4 +1065,5 @@ AddEventHandler("tpz_stables:client:wagon_distance_tasks", function()
     
  
 end)
+
 
