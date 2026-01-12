@@ -914,7 +914,7 @@ AddEventHandler("tpz_stables:client:wagon_action_prompts", function()
     
                                     Wait(750)
                                     DeleteEntity(carriedEntity)
-                                    TriggerServerEvent('tpz_stables:server:removeWagonStowItem', WagonData.id)
+                                    TriggerServerEvent('tpz_stables:server:addWagonStowItem', WagonData.id, data)
 
                                 else
                                     SendNotification(nil, Locales['WAGON_NOTIFY_TITLE'], Locales["CANNOT_CARRY_MORE_STOW_ITEMS"], "error", 4, "wagon", "left")
@@ -1065,5 +1065,6 @@ AddEventHandler("tpz_stables:client:wagon_distance_tasks", function()
     
  
 end)
+
 
 
