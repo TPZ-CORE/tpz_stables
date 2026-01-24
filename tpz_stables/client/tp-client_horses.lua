@@ -867,7 +867,7 @@ Citizen.CreateThread(function()
                 for index = 0, size - 1 do
                     local entity = GetIndexedItemInItemset(index, itemSet)  
 
-                    if GetPedType(entity) == 28 then
+                    if GetPedType(entity) == 28 and entity ~= 0 then
 
                         local model = GetEntityModel(entity)
 
