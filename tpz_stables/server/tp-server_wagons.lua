@@ -318,6 +318,8 @@ AddEventHandler('tpz_stables:server:updateWagon', function(wagonIndex, action, d
                 updated = true
             end
 
+        elseif Wagons[wagonIndex].entity == 0 and action == 'NETWORK_ID' then
+            TriggerClientEvent("tpz_stables:client:updateWagon", -1, { wagonIndex = wagonIndex, action = 'NETWORK_ID', data = data })
         end
 
         if not updated then
