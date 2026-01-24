@@ -537,6 +537,8 @@ AddEventHandler('tpz_stables:server:updateHorse', function(horseIndex, action, d
                 updated = true
             end
 
+        elseif Horses[horseIndex].entity == 0 and action == 'NETWORK_ID' then
+            TriggerClientEvent("tpz_stables:client:updateHorse", -1, { horseIndex = horseIndex, action = 'NETWORK_ID', data = data })
         end
 
         if not updated then
