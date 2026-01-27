@@ -834,7 +834,7 @@ Citizen.CreateThread(function()
 
             sleep = 1
 
-            if Citizen.InvokeNative(0x91AEF906BCA88877, 0, 0x24978A28) then -- Whistle (Call)
+            if Citizen.InvokeNative(0x91AEF906BCA88877, 0, 0x24978A28) and not IsNuiFocused() then -- Whistle (Call)
                 TriggerEvent('tpz_stables:client:whistle')
                 Wait(1000)
             end
@@ -1150,5 +1150,6 @@ AddEventHandler("tpz_stables:client:whistle_horse_cooldown", function()
     end)
 
 end)
+
 
 
