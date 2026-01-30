@@ -624,7 +624,9 @@ if Config.CallWagonKey.Enabled then
                 sleep = 1
 
                 if IsControlJustReleased(0, Config.CallWagonKey.Key) or Citizen.InvokeNative(0x91AEF906BCA88877, 0, Config.CallWagonKey.Key) then -- Whistle (Call)
-                    TriggerEvent('tpz_stables:client:whistle_wagon')
+                    if not IsNuiFocused() then
+                        TriggerEvent('tpz_stables:client:whistle_wagon')
+                    end
                     Wait(1000)
 
                 end
