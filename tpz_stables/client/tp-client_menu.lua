@@ -1737,7 +1737,16 @@ function OpenHorseManagementEquipments(selectedHorseId)
     local StableData = Config.Locations[LocationIndex]
 
     local HorseData  = PlayerData.Horses[selectedHorseId]
+    local cameraCoords = StableData.Horses.CameraCoords
 
+    DestroyAllCams(true)
+
+    local handler = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", cameraCoords.x, cameraCoords.y, cameraCoords.z, cameraCoords.rotx, cameraCoords.roty, cameraCoords.rotz, cameraCoords.fov, false, 2)
+    SetCamActive(handler, true)
+    RenderScriptCams(true, false, 0, true, true, 0)
+
+    PlayerData.CameraHandler = handler
+    
     local elements = {}
 
     for index, equipment in pairs (Config.Equipments) do 
@@ -1790,7 +1799,22 @@ function OpenHorseManagementEquipmentsByCategory(selectedHorseId, categoryIndex)
     local PlayerData    = GetPlayerData()
     local HorseData     = PlayerData.Horses[selectedHorseId]
     local EquipmentData = Config.Equipments[categoryIndex]
+    
+    local StableData    = Config.Locations[LocationIndex]
+    local cameraCoords  = StableData.Horses.CameraViews[EquipmentData.Type]
 
+    if not cameraCoords or cameraCoords == false then
+        cameraCoords = StableData.Horses.CameraCoords
+    end
+        
+    DestroyAllCams(true)
+
+    local handler = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", cameraCoords.x, cameraCoords.y, cameraCoords.z, cameraCoords.rotx, cameraCoords.roty, cameraCoords.rotz, cameraCoords.fov, false, 2)
+    SetCamActive(handler, true)
+    RenderScriptCams(true, false, 0, true, true, 0)
+
+    PlayerData.CameraHandler = handler
+    
     local elements = {}
 
     for index, equipment in ipairs (EquipmentData.Types) do 
@@ -2187,5 +2211,6 @@ AddEventHandler("tpz_stables:client:menu_tasks", function()
     end)
 
 end)
+
 
 
