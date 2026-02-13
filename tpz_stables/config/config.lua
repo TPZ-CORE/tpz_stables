@@ -357,6 +357,22 @@ Config.Locations = {
 			SpawnCoords  = { x = -369.6344299316406, y = 791.5049438476562, z = 115.08021545410156, h = -175.34},
 			CameraCoords = { x = -370.560,           y = 788.125,           z = 117.16,             rotx = -15.0, roty = 0.0, rotz = 345.9746, fov = 45.0},
 
+			CameraViews = {
+				['SADDLE'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['BAG']    = { x = -368.525,  y = 791.6607,  z = 116.80,  rotx = -15.0, roty = 0.0, rotz = 87.435729980, fov = 60.0},
+				['TAIL']   = { x = -370.590,  y = 793.6685,  z = 117.0,  rotx = -15.0, roty = 0.0, rotz = 217.467391, fov = 50.0},
+				['MASK']   = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['BEDROLL'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['BLANKET'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['MANE'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['MUSTACHE'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['HORN'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['STIRRUP'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['BRIDLE'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['LANTERN'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['HOLSTER'] = {x = -368.533, y = 791.0273,  z = 116.80,  rotx = -15.0, roty = 0.0, rotz = 87.435729980, fov = 60.0},
+			},
+
 			Training = {
 				Enabled = true,
 
@@ -437,7 +453,23 @@ Config.Locations = {
 
 		Horses = {
 			SpawnCoords  = { x = -867.5707397460938, y = -1370.5565185546875, z = 42.81821060180664, h = 0.0946},
-			CameraCoords = { x = -869.077,           y = -1366.55,            z = 43.530,            rotx = 0.0, roty = 0.0, rotz = 204.424, fov = 45.0 },
+			CameraCoords = { x = -869.077,           y = -1366.55,            z = 44.40,            rotx = -15.0, roty = 0.0, rotz = 204.424, fov = 40.0 },
+
+			CameraViews = {
+				['SADDLE'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['BAG']    = { x = -865.891, y = -1370.18,  z = 44.00,  rotx = -15.0, roty = 0.0, rotz = 90.97777557, fov = 60.0},
+				['TAIL']   = { x = -867.567, y = -1372.08,  z = 44.00,  rotx = -15.0, roty = 0.0, rotz = 1.7559219598, fov = 70.0},
+				['MASK']   = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['BEDROLL'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['BLANKET'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['MANE'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['MUSTACHE'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['HORN'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['STIRRUP'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['BRIDLE'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['LANTERN'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['HOLSTER'] = {x = -868.180, y = -1370.30,  z = 44.20,  rotx = -15.0, roty = 0.0, rotz = 271.4039001464, fov = 100.0},
+			},
 
 			Training = {
 				Enabled = true,
@@ -516,8 +548,24 @@ Config.Locations = {
 		Hours = { Allowed = true, Opening = 7, Closing = 23 },
 
 		Horses = {
-			SpawnCoords  = { x = 1440.130126953125,  y = -1299.832275390625,  z = 76.9581298828125,  h = 99.97},
-			CameraCoords = { x = 1436.463,           y = -1302.85,            z = 78.816,            rotx = -20.0, roty = 0.0, rotz = 313.0792, fov = 45.0 },
+			SpawnCoords  = { x = 1439.81005859375,  y = -1301.0400390625,  z = 76.9581298828125,  h = 99.97},
+			CameraCoords = { x = 1436.680, y = -1302.75,            z = 79.00,            rotx = -20.0, roty = 0.0, rotz = 295.982971191, fov = 45.0 },
+
+			CameraViews = {
+				['SADDLE'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['BAG']    = { x = 1440.808, y = -1302.73,  z = 78.816,  rotx = -15.0, roty = 0.0, rotz = 15.46772956, fov = 60.0},
+				['TAIL']   = { x = 1442.111, y = -1300.60,  z = 78.816,  rotx = -15.0, roty = 0.0, rotz = 101.40072631, fov = 70.0},
+				['MASK']   = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['BEDROLL'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['BLANKET'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['MANE'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['MUSTACHE'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['HORN'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['STIRRUP'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['BRIDLE'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['LANTERN'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['HOLSTER'] = {x = 1440.052, y = -1303.26,  z = 78.816,  rotx = -15.0, roty = 0.0, rotz = 15.338273048, fov = 50.0},
+			},
 
 			Training = {
 				Enabled = false, -- NO TRAINING SPOT
@@ -574,7 +622,23 @@ Config.Locations = {
 
 		Horses = {
 			SpawnCoords  = { x = 2961.482666015625,  y = 801.2601318359375,   z = 50.60737991333008, h = 178.452},
-			CameraCoords = { x = 2962.581,           y = 797.3046,            z = 52.402,            rotx = 0.0, roty = 0.0, rotz = 14.651041, fov = 45.0 },
+			CameraCoords = { x = 2962.581,           y = 797.3046,            z = 52.402,            rotx = -15.0, roty = 0.0, rotz = 14.651041, fov = 45.0 },
+
+			CameraViews = {
+				['SADDLE'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['BAG']    = { x = 2960.449, y = 801.5394,  z = 52.100,  rotx = -15.0, roty = 0.0, rotz = 271.39263916, fov = 70.0},
+				['TAIL']   = { x = 2961.579, y = 803.4030,  z = 52.200,  rotx = -15.0, roty = 0.0, rotz = 183.237762, fov = 70.0},
+				['MASK']   = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['BEDROLL'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['BLANKET'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['MANE'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['MUSTACHE'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['HORN'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['STIRRUP'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['BRIDLE'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['LANTERN'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['HOLSTER'] = {x = 2962.208, y = 800.7614,  z = 52.100,  rotx = -15.0, roty = 0.0, rotz = 87.67912292, fov = 80.0},
+			},
 
 			Training = {
 				Enabled = true,
@@ -657,6 +721,22 @@ Config.Locations = {
 		Horses = {
 			SpawnCoords  = { x = 2508.5751953125,  y = -1450.6090087890625,   z = 45.57754135131836, h = 103.277},
 			CameraCoords = { x = 2504.397,         y = -1448.40,              z = 48.513,            rotx = -20.0, roty = 0.0, rotz = 235.2450256, fov = 45.0 },
+
+			CameraViews = {
+				['SADDLE'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['BAG']    = { x = 2508.355, y = -1449.02,  z = 47.213,  rotx = -15.0, roty = 0.0, rotz = 179.288772, fov = 70.0},
+				['TAIL']   = { x = 2510.513, y = -1450.55,  z = 47.013,  rotx = -15.0, roty = 0.0, rotz = 92.000778198, fov = 70.0},
+				['MASK']   = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['BEDROLL'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['BLANKET'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['MANE'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['MUSTACHE'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['HORN'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['STIRRUP'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['BRIDLE'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['LANTERN'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['HOLSTER'] = {x = 2508.622, y = -1451.17,  z = 47.113,  rotx = -15.0, roty = 0.0, rotz = 66.353912, fov = 100.0},
+			},
 
 			Training = {
 				Enabled = false, -- NO TRAINING SPOT
@@ -843,63 +923,6 @@ Config.Locations = {
 		},
 	},
 	
-	["THIEVES_LANDING"] = {
-
-		Name = 'Stable Of Thieves Landing',
-		
-		Coords = { x = -1414.83, y = -2199.96, z = 43.402, h = 63.906455 }, -- THE LOCATION FOR OPENING THE MENU TO BUY OR SELL HORSES AND WAGONS.
-		
-		Marker = { -- CIRCULAR MARKER DISPLAY.
-		    Enabled = true,
-
-			Distance = 10.0,
-			RGBA = {r = 255, g = 255, b = 255, a = 55},
-		},
-		
-		ActionDistance = 2.0,
-
-		MainCameraCoords = { x = -1417.15, y = -2199.69, z = 44.389, rotx = 0.0, roty = 0.0, rotz = 1.09940, fov = 45.0}, -- THE MAIN CAMERA BEFORE SELECTING ANY OF THE MENU OPTIONS.
-
-		BlipData = { 
-            Allowed = true,
-            Name    = "Stable",
-            Sprite  = -1456209806,
-
-			OpenBlipModifier = 'BLIP_MODIFIER_MP_COLOR_32',
-            DisplayClosedHours = { Enabled = true, Sprite = -1456209806, BlipModifier = "BLIP_MODIFIER_MP_COLOR_2" },
-        },
-
-		Hours = { Allowed = true, Opening = 7, Closing = 23 },
-
-		Horses = {
-			SpawnCoords  = { x = -1416.284912109375,  y = -2189.870849609375, z = 42.32751083374023,  h = -128.53},
-			CameraCoords = { x = -1413.96,            y = -2193.61,           z = 43.399,             rotx = 0.0, roty = 0.0, rotz = 30.9404, fov = 45.0 },
-
-			Training = {
-				Enabled = false, -- NO TRAINING SPOT
-			},
-		},
-
-		Wagons = {
-			SpawnCoords  = { x = -1428.40,            y = -2208.49,           z = 42.317,             h = 240.3992},
-			CameraCoords = { x = -1422.09,            y = -2218.74,           z = 48.03,             rotx = -20.0, roty = 0.0, rotz = 15.22, fov = 45.0 },
-		
-			-- What should be the position for spawning the selected wagon on call - whistle?
-			SpawnSelectCoords = { x = -1377.6676025390625, y = -2224.45947265625, z = 42.90032577514648, h = 5.04614496231079 },
-			
-			-- Set to false if you don't want the players to call a wagon on the specified stable.
-			AllowWagonCalling = true,
-		},
-
-		MenuCategories = {
-			{ Enabled = true, Action = 'BUY_HORSES',    Title = 'Buy Horses',          Description = '' },
-			{ Enabled = true, Action = 'MANAGE_HORSES', Title = 'Manage Owned Horses', Description = '' },
-			{ Enabled = true, Action = 'BUY_WAGONS',    Title = 'Buy Wagons',          Description = '' },
-			{ Enabled = true, Action = 'MANAGE_WAGONS', Title = 'Manage Owned Wagons', Description = '' },
-			{ Enabled = true, Action = 'EXIT',          Title = 'Exit',                Description = '' },
-		},
-	},
-
 }
 
 -----------------------------------------------------------
