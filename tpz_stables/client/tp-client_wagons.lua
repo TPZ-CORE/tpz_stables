@@ -487,6 +487,10 @@ RegisterNetEvent("tpz_stables:client:whistle_wagon")
 AddEventHandler("tpz_stables:client:whistle_wagon", function(existingCoords)
 	local playerPed  = PlayerPedId()
     local PlayerData = GetPlayerData()
+		
+    if IsPedSwimming(playerPed) or IsPedSwimmingUnderWater(playerPed) then 
+        return
+    end
 
     if WhistleCooldown > 0 then
 		SendNotification(nil, Locales['WAGON_NOTIFY_TITLE'], Locales["WAIT_FOR_CALLING"], "error", 3, "wagon", "left")
@@ -1067,6 +1071,7 @@ AddEventHandler("tpz_stables:client:wagon_distance_tasks", function()
     
  
 end)
+
 
 
 
