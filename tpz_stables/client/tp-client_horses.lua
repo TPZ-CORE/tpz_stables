@@ -607,6 +607,10 @@ AddEventHandler("tpz_stables:client:whistle", function()
     local PlayerData = GetPlayerData()
     local Horses     = PlayerData.Horses
 
+	if IsPedSwimming(playerPed) or IsPedSwimmingUnderWater(playerPed) then 
+        return
+    end
+
     if WhistleCooldown > 0 then
 
 		SendNotification(nil, Locales['HORSE_NOTIFY_TITLE'], Locales["WAIT_FOR_CALLING"], "error", 3, "horse", "left")
@@ -1150,6 +1154,7 @@ AddEventHandler("tpz_stables:client:whistle_horse_cooldown", function()
     end)
 
 end)
+
 
 
 
