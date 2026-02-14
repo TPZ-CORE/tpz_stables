@@ -793,7 +793,23 @@ Config.Locations = {
 
 		Horses = {
 			SpawnCoords  = { x = -1825.1441650390625, y = -565.1942138671875, z = 155.26583862304688, h = -15.152},
-			CameraCoords = { x = -1823.08,            y = -561.568,           z = 156.05,             rotx = 0.0, roty = 0.0, rotz = 145.3800 , fov = 45.0 },
+			CameraCoords = { x = -1823.08,            y = -561.568,           z = 157.05,             rotx = -15.0, roty = 0.0, rotz = 145.3800 , fov = 40.0 },
+
+			CameraViews = {
+				['SADDLE'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['BAG']    = { x = -1826.57, y = -564.918,  z = 156.66,  rotx = -15.0, roty = 0.0, rotz = 257.503723144, fov = 70.0},
+				['TAIL']   = { x = -1825.90, y = -567.669, z = 156.43,  rotx = -15.0, roty = 0.0, rotz = 342.8579101, fov = 70.0},
+				['MASK']   = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['BEDROLL'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['BLANKET'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['MANE'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['MUSTACHE'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['HORN'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['STIRRUP'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['BRIDLE'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['LANTERN'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['HOLSTER'] = {x = -1826.45, y = -564.631, z = 156.56,  rotx = -15.0, roty = 0.0, rotz = 256.43679809, fov = 70.0},
+			},
 
 			Training = {
 				Enabled = true,
@@ -870,8 +886,24 @@ Config.Locations = {
 		Hours = { Allowed = true, Opening = 7, Closing = 23 },
 
 		Horses = {
-			SpawnCoords  = { x = -5525.21,            y = -3038.95,           z = -3.286,               h = 187.08},
+			SpawnCoords  = { x = -5525.1845703125,    y = -3039.470458984375, z = -3.286,               h = 187.08},
 			CameraCoords = { x = -5523.98,            y = -3042.75,           z = -1.187,               rotx = -20.0, roty = 0.0, rotz = 17.6548614, fov = 45.0 },
+
+			CameraViews = {
+				['SADDLE'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['BAG']    = { x = -5524.48, y = -3039.08, z = -1.900,  rotx = -15.0, roty = 0.0, rotz = 95.1154251098, fov = 100.0},
+				['TAIL']   = { x = -5525.31, y = -3037.95, z = -1.97,  rotx = -15.0, roty = 0.0, rotz = 181.20289611, fov = 80.0},
+				['MASK']   = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['BEDROLL'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['BLANKET'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['MANE'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['MUSTACHE'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['HORN'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['STIRRUP'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['BRIDLE'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['LANTERN'] = false, -- SET TO FALSE IF CAMERA VIEW IS OKAY WITHOUT ADJUSTING.
+				['HOLSTER'] = {x = -5524.44, y = -3039.64, z = -1.747,  rotx = -15.0, roty = 0.0, rotz = 94.5152816772, fov = 100.0},
+			},
 
 			Training = {
 				Enabled = true,
