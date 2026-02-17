@@ -12,6 +12,10 @@ local WagonPromptList = GetRandomIntInRange(0, 0xffffff)
 local TamingStorePrompt
 local TamingStoreSetOwned
 local TamingStorePromptList = GetRandomIntInRange(0, 0xffffff)
+
+local HorseLedActionsPromptGroup = GetRandomIntInRange(0, 0xffffff)
+local HorseLedActionsPromptList  = {}
+
 --[[-------------------------------------------------------
  Base Events
 ]]---------------------------------------------------------
@@ -25,7 +29,8 @@ AddEventHandler('onResourceStop', function(resourceName)
     Citizen.InvokeNative(0x00EDE88D4D13CF59, HorsePromptGroup) -- UiPromptDelete
     Citizen.InvokeNative(0x00EDE88D4D13CF59, HorseTrainingPromptGroup) -- UiPromptDelete
     Citizen.InvokeNative(0x00EDE88D4D13CF59, WagonPromptList) -- UiPromptDelete
-
+    Citizen.InvokeNative(0x00EDE88D4D13CF59, HorseLedActionsPromptGroup) -- UiPromptDelete
+		
     if GetPlayerData().IsBusy then
         ClearPedTasksImmediately(PlayerPedId())
         PromptDelete(PromptList)
@@ -51,6 +56,67 @@ end)
 --[[-------------------------------------------------------
  Prompts
 ]]---------------------------------------------------------
+
+RegisterHorseLedActionPrompts = function()
+
+    local _prompt = PromptRegisterBegin()
+    PromptSetControlAction(_prompt, Config.Keys[Config.HorseLeadingPrompts['DRINK'].Key])
+    PromptSetText(_prompt, CreateVarString(10, 'LITERAL_STRING', Config.HorseLeadingPrompts['DRINK'].Label))
+    PromptSetEnabled(_prompt, 1)
+    PromptSetVisible(_prompt, 1)
+    PromptSetStandardMode(_prompt, 0)
+    PromptSetHoldMode(_prompt, false)
+    PromptSetGroup(_prompt, HorseLedActionsPromptGroup)
+    Citizen.InvokeNative(0xC5F428EE08FA7F2C, _prompt, true)
+    PromptRegisterEnd(_prompt)
+
+    HorseLedActionsPromptList['DRINK'] = _prompt
+
+    local _prompt2 = PromptRegisterBegin()
+    PromptSetControlAction(_prompt2, Config.Keys[Config.HorseLeadingPrompts['REST'].Key])
+    PromptSetText(_prompt2, CreateVarString(10, 'LITERAL_STRING', Config.HorseLeadingPrompts['REST'].Label))
+    PromptSetEnabled(_prompt2, 1)
+    PromptSetVisible(_prompt2, 1)
+    PromptSetStandardMode(_prompt2, 0)
+    PromptSetHoldMode(_prompt2, false)
+    PromptSetGroup(_prompt2, HorseLedActionsPromptGroup)
+    Citizen.InvokeNative(0xC5F428EE08FA7F2C, _prompt2, true)
+    PromptRegisterEnd(_prompt2)
+
+    HorseLedActionsPromptList['REST'] = _prompt2
+
+    local _prompt3 = PromptRegisterBegin()
+    PromptSetControlAction(_prompt3, Config.Keys[Config.HorseLeadingPrompts['STOP_LEADING'].Key])
+    PromptSetText(_prompt3, CreateVarString(10, 'LITERAL_STRING', Config.HorseLeadingPrompts['STOP_LEADING'].Label))
+    PromptSetEnabled(_prompt3, 1)
+    PromptSetVisible(_prompt3, 1)
+    PromptSetStandardMode(_prompt3, 0)
+    PromptSetHoldMode(_prompt3, false)
+    PromptSetGroup(_prompt3, HorseLedActionsPromptGroup)
+    Citizen.InvokeNative(0xC5F428EE08FA7F2C, _prompt3, true)
+    PromptRegisterEnd(_prompt3)
+
+    HorseLedActionsPromptList['STOP_LEADING'] = _prompt3
+
+    
+    local _prompt4 = PromptRegisterBegin()
+    PromptSetControlAction(_prompt4, Config.Keys[Config.HorseLeadingPrompts['WALLOW'].Key])
+    PromptSetText(_prompt4, CreateVarString(10, 'LITERAL_STRING', Config.HorseLeadingPrompts['WALLOW'].Label))
+    PromptSetEnabled(_prompt4, 1)
+    PromptSetVisible(_prompt4, 1)
+    PromptSetStandardMode(_prompt4, 0)
+    PromptSetHoldMode(_prompt4, false)
+    PromptSetGroup(_prompt4, HorseLedActionsPromptGroup)
+    Citizen.InvokeNative(0xC5F428EE08FA7F2C, _prompt4, true)
+    PromptRegisterEnd(_prompt4)
+
+    HorseLedActionsPromptList['WALLOW'] = _prompt4
+
+end
+
+function GetHorseLedActionPromptData()
+    return HorseLedActionsPromptGroup, HorseLedActionsPromptList
+end
 
 RegisterActionPrompt = function()
     local str = Locales["PROMPT_TEXT"]
@@ -434,4 +500,5 @@ GetNearestVehicles = function(coords, radius, allowlistedVehicleEntity)
 
 	return closestVehicles
 end
+
 
