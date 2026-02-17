@@ -221,4 +221,5 @@ Locales = {
     ['CANNOT_SPAWN_WAGON_NEARBY_WAGONS'] = "You cannot spawn the wagon, there is already a vehicle blocking the spawning position.",
     ['WAGON_EQUIPMENTS_DOES_NOT_EXIST'] = "The specified model does not seem to have any equipments available such as: colors, liveries, props or lights.",
     
+    ['HORSE_NO_WATER_SOURCE'] = "The horse is not standing on any water source.",
 }
