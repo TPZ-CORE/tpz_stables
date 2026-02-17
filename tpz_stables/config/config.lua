@@ -22,6 +22,14 @@ Config.TamingPromptActions = {
 	['SET_OWNED'] = { Key = 'SPACEBAR', Label = 'Set Owned Tamed Horse', HoldMode = 1000 },
 }
 
+Config.HorseLeadingPrompts = {
+
+	['DRINK'] = { Key = 'G',    Label = 'Drink' }, -- drinking from water sources
+	['REST']  = { Key = 'DOWN', Label = 'Rest' }, -- resting in ground.
+	['WALLOW']  = { Key = 'RIGHT', Label = 'Wallow' }, -- wallow
+	['STOP_LEADING']  = { Key = 'F', Label = 'Stop Leading' }, -- stop leading horse
+}
+
 -----------------------------------------------------------
 --[[ General ]]--
 -----------------------------------------------------------
@@ -101,6 +109,14 @@ Config.Ageing = {
 	UpdateTime    = 10, -- UPDATING (NOT SAVING).
 
 	StartAdultAge = { min = 5, max = 10 }, 
+}
+
+Config.HorseLedActions = {
+
+	['WALLOW'] = { duration = 10, stamina = 0, health = 0 },
+	['REST']   = { duration = 30, stamina = 0, health = 0 },
+
+	['DRINK']  = { duration = 10, stamina = 0, health = 0 },
 }
 
 -- @param Destroy : To destroy (remove) the item permanently when reaching <= 0 durability.
