@@ -1021,6 +1021,257 @@ end)
 
 AddEventHandler("tpz_stables:client:horse_actions", function()
 
+		    local action_duration = 0
+    local action_type     = nil
+
+    Citizen.CreateThread(function()
+        
+        while true do
+
+            Wait(1000)
+
+            local horseEntity = GetPlayerData().SpawnedHorseEntity
+
+            if horseEntity and action_duration > 0 and action_type ~= nil then
+
+                if action_type == 'REST' then
+                    if IsHorseResting(horseEntity) then
+                        action_duration = action_duration - 1
+                    else
+                        action_duration = 0
+                        action_type = nil
+                    end
+    
+                elseif action_type == 'DRINK' then
+
+                    if IsHorseDrinking(horseEntity) then
+                        action_duration = action_duration - 1
+                    else
+                        action_duration = 0
+                        action_type = nil
+                    end
+    
+                elseif action_type == 'WALLOW' then
+                    if IsHorseWallow(horseEntity) then
+                        action_duration = action_duration - 1
+                    else
+                        action_duration = 0
+                        action_type = nil
+                    end
+                end
+    
+                if action_duration <= 0 then
+                    
+                    local ActionData = Config.HorseLedActions[action_type]
+                    
+                    if ActionData.health > 0 then
+
+                        local currentCoreHealth = GetAttributeCoreValue(horseEntity, 0)
+                        SetAttributeCoreValue(horseEntity, 0, currentCoreHealth + ActionData.health)
+                    end
+            
+                    if ActionData.stamina > 0 then
+                        local currentCoreStamina = GetAttributeCoreValue(horseEntity, 1)
+                        SetAttributeCoreValue(horseEntity, 1, currentCoreStamina + ActionData.stamina )
+                    end
+
+                    action_duration = 0
+                    action_type = nil
+
+                end
+
+            end
+
+        end
+
+
+    end)
+
+    Citizen.CreateThread(function()
+
+        while GetPlayerData().SpawnedHorseEntity do
+
+            local sleep = 1000
+
+            local PlayerData = GetPlayerData()
+            
+            local playerPed  = PlayerPedId()
+            local HorseData  = PlayerData.Horses[PlayerData.SelectedHorseIndex]
+            local id         = PlayerId()
+
+            if not IsPedLeadingHorse(playerPed) or IsPlayerTargettingAnything(id) then 
+                goto END
+            end
+
+            if IsPedLeadingHorse(playerPed) then 
+                sleep = 0
+
+                local foundHorse = Citizen.InvokeNative(0xED1F514AF4732258, playerPed) -- _GET_LED_HORSE_FROM_PED ( returns ped )
+
+                if foundHorse == PlayerData.SpawnedHorseEntity then 
+
+                    local PromptGroup, PromptList = GetHorseLedActionPromptData()
+
+                    local label = CreateVarString(10, 'LITERAL_STRING', "")
+                    PromptSetActiveGroupThisFrame(PromptGroup, label)
+
+                    if PromptHasStandardModeCompleted(PromptList['REST']) then
+
+                        -- we are checking if the horse is already resting to stand up
+                        if IsHorseResting(foundHorse) then 
+                            StopAnimTask(foundHorse, "amb_creature_mammal@world_horse_resting@idle", "idle_a", 1)
+
+                            action_type     = nil
+                            action_duration = 0
+                        else
+
+                            -- we are checking if the horse is on water.
+                            if not IsPedSwimming(foundHorse) and not IsHorseDrinking(foundHorse) and not IsHorseWallow(foundHorse) then 
+    
+                                ClearPedTasks(foundHorse)
+
+                                Wait(500)
+
+                                action_type = 'REST'
+                                action_duration = Config.HorseLedActions['REST'].duration
+
+                                PlayAnimation(foundHorse, { 
+                                    dict = "amb_creature_mammal@world_horse_resting@idle", 
+                                    name = "idle_a",
+                                    blendInSpeed = 1.0,
+                                    blendOutSpeed = 1.0,
+                                    duration = -1,
+                                    flag = 1,
+                                    playbackRate = 0.0
+                                })
+
+                                Wait(action_duration * 1000)
+
+                                if IsHorseResting(foundHorse) then 
+                                    StopAnimTask(foundHorse, "amb_creature_mammal@world_horse_resting@idle", "idle_a", 1)
+                                end
+
+                            end
+
+                        end
+
+                        sleep = 500
+                        
+                    end
+
+                    if PromptHasStandardModeCompleted(PromptList['DRINK']) then
+
+                        -- we are checking if the horse is already resting to stand up
+                        if IsHorseDrinking(foundHorse) then 
+                            StopAnimTask(foundHorse, "amb_creature_mammal@prop_horse_drink_trough@idle0", "idle_a", 1)
+
+                            action_type     = nil
+                            action_duration = 0
+                        else
+
+                            -- we are checking if the horse is on water.
+                            if not IsPedSwimming(foundHorse) and not IsHorseResting(foundHorse) and not IsHorseWallow(foundHorse) then 
+    
+                                if IsEntityInWater(foundHorse) then
+
+                                    ClearPedTasks(foundHorse)
+
+                                    Wait(500)
+    
+                                    action_type = 'DRINK'
+                                    action_duration = Config.HorseLedActions['DRINK'].duration
+    
+                                    PlayAnimation(foundHorse, { 
+                                        dict = "amb_creature_mammal@prop_horse_drink_trough@idle0", 
+                                        name = "idle_a",
+                                        blendInSpeed = 1.0,
+                                        blendOutSpeed = 1.0,
+                                        duration = -1,
+                                        flag = 1,
+                                        playbackRate = 0.0
+                                    })
+    
+                                    Wait(action_duration * 1000)
+    
+                                    if IsHorseDrinking(foundHorse) then 
+                                        StopAnimTask(foundHorse, "amb_creature_mammal@prop_horse_drink_trough@idle0", "idle_a", 1)
+                                    end
+
+                                    
+                                else
+                                    SendNotification(nil, Locales['HORSE_NOTIFY_TITLE'], Locales["HORSE_NO_WATER_SOURCE"], "error", 4, "horse", "left")
+                                end
+
+                            end
+
+                        end
+
+                        sleep = 500
+
+                    end
+
+                    if PromptHasStandardModeCompleted(PromptList['WALLOW']) then
+
+                        -- we are checking if the horse is already resting to stand up
+                        if IsHorseWallow(foundHorse) then 
+                            StopAnimTask(foundHorse, "amb_creature_mammal@world_horse_wallow_shake@base", "base", 1)
+
+                            action_type     = nil
+                            action_duration = 0
+                        else
+
+                            -- we are checking if the horse is on water.
+                            if not IsPedSwimming(foundHorse) and not IsHorseDrinking(foundHorse) then 
+    
+                                ClearPedTasks(foundHorse)
+
+                                Wait(500)
+
+                                action_type = 'WALLOW'
+                                action_duration = Config.HorseLedActions['WALLOW'].duration
+
+                                PlayAnimation(foundHorse, { 
+                                    dict = "amb_creature_mammal@world_horse_wallow_shake@base", 
+                                    name = "base",
+                                    blendInSpeed = 1.0,
+                                    blendOutSpeed = 1.0,
+                                    duration = -1,
+                                    flag = 1,
+                                    playbackRate = 0.0
+                                })
+
+                                Wait(action_duration * 1000)
+
+                                if IsHorseWallow(foundHorse) then
+                                    StopAnimTask(foundHorse, "amb_creature_mammal@world_horse_wallow_shake@base", "base", 1)
+                                end
+
+                            end
+
+                        end
+
+                        sleep = 500
+                        
+                    end
+
+                    if PromptHasStandardModeCompleted(PromptList['STOP_LEADING']) then
+                        ClearPedTasks(foundHorse)
+                        action_type     = nil
+                        action_duration = 0
+                        sleep = 500
+                    end
+
+                end
+
+            end
+
+            ::END::
+            Wait(sleep)
+
+        end
+
+    end)
+
     Citizen.CreateThread(function()
 
         local prevPos = nil
@@ -1154,6 +1405,7 @@ AddEventHandler("tpz_stables:client:whistle_horse_cooldown", function()
     end)
 
 end)
+
 
 
 
