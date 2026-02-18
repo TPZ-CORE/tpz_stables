@@ -113,10 +113,9 @@ Config.Ageing = {
 
 Config.HorseLedActions = {
 
-	['WALLOW'] = { duration = 10, stamina = 0, health = 0 },
-	['REST']   = { duration = 30, stamina = 0, health = 0 },
-
-	['DRINK']  = { duration = 10, stamina = 0, health = 0 },
+	['WALLOW'] = { duration = 10, stamina = 0,    health = 0 }, -- added per second
+	['REST']   = { duration = 60, stamina = 3.33, health = 1.65 }, -- added per second
+	['DRINK']  = { duration = 30, stamina = 3.33, health = 0 }, -- added per second
 }
 
 -- @param Destroy : To destroy (remove) the item permanently when reaching <= 0 durability.
