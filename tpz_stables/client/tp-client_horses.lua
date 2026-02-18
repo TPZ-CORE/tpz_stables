@@ -1021,7 +1021,7 @@ end)
 
 AddEventHandler("tpz_stables:client:horse_actions", function()
 
-		    local action_duration = 0
+	local action_duration = 0
     local action_type     = nil
 
     Citizen.CreateThread(function()
@@ -1034,6 +1034,19 @@ AddEventHandler("tpz_stables:client:horse_actions", function()
 
             if horseEntity and action_duration > 0 and action_type ~= nil then
 
+                local ActionData = Config.HorseLedActions[action_type]
+                    
+                if ActionData.health > 0 then
+
+                    local currentCoreHealth = GetAttributeCoreValue(horseEntity, 0)
+                    SetAttributeCoreValue(horseEntity, 0, currentCoreHealth + ActionData.health)
+                end
+        
+                if ActionData.stamina > 0 then
+                    local currentCoreStamina = GetAttributeCoreValue(horseEntity, 1)
+                    SetAttributeCoreValue(horseEntity, 1, currentCoreStamina + ActionData.stamina )
+                end
+                
                 if action_type == 'REST' then
                     if IsHorseResting(horseEntity) then
                         action_duration = action_duration - 1
@@ -1046,6 +1059,7 @@ AddEventHandler("tpz_stables:client:horse_actions", function()
 
                     if IsHorseDrinking(horseEntity) then
                         action_duration = action_duration - 1
+                        
                     else
                         action_duration = 0
                         action_type = nil
@@ -1062,19 +1076,6 @@ AddEventHandler("tpz_stables:client:horse_actions", function()
     
                 if action_duration <= 0 then
                     
-                    local ActionData = Config.HorseLedActions[action_type]
-                    
-                    if ActionData.health > 0 then
-
-                        local currentCoreHealth = GetAttributeCoreValue(horseEntity, 0)
-                        SetAttributeCoreValue(horseEntity, 0, currentCoreHealth + ActionData.health)
-                    end
-            
-                    if ActionData.stamina > 0 then
-                        local currentCoreStamina = GetAttributeCoreValue(horseEntity, 1)
-                        SetAttributeCoreValue(horseEntity, 1, currentCoreStamina + ActionData.stamina )
-                    end
-
                     action_duration = 0
                     action_type = nil
 
@@ -1405,6 +1406,7 @@ AddEventHandler("tpz_stables:client:whistle_horse_cooldown", function()
     end)
 
 end)
+
 
 
 
