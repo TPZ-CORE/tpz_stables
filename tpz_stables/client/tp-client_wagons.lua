@@ -569,6 +569,21 @@ AddEventHandler("tpz_stables:client:whistle_wagon", function(existingCoords)
         local network = NetworkGetNetworkIdFromEntity(vehicle)
         TriggerServerEvent("tpz_stables:server:updateWagon", PlayerData.SelectedWagonIndex, 'NETWORK_ID', { network })
 
+		if Config.tp_farming.Enabled then
+
+            for _, _wagon in pairs (Config.tp_farming.WagonModels) do 
+
+                if WagonData.model == _wagon then
+
+                    print(WagonData.id)
+                    TriggerServerEvent("tp_farming:updateWagonByNetworkId", network, 'REGISTER', { WagonData.model, WagonData.water_capacity, WagonData.id })
+                    break 
+                end
+
+            end
+
+        end
+
         local wagon_blip = Citizen.InvokeNative(0x23f74c2fda6e7c61, 631964804, vehicle)
         Citizen.InvokeNative(0x9CB1A1623062F402, wagon_blip, WagonData.name)
 
@@ -1071,6 +1086,7 @@ AddEventHandler("tpz_stables:client:wagon_distance_tasks", function()
     
  
 end)
+
 
 
 
