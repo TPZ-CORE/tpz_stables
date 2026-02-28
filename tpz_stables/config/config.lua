@@ -176,6 +176,10 @@ Config.Storages = {
 
 }
 
+-- Set to true if you use TP Farming for storing and loading the water capacity on the required models
+-- for watering the plants through an owned wagon.
+Config.tp_farming = { Enabled = true, WagonModels = { 'cart05', 'oilWagon01x' } }
+
 -----------------------------------------------------------
 --[[ Horse Taming ]]--
 -----------------------------------------------------------
