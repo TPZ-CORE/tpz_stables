@@ -25,7 +25,6 @@ local LoadOwnedHorses = function()
 
 				Horses[res.id].stats      = json.decode(res.stats)
 				Horses[res.id].components = json.decode(res.components)
-				Wagons[res.id].stow       = json.decode(res.stow)
 					
 				if res.training_experience > 0 and Config.Trainers.HorseTraining.MaxLevelUpExperience <= res.training_experience then
 					Horses[res.id].training_experience = -1
@@ -78,6 +77,8 @@ local LoadOwnedWagons = function()
 
 				Wagons[res.id].wheels     = json.decode(res.wheels)
 				Wagons[res.id].components = json.decode(res.components)
+				Wagons[res.id].stow       = json.decode(res.stow)
+
             end
 
 			if Config.Debug then
