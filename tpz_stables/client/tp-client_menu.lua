@@ -552,28 +552,32 @@ function OpenWagonsManagement()
     table.insert(elements, { label = Locales['BACK'], value = 'back', desc = Locales['BACK_DESCRIPTION'] })
 
     -- Forcing MenuData Index to always be the first result when opening a wagon category.
-    MenuData.ResetLastSelectedIndex('default', "tpz_stables", "wagons_management")
+    MenuData.ResetLastSelectedIndex('default', "tp_stables", "wagons_management")
+    
+    if ownedCount > 0 then
+    
+        local model     = ownedWagonsList[1].model
+        local modelData = GetWagonModelData(model)
+    
+        LoadModel(model)
+    
+        local coords   = StableData.Wagons.SpawnCoords
+        local spawnPos = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 3.0, 0.0, 0.0)
+        local wagon    = CreateVehicle(model, coords.x, coords.y, coords.z, coords.h, false, false, false, false)
+    
+        SetVehicleOnGroundProperly(wagon)
+        SetEntityAsMissionEntity(wagon, true, true)
+        FreezeEntityPosition(wagon, true)
+        SetEntityCollision(wagon, false, true)
+    
+        StoreEntity        = wagon
+        StoreEntityModel   = model
+    
+        SetModelAsNoLongerNeeded(model)
+    
+        LoadWagonComponents(wagon, ownedWagonsList[1].id)
 
-    local model     = ownedWagonsList[1].model
-    local modelData = GetWagonModelData(model)
-
-    LoadModel(model)
-
-    local coords   = StableData.Wagons.SpawnCoords
-    local spawnPos = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 3.0, 0.0, 0.0)
-    local wagon    = CreateVehicle(model, coords.x, coords.y, coords.z, coords.h, false, false, false, false)
-
-    SetVehicleOnGroundProperly(wagon)
-    SetEntityAsMissionEntity(wagon, true, true)
-    FreezeEntityPosition(wagon, true)
-    SetEntityCollision(wagon, false, true)
-
-    StoreEntity        = wagon
-    StoreEntityModel   = model
-
-    SetModelAsNoLongerNeeded(model)
-
-    LoadWagonComponents(wagon, ownedWagonsList[1].id)
+    end
 
     local subtext = string.format(Locales['CURRENT_ACCOUNT'], PlayerData.Cash, PlayerData.Gold)
 
@@ -1279,39 +1283,42 @@ function OpenHorsesManagement()
 
     -- Forcing MenuData Index to always be the first result when opening a horse category.
     MenuData.ResetLastSelectedIndex('default', "tpz_stables", "horses_management")
-
-    local model     = ownedHorsesList[1].model
-    local modelData = GetHorseModelData(model)
-
-    LoadModel(model)
-
-    local coords   = StableData.Horses.SpawnCoords
-    local spawnPos = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 3.0, 0.0, 0.0)
-    local horse    = CreatePed(model, coords.x, coords.y, coords.z, coords.h, false, false, false, false)
-
-    if ownedHorsesList[1].sex == 1 then
-        Citizen.InvokeNative(0x5653AB26C82938CF, horse, 41611, 1.0)
-        Citizen.InvokeNative(0xCC8CA3E88256E58F, horse, 0, 1, 1, 1, 0)
-    else
-        Citizen.InvokeNative(0x5653AB26C82938CF, horse, 41611, 0.0)
-        Citizen.InvokeNative(0xCC8CA3E88256E58F, horse, 0, 1, 1, 1, 0)
+    
+    if ownedCount > 0 then 
+        
+        local model     = ownedHorsesList[1].model
+        local modelData = GetHorseModelData(model)
+    
+        LoadModel(model)
+    
+        local coords   = StableData.Horses.SpawnCoords
+        local spawnPos = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 3.0, 0.0, 0.0)
+        local horse    = CreatePed(model, coords.x, coords.y, coords.z, coords.h, false, false, false, false)
+    
+        if ownedHorsesList[1].sex == 1 then
+            Citizen.InvokeNative(0x5653AB26C82938CF, horse, 41611, 1.0)
+            Citizen.InvokeNative(0xCC8CA3E88256E58F, horse, 0, 1, 1, 1, 0)
+        else
+            Citizen.InvokeNative(0x5653AB26C82938CF, horse, 41611, 0.0)
+            Citizen.InvokeNative(0xCC8CA3E88256E58F, horse, 0, 1, 1, 1, 0)
+        end
+    
+        Citizen.InvokeNative(0x283978A15512B2FE, horse, true)
+        Citizen.InvokeNative(0x9587913B9E772D29, horse, true)
+    
+        SetEntityAsMissionEntity(horse, true, true)
+        FreezeEntityPosition(horse, true)
+    
+        StoreEntity        = horse
+        StoreEntityModel   = model
+    
+        SetModelAsNoLongerNeeded(model)
+    
+        LoadHorseComponents(horse, ownedHorsesList[1].id)
+    
+        DisplayHorseDetails(ownedHorsesList[1].type, modelData, ( ownedHorsesList[1].training_experience == -1 ) )
+    
     end
-
-    Citizen.InvokeNative(0x283978A15512B2FE, horse, true)
-    Citizen.InvokeNative(0x9587913B9E772D29, horse, true)
-
-    SetEntityAsMissionEntity(horse, true, true)
-    FreezeEntityPosition(horse, true)
-
-
-    StoreEntity        = horse
-    StoreEntityModel   = model
-
-    SetModelAsNoLongerNeeded(model)
-
-    LoadHorseComponents(horse, ownedHorsesList[1].id)
-
-    DisplayHorseDetails(ownedHorsesList[1].type, modelData, ( ownedHorsesList[1].training_experience == -1 ) )
 
     local subtext = string.format(Locales['CURRENT_ACCOUNT'], PlayerData.Cash, PlayerData.Gold)
 
