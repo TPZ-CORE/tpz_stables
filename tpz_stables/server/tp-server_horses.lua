@@ -574,7 +574,7 @@ Citizen.CreateThread(function()
                 
 				local ModelData = GetHorseModelData(horse.model)
 
-                if age >= ModelData[10] then
+                if horse.age >= ModelData[10] then
                     
 					exports["ghmattimysql"]:execute("SELECT `selected_horse_index` FROM `characters` WHERE `charidentifier` = @charidentifier", { ["@charidentifier"] = horse.charidentifier }, function(result)
 
